@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html>
+<!-- saved from url=(0048) -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>主页</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{$Think.const.CSS_URL}planeui.css" />
+    <link href="{$Think.const.CSS_URL}bootstrap.css" rel="stylesheet">
+    <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
+    <link href="{$Think.const.CSS_URL}mbase.css" rel="stylesheet">
+    <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css">
+
+    <style>
+        html, body {
+            background-color: #EBEBEB;
+        }
+
+        .col-xs-4 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .btn {
+            padding: 26px 12px;
+        }
+        .col-xs-6 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .sms {
+            position: absolute;
+            top: 13px;
+            left: 32%
+        }
+        .first {
+            margin: auto;
+            height: 420px;
+        }
+    </style>
+</head>
+<body>
+<!-- 导航	-->
+
+<!-- Bootstrap 公众账号首页已经引入bootstrap.css-->
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+
+<script>
+    var jQueryf = jQuery.noConflict();
+    //mootools中嵌入jQuery 需要启动jQuery无冲突模式
+</script>
+<script type="text/javascript">
+    var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + "wx50601fae46ea8a28" + '&redirect_uri=https://m.dianpayer.com';
+    //var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx50601fae46ea8a28&redirect_uri=https://m.dianpayer.com';
+    var url_tail='&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
+
+    (function() {
+
+        isBind = false;
+        //普通页面不需要验证
+        ret =[];
+        ret.resCode = "00";
+        if(ret) {
+            if(ret && ret.resCode == "00"){
+                isBind = true;
+            }
+            else {
+                Portal.error("请先app账号")
+                //alert(window.location.pathname)
+                window.location.href="/wechat/register/wbinduser.htm?userName=" + ret.openId + "&appUserName=" +appid + "&backPath="+window.location.pathname;
+            }
+        }
+
+        //使用js原始方法，勿改
+        var muObj = document.getElementById("index");
+        if(muObj){
+            muObj.className = "active";
+        }
+
+        /* 注销 */
+        function doLogout(){
+            DWR.call("userService.logout",function(){
+                document.location.href="../index.htm"
+            });
+        }
+    })(jQueryf)
+
+
+</script>
+
+<div id="preloader">
+    <div class="pui-loading pui-loading-double-circle-rotation loder_status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+<!-- Fixed navbar -->
+<div class="row margin0">
+    <!-- center-->
+    <div>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="research" href="research.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
+                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}research.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 研究内容</p>
+            </a>
+        </div>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="organization" href="organization.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
+                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}organization.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 组织框架</p>
+            </a>
+        </div>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="participation" href="participation.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}participation.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 参与方式</p>
+            </a>
+        </div>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="rights" href="rights.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}rights.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 权利义务</p>
+            </a>
+        </div>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="doctor" href="doctor.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}doctor.png" width="60" height="60"></i>
+                <p class="color_grey font_size18">专家团队</p>
+            </a>
+        </div>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="region" href="region.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}region.png" width="60" height="60"></i>
+                <p class="color_grey font_size18">区域负责</p>
+            </a>
+        </div>
+
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="join" href="join.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}join.png" width="60" height="60"></i>
+                <p class="color_grey font_size18">参与成员</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="{$Think.const.JS_URL}amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+
+<!-- center -->
+<!-- JavaScript-->
+<script type="text/javascript">
+    jQuery(window).load(function () { // makes sure the whole site is loaded
+        jQuery("#status").fadeOut(); // will first fade out the loading animation
+        jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
+    })
+
+    jQueryf(document).ready(function(){
+        appid = "wx50601fae46ea8a28"
+        href = "https://m.dianpayer.com";
+        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
+        href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+//        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
+//        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);
+//        jQueryf("#detail").attr("href", href_pre + "service/dFtradelist.htm" + href_suffix);
+//        jQueryf("#balance").attr("href", href_pre + "service/dFsearch.htm" + href_suffix);
+//        jQueryf("#download").attr("href", "https://m.dianpayer.com/wechat/about/download.htm");
+//        jQueryf("#info").attr("href", "https://m.dianpayer.com/wechat/about/limition.htm");
+    });
+</script>
+</body>
+</html>

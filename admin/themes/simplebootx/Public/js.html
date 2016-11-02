@@ -1,0 +1,29 @@
+<tc_include file=":config"/>
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{$JS_URL}jquery.min.js"></script>
+<!--<![endif]-->
+<script src="{$JS_URL}amazeui.min.js"></script>
+<script src="{$JS_URL}app.js"></script>
+
+
+<script>
+    jQuery("#logout").on("click", function(){
+        $.post("__URL__/../Index/logout",function(data,textStatus){
+            if(data['rescode'] == "00" && textStatus == "success"){
+//                alert("您已经登出成功!")
+//                alert(data['msg']);
+                window.location.href = "{$CONTROLLER}/../Login/login";
+            }
+            else{
+                alert(data['msg']);
+            }
+        });
+    })
+</script>

@@ -1,0 +1,37 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('guestbookadmin/index')}">{:L('API_GUESTBOOKADMIN_INDEX')}</a></li>
+			<li class="active"><a href="{:U('guestbookadmin/add')}">{:L('API_GUESTBOOKADMIN_ADD')}</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" action="{:U('guestbookadmin/add_post')}">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">{:L('CONTENT')}</label>
+					<input type="hidden" name="full_name" value="admin">
+					<input type="hidden" name="email" value="hpadmin@163.com">
+					<div class="controls">
+						<input type="text" name="msg">
+						<span class="form-required">*</span>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label">{:L('ANSWER')}</label>
+					<div class="controls">
+						<textarea name="answer" rows="5" cols="57"></textarea>
+					</div>
+				</div>
+
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary js-ajax-submit">{:L('ADD')}</button>
+				<a class="btn" href="javascript:history.back(-1);">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>application | hp</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css"/>
+    <link rel="stylesheet" href="{$Think.const.CSS_URL}app.css">
+    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.flat.min.css">
+
+    <style>
+        .header {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 200%;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .header p {
+            font-size: 14px;
+        }
+
+        html, body {
+            background-color: #EBEBEB;
+        }
+
+        .header .am-g{
+            height: 50px;line-height: 50px;
+            background-color: #0e90d2;
+            color: #FFFFFF;
+            font-size: 1.8rem;
+        }
+
+        .am-icon-ul li.on{
+            border-bottom: solid 5px #fff;
+            height: 48px;
+        }
+
+        .am-icon-ul li.off{
+            height: 36px;
+            font-size: 1.5rem;
+        }
+
+        .header {
+            text-align: left;
+        }
+
+        .pCenter{
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .am-form input[type=number], .am-form input[type=search], .am-form input[type=text], .am-form input[type=password], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form select, .am-form textarea, .am-form-field{
+            font-size:1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="am-g" >
+        <ul class="am-icon-ul am-nav-pills">
+            <li class="on">就诊预约</li>
+            <li class="off">信息填写</li>
+        </ul>
+    </div>
+    <hr/>
+</div>
+<div class="am-g">
+    <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+        <form method="post" id="application" name="application" class="am-form am-form-horizontal" style="    font-size: 1.5rem;">
+            <fieldset>
+
+                <div class="am-form-group">
+                    <label for="realName" class="am-u-sm-3 am-form-label">姓名:</label>
+                    <div class="am-u-sm-9">
+                        <input type="text" class="" id="realName" name="realName" placeholder="输入您的姓名">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-3 am-form-label">性别:</label>
+                    <div class="am-u-sm-9">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="sex" checked="true"> 男
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="sex"> 女
+                        </label>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="birthday" class="am-u-sm-4 am-form-label">出生日期:</label>
+                    <div class="am-u-sm-8">
+                        <input id="birthday" name="birthday" type="text" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker required  readonly/>
+                    </div>
+
+                </div>
+
+                <div class="am-form-group">
+                    <label for="nationality" class="am-u-sm-3 am-form-label">民族:</label>
+                    <div class="am-u-sm-9">
+                        <select id="nationality" name="nationality">
+                            <option value="0">汉族</option>
+                            <option value="1">壮族</option>
+                            <option value="2">满族</option>
+                            <option value="3">回族</option>
+                            <option value="4">苗族</option>
+                            <option value="5">维吾尔族</option>
+                            <option value="6">土家族</option>
+                            <option value="7">蒙古族</option>
+                            <option value="8">藏族</option>
+                            <option value="9">朝鲜族</option>
+                            <option value="10">其他名族</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="maritalStatus" class="am-u-sm-4 am-form-label">婚姻状况:</label>
+                    <div class="am-u-sm-6">
+                        <select id="maritalStatus" name="maritalStatus">
+                            <option value="0">已婚</option>
+                            <option value="1">丧偶</option>
+                            <option value="2">离异</option>
+                            <option value="3">未婚</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="occupation" class="am-u-sm-3 am-form-label">主业:</label>
+                    <div class="am-u-sm-4">
+                        <select id="occupation" name="occupation">
+                            <option value="0">无职业</option>
+                            <option value="1">工人</option>
+                            <option value="2">务农</option>
+                            <option value="3">服务行业</option>
+                            <option value="4">个体户</option>
+                            <option value="5">家务</option>
+                            <option value="6">其它（说明）</option>
+                        </select>
+                    </div>
+                    <div class="am-u-sm-5">
+                        <input type="text" class="" id="otherOccupation" name="otherOccupation" placeholder="其它,请说明">
+                    </div>
+                </div>
+                <div class="am-form-group">
+
+                    <label for="avocation" class="am-u-sm-3 am-form-label">副业:</label>
+
+                    <div class="am-u-sm-4">
+                        <select id="avocation" name="avocation">
+                            <option value="0">无职业</option>
+                            <option value="1">工人</option>
+                            <option value="2">务农</option>
+                            <option value="3">服务行业</option>
+                            <option value="4">个体户</option>
+                            <option value="5">家务</option>
+                            <option value="6">其它（说明）</option>
+                        </select>
+                    </div>
+                    <div class="am-u-sm-5">
+                        <input type="text" class="" id="otherAvocation" name="otherAvocation" placeholder="其它,请说明">
+                    </div>
+                </div>
+
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">您是否在本县(市)出生:</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="isBrithInTown" checked="true"> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio"  value="0" name="isBrithInTown"> 否
+                        </label>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">您是否一直住在本县:</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="isInTown" checked="true"> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="isInTown"> 否
+                        </label>
+                    </div>
+                    <div class="am-u-sm-10" style="padding-right: 0px; width: 77%;">
+
+                    <label class="am-form-label">若不是一直住在本县，在本县共住了</label>
+                        </div>
+                    <div class="am-u-sm-2"  style="padding: 0px; width: 13%;">
+                        <input type="text" class="" id="residenceTime" name="residenceTime" placeholder="几">
+                    </div>
+                    <label class="am-u-sm-1 am-form-label" style="padding-left: 0px;">年</label>
+
+
+                </div>
+
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">常住地址:</label>
+                    <div id="address">
+                        <div class="am-u-sm-4">
+                            <select class="prov" id="province" name="province"></select><span class="am-form-caret"></span>
+                        </div>
+                        <div class="am-u-sm-4">
+                            <select class="city" id="city" name="city" disabled="disabled"></select><span class="am-form-caret"></span>
+                        </div>
+                        <div class="am-u-sm-4">
+                            <select class="dist" id="district" name="district" disabled="disabled"></select><span class="am-form-caret"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="am-form-group">
+                    <label for="gastroscope" class="am-u-sm-12 am-form-label" >胃镜诊断:</label>
+                    <div class="am-u-sm-6" style="padding-right: 0px;">
+                        <select id="gastroScope" name="gastroScope">
+                            <option value="">请选择</option>
+                            <option value="0">慢性浅表性炎</option>
+                            <option value="1">慢性萎缩性胃炎</option>
+                            <option value="2">胃溃疡</option>
+                            <option value="3">十二指肠溃疡</option>
+                            <option value="4">复合溃疡</option>
+                            <option value="5">胃癌</option>
+                            <option value="6">其它（说明）</option>
+                        </select>
+                    </div>
+                    <div class="am-u-sm-6">
+                        <input type="text" class="" id="otherGastroScope" name="otherGastroScope" placeholder="其它,请说明">
+                    </div>
+
+                </div>
+
+                <div class="am-form-group">
+                    <label for="pathology" class="am-u-sm-12 am-form-label">病理诊断:</label>
+                    <div class="am-u-sm-6" style="padding-right: 0px;">
+                        <select id="pathology" name="pathology">
+                            <option value="">请选择</option>
+                            <option value="0">慢性浅表性炎</option>
+                            <option value="1">慢性萎缩性胃炎</option>
+                            <option value="2">胃溃疡</option>
+                            <option value="3">十二指肠溃疡</option>
+                            <option value="4">非典型增生</option>
+                            <option value="5">肠上皮化生</option>
+                            <option value="6">胃癌</option>
+                            <option value="7">其它（说明）</option>
+                        </select>
+                    </div>
+                    <div class="am-u-sm-6" >
+                        <input type="text" class="" id="otherPathology" name="otherPathology" placeholder="其它,请说明">
+                    </div>
+
+
+                </div>
+
+                <div class="am-form-group">
+                    <label for="stomachHistory" class="am-u-sm-12 am-form-label">胃、十二指肠病病史:</label>
+                    <div class="am-u-sm-6" style="padding-right: 0px;">
+                        <select id="stomachHistory" name="stomachHistory">
+                            <option value="">请选择</option>
+                            <option value="0">无</option>
+                            <option value="1">有慢性胃炎病史</option>
+                            <option value="2">有胃溃疡病史</option>
+                            <option value="3">有十二指肠溃疡病史</option>
+                            <option value="4">肠道疾病手术史</option>
+                            <option value="4">其它（说明）</option>
+                        </select>
+                    </div>
+
+                    <div class="am-u-sm-6" >
+                        <input type="text" class="" id="otherStomachHistory" name="otherStomachHistory" placeholder="其它,请说明">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">是否有肿瘤家族史:</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="isCancerFamily" checked="true"> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="isCancerFamily"> 否
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="am-form-group">
+                    <label for="familyCancer" class="am-u-sm-12 am-form-label">直系亲属中是否有人患过癌症</label>
+                    <div class="am-u-sm-6">
+                        <select id="familyCancer" name="familyCancer">
+                            <option value="">请选择</option>
+                            <option value="0">肝癌</option>
+                            <option value="1">肺癌</option>
+                            <option value="2">食道癌</option>
+                            <option value="3">结肠癌</option>
+                            <option value="4">乳腺癌</option>
+                            <option value="5">其它(说明)</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+                    <div class="am-u-sm-6">
+                        <input type="text" class="" id="otherFamilyCancer" name="otherFamilyCancer" placeholder="其它,请说明">
+                    </div>
+                </div>
+
+
+                <div class="am-form-group">
+                    <label for="relationship" class="am-u-sm-5 am-form-label">与您的关系</label>
+                    <div class="am-u-sm-4">
+                        <select id="relationship" name="relationship">
+                            <option value="0">父亲</option>
+                            <option value="1">母亲</option>
+                            <option value="2">兄弟</option>
+                            <option value="3">姐妹</option>
+                            <option value="4">祖父母</option>
+                            <option value="5">外祖父母</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+                    <div class="am-u-sm-2">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="similarHistory" class="am-u-sm-12 am-form-label">胃肠道疾病相关症状:</label>
+                    <div class="am-u-sm-6">
+                        <select id="similarHistory" name="similarHistory">
+                            <option value="0">无</option>
+                            <option value="1">曾反复返酸</option>
+                            <option value="2">有胸骨后灼热感或疼痛</option>
+                            <option value="3">其它</option>
+                        </select>
+                    </div>
+
+                    <div class="am-u-sm-6" >
+                        <input type="text" class="" id="othersimilarHistory" name="othersimilarHistory" placeholder="其它,请说明">
+                    </div>
+
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">是否患过其它肿瘤:</label>
+                    <div class="am-u-sm-6">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="isOtherCancer" checked="true"> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="isOtherCancer"> 否
+                        </label>
+                    </div>
+                    <div class="am-u-sm-6" >
+                        <input type="text" class="" id="othercancer" name="othercancer" placeholder="是,请说明">
+                    </div>
+
+                </div>
+
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">是否曾做过幽门螺杆菌感染的相关检查:</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="isCheck" checked="true"> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="isCheck"> 否
+                        </label>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">若做过,结果如何:</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="checkStatus"> 阳性
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="checkStatus" checked="true"> 阴性
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">是否做过抗幽门螺杆菌治疗:</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="isCure"  checked="true"> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="isCure"> 否
+                        </label>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="drug" class="am-u-sm-12 am-form-label">若有, 所用药物有:</label>
+                    <div class="am-u-sm-6">
+                        <select id="drug" name="drug">
+                            <option value="0">克拉霉素</option>
+                            <option value="1">左氧氟沙星</option>
+                            <option value="2">甲硝唑</option>
+                            <option value="3">阿莫西林</option>
+                            <option value="4">呋喃唑酮</option>
+                            <option value="5">四环素</option>
+                            <option value="6">奥美拉唑</option>
+                            <option value="7">埃索美拉唑</option>
+                            <option value="8">雷贝拉唑</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+                    <div class="am-u-sm-6">
+                        <input type="text" class="" id="otherDrug" name="otherDrug" placeholder="其它药物">
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">近2周来服用过消炎止痛药吗?</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="usedAnalgesic"> 有
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="usedAnalgesic" checked="true"> 无
+                        </label>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">近2周来服用过抗酸吗?</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="usedAntiacid"> 有
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="usedAntiacid" checked="true"> 无
+                        </label>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-12 am-form-label">是否了解幽门螺杆感染和消化道疾病的关系?</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="knowRelation" checked="true"> 是
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="knowRelation"> 否
+                        </label>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="doc-select-10" class="am-u-sm-1 am-form-label"
+                           style="line-height: 33px; height: 33px; padding-top: 0;">第</label>
+
+                    <div class="am-u-sm-3">
+                        <select id="cureTimes" name="cureTimes" style="font-size: 1.4rem;" class="am-form-horizontal">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">>3</option>
+                        </select>
+                    </div>
+                    <label for="doc-select-10" class="am-u-sm-3 am-form-label"
+                           style="line-height: 33px; height: 33px; padding-top: 0;">次治疗</label>
+
+                    <div class="am-u-sm-4">
+
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-6 am-form-label" style="
+">我的治疗意愿:</label>
+                    <div class="am-u-sm-12">
+                        <label class="am-radio-inline">
+                            <input type="radio" value="1" name="inclination">强烈治疗意愿
+                        </label>
+                        <label class="am-radio-inline">
+                            <input type="radio" value="0" name="inclination" checked="true"> 根据病情
+                        </label>
+                    </div>
+                </div>
+                <div class="am-g">
+                    <div class="am-u-sm-6 am-u-sm-centered">
+                        <input type="submit" name="" value="提交" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="apply();return false;"
+                               style="width: 100%;">
+
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </form>
+        <hr>
+
+    </div>
+</div>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<script>
+    citySelect_url="{$Think.const.SITE_URL}";
+</script>
+<script type="text/javascript" src="{$Think.const.JS_URL}jquery.cityselect.js"></script>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="{$Think.const.JS_URL}amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+<script src="{$Think.const.JS_URL}amazeui.datetimepicker.js"></script>
+
+<script>
+    $('#datetimepicker')
+            .datetimepicker()
+            .on('changeDate', function(ev){
+                alert(ev.date)
+            });
+
+
+    $(function () {
+        $("#address").citySelect({
+            nodata: "none",
+            required: false
+        });
+    });
+
+    function apply(){
+
+//        window.location.href = "{$Think.const.CONTROLLER}/appointment";
+        var tourl = $("#application").attr("action");
+        var application = $("#application").serialize();
+        $.post("__URL__/application", application,function(data,textStatus){
+            //alert(data.url);
+            location.href = data.url;
+        });
+
+    }
+
+</script>
+
+</body>
+</html>

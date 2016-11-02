@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048) -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>耐药地图</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{$Think.const.CSS_URL}planeui.css"/>
+    <link href="{$Think.const.CSS_URL}bootstrap.css" rel="stylesheet">
+    <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
+    <link href="{$Think.const.CSS_URL}mbase.css" rel="stylesheet">
+    <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css">
+
+    <style>
+        html, body {
+            background-color: #EBEBEB;
+        }
+
+        .col-xs-4 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .btn {
+            padding: 26px 12px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .sms {
+            position: absolute;
+            top: 13px;
+            left: 32%
+        }
+
+        .first {
+            margin: auto;
+            height: 420px;
+        }
+
+        .am-form input[type=number], .am-form input[type=search], .am-form input[type=text], .am-form input[type=password], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form select, .am-form textarea, .am-form-field{
+            font-size:1.5rem;
+        }
+    </style>
+</head>
+<body>
+<!-- 导航	-->
+
+<!-- Bootstrap 公众账号首页已经引入bootstrap.css-->
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+<!-- Fixed navbar -->
+
+<div data-am-widget="intro" class="am-intro am-cf am-intro-default">
+    <div class="am-intro-hd">
+        <h2 class="am-intro-title">耐药地图</h2>
+    </div>
+
+</div>
+<div class="header">
+
+</div>
+<div class="am-g">
+    <div class="am-u-lg-12 am-u-md-12 am-u-sm-centered">
+        <form method="post" id="application" name="application" class="am-form am-form-horizontal" style="    font-size: 1.5rem;">
+            <fieldset>
+                <div class="am-form-group">
+                    <label for="drug" class="am-u-sm-6 am-form-label">抗生素:</label>
+                    <div class="am-u-sm-6">
+                        <select id="drug" name="drug">
+                            <option value="0">左氧氟沙星</option>
+                            <option value="1">克拉霉素</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+                </div>
+
+                <div class="am-form-group">
+                    <label for="year" class="am-u-sm-6 am-form-label">选择时间:</label>
+                    <div class="am-u-sm-6">
+                        <select id="year" name="year">
+                            <option value="0">2011</option>
+                            <option value="1">2012</option>
+                            <option value="2">2013</option>
+                            <option value="3">2014</option>
+                            <option value="4">2015</option>
+                            <option value="6">2016</option>
+                        </select>
+                        <span class="am-form-caret"></span>
+                    </div>
+
+                </div>
+
+                <div class="am-form-group">
+                    <label class="am-u-sm-4 am-u-lg-4 am-u-md-4 am-form-label">选择地区:</label>
+                    <div id="address">
+                        <div class="am-u-sm-4">
+                            <select class="prov" id="province" name="province"></select><span class="am-form-caret"></span>
+                        </div>
+                        <div class="am-u-sm-4">
+                            <select class="city" id="city" name="city" disabled="disabled"></select><span class="am-form-caret"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+        </form>
+        <hr>
+
+    </div>
+</div>
+
+
+<div class="row margin0">
+    <!-- center-->
+
+
+    <div class="am-form-group">
+        <div id="chart-panel" class="right-panel" style=" width: 100%;height: 600px"></div>
+    </div>
+
+</div>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<script src="//cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>
+
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="{$Think.const.JS_URL}amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+<script>
+    citySelect_url="{$Think.const.SITE_URL}";
+</script>
+<script type="text/javascript" src="{$Think.const.JS_URL}jquery.cityselect.js"></script>
+
+<!-- center -->
+<!-- JavaScript-->
+
+<script>
+
+    $(function () {
+        $("#address").citySelect({
+            nodata: "none",
+            required: false
+        });
+    });
+
+    var myChart = echarts.init(document.getElementById('chart-panel'));
+
+    myChart.showLoading();
+
+    $.get('{$Think.const.DATA_URL}ZJ.json', function (geoJson) {
+
+        myChart.hideLoading();
+
+        echarts.registerMap('ZJ', geoJson);
+
+        myChart.setOption(option = {
+            title: {
+                text: '浙江省左氧氟沙星耐药率 （2016）',
+                subtext: '耐药数据来自杭州致远医学检验所',
+                sublink: 'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{b}<br/>{c} %(耐药率)'
+            },
+            toolbox: {
+                show: true,
+                orient: 'vertical',
+                left: 'right',
+                top: 'center',
+                feature: {
+                    dataView: {readOnly: false},
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            visualMap: {
+                min: 0,
+                max: 100,
+                text:['High','Low'],
+                realtime: false,
+                calculable: true,
+                inRange: {
+                    color: ['lightskyblue','yellow', 'orangered']
+                }
+            },
+            series: [
+                {
+                    name: '香港18区人口密度',
+                    type: 'map',
+                    mapType: 'ZJ', // 自定义扩展图表类型
+                    itemStyle:{
+                        normal:{label:{show:true}},
+                        emphasis:{label:{show:true}}
+                    },
+                    data:[
+                        {name: '杭州市', value: 10},
+                        {name: '宁波市', value: 20},
+                        {name: '温州市', value: 30},
+                        {name: '嘉兴市', value: 40},
+                        {name: '湖州市', value: 50},
+                        {name: '绍兴市', value: 49.64},
+                        {name: '金华市', value: 39.78},
+                        {name: '衢州市', value: 40.97},
+                        {name: '舟山市', value: 54.26},
+                        {name: '台州市', value: 20.9},
+                        {name: '丽水市', value: 4.26}
+                    ]/*,
+                    // 自定义名称映射
+                    nameMap: {
+                        'Central and Western': '中西区',
+                        'Eastern': '东区',
+                        'Islands': '离岛',
+                        'Kowloon City': '九龙城',
+                        'Kwai Tsing': '葵青',
+                        'Kwun Tong': '观塘',
+                        'North': '北区',
+                        'Sai Kung': '西贡',
+                        'Sha Tin': '沙田',
+                        'Sham Shui Po': '深水埗',
+                        'Southern': '南区'
+                    }*/
+                }
+            ]
+        });
+    });
+
+</script>
+</body>
+</html>
+

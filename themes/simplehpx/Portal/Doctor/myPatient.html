@@ -1,0 +1,335 @@
+<tc_include file="Public:hp:head" />
+
+<style>
+        .header {
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 200%;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .header p {
+            font-size: 14px;
+        }
+
+        .am-u-lg-12 input.am-form-field {
+            background-color: #4CB0E6;
+            color: #BCE1F6;
+        }
+
+        html, body {
+            background-color: #EBEBEB;
+        }
+
+        .am-form input[type=number]::-webkit-input-placeholder, .am-form input[type=search]::-webkit-input-placeholder, .am-form input[type=text]::-webkit-input-placeholder, .am-form input[type=password]::-webkit-input-placeholder, .am-form input[type=datetime]::-webkit-input-placeholder, .am-form input[type=datetime-local]::-webkit-input-placeholder, .am-form input[type=date]::-webkit-input-placeholder, .am-form input[type=month]::-webkit-input-placeholder, .am-form input[type=time]::-webkit-input-placeholder, .am-form input[type=week]::-webkit-input-placeholder, .am-form input[type=email]::-webkit-input-placeholder, .am-form input[type=url]::-webkit-input-placeholder, .am-form input[type=tel]::-webkit-input-placeholder, .am-form input[type=color]::-webkit-input-placeholder, .am-form select::-webkit-input-placeholder, .am-form textarea::-webkit-input-placeholder, .am-form-field::-webkit-input-placeholder {
+            color: #BCE1F6;
+        }
+
+        .am-form input[type=number]:focus, .am-form input[type=search]:focus, .am-form input[type=text]:focus, .am-form input[type=password]:focus, .am-form input[type=datetime]:focus, .am-form input[type=datetime-local]:focus, .am-form input[type=date]:focus, .am-form input[type=month]:focus, .am-form input[type=time]:focus, .am-form input[type=week]:focus, .am-form input[type=email]:focus, .am-form input[type=url]:focus, .am-form input[type=tel]:focus, .am-form input[type=color]:focus, .am-form select:focus, .am-form textarea:focus, .am-form-field:focus {
+            background-color: #4CB0E6;
+            border-color: #3bb4f2;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 5px rgba(59, 180, 242, .3);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 5px rgba(59, 180, 242, .3)
+        }
+
+        .am-breadcrumb > li + li:before {
+            content: "|";
+            padding: 0 8px;
+            color: #ccc;
+        }
+
+        .am-header-li-a-active{
+            color: #0e8181;
+        }
+        .am-header-li-a-no-active{
+            color: #c4dad8;
+        }
+
+        .am-am-g-myStudy-h5{
+            border-left: solid 5px #0D8083;padding-left: 1rem;color: #5f5f5f;
+            font-size:1.035em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+
+    <div class="am-g">
+        <div class="am-u-sm-12">
+
+            <ol class="am-breadcrumb" style="margin: 0;   font-size: 1.08em;  font-weight: 600;">
+                <li><a href="__CONTROLLER__/myStudy" class="am-header-li-a-no-active">我的研究</a></li>
+                <li><a href="__CONTROLLER__/myPatient" class="am-header-li-a-active">我的患者</a></li>
+                <li><a href="__CONTROLLER__/dataImport" class="am-header-li-a-no-active">数据录入</a></li>
+            </ol>
+
+        </div>
+        <div class="am-u-sm-9" style="border:solid 5px #0d6b6d;">
+        </div>
+        <div class="am-u-sm-3" style="border:solid 5px #86b5b5;">
+        </div>
+    </div>
+</header>
+<!-- 页面内容 开发时删除 -->
+<div class="am-g am-g-fixed am-margin-top">
+    <h5 class="am-am-g-myStudy-h5" id="tablelistTitle" name="tablelistTitle">现有{$recordnum}位HP感染病人，预约你的HP根除治疗：</h5>
+    <div class="am-u-sm-12 am-u-md-6">
+        <div class="am-btn-toolbar">
+        <div class="am-btn-group am-btn-group-xs">
+        <!--<button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>-->
+        <!--<button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> 保存</button>-->
+        <button type="button" class="am-btn am-btn-default" onclick='PassAppointment("{$appointment.id}")'><span class="am-icon-archive"></span> 审核通过</button>
+        <button type="button" class="am-btn am-btn-default" onclick='CancelAppointment("{$appointment.id}")'><span class="am-icon-trash-o"></span> 审核失败</button>
+        </div>
+        </div>
+    </div>
+    <div class="am-u-sm-12 am-center" style="font-size: 1.4rem;" id="tablelist">
+
+        <input id="recordnum" name="recordnum" value="{$recordnum}" style="display:none">
+        <table class="am-table"  id="doc-modal-table">
+            <thead>
+            <tr>
+                <th class="table-check"><input type="checkbox"/></th>
+                <!--<th>编号</th>-->
+                <th>姓名</th>
+                <th>性别</th>
+                <th>年龄</th>
+                <th>呼气结果</th>
+                <th>培养结果</th>
+                <th> 预约状态</th>
+                <th>通知结果</th>
+                <th>不纳入研究</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="patient">
+                <if condition="($patient.statuscode eq 0)">
+
+                    <tr>
+                        <td><input type="checkbox" value="{$patient.id}"/></td>
+                        <!--<td>{$patient.id}</td>-->
+                        <td>{$patient.patientname}</td>
+                        <if condition="($patient.sex eq 0)">
+                            <td>男</td>
+                            <elseif condition="($patient.sex eq 1)"/>
+                            <td>女</td>
+                            <else/>
+                            <td>未知</td>
+                        </if>
+                        <td>{$patient.birthday|birthday}</td>
+                        <if condition="($patient.ischeck eq 1)">
+                            <td>{$patient.checkstatus}</td>
+                            <else/>
+                            <td>未检查</td>
+                        </if>
+
+                        <td>未培养</td>
+                        <td>{$patient.status}</td>
+                        <td>{$patient.notify}</td>
+                        <td>不纳入研究</td>
+                        <!--<td>1<i class="am-icon-close"></i></td>-->
+                    </tr>
+                </if>
+            </volist>
+            <!--<tr>-->
+                <!--<td class="table-check"><input type="checkbox"/></td>-->
+                <!--<td>姓名</td>-->
+                <!--<td>性别</td>-->
+                <!--<td>年龄</td>-->
+                <!--<td>呼气结果</td>-->
+                <!--<td>培养结果</td>-->
+                <!--<td> 预约状态</td>-->
+                <!--<td>通知结果</td>-->
+                <!--<td>不纳入研究</td>-->
+            <!--</tr>-->
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="am-cf">
+        <div class="am-fr">
+            <div>
+                <ul class="am-pagination">
+                    <li class="am-disabled"></li>
+                            <li class="am-active"><a onclick="Jumppage('tablelist');" href="javascript:void(0)" style="background: #0f8184; color: white">加载更多</a></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">Amaze UI</div>
+        <div class="am-modal-bd">
+            你，确定要删除这条记录吗？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+
+<div class="am-g am-g-fixed am-margin-top">
+    <h5 class="am-am-g-myStudy-h5" id="tablepasslistTitle" name="tablepasslistTitle">有{$recordnum}位HP感染病人，已确认您的就诊预约, 点击显示：</h5>
+    <div class="am-u-sm-12 am-center" style="font-size: 1.4rem;" id="tablepasslist">
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>预约时间</th>
+                <th>已就诊</th>
+                <th>列入研究对象</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="data" id="patient">
+                <if condition="($patient.statuscode eq 2)">
+                <tr>
+                    <td>{$patient.patientname}</td>
+                    <td>{$patient.begindate|substr=5,11}~{$patient.enddate|substr=5,11}</td>
+                    <td>否</td>
+                    <td>是</td>
+                </tr>
+                </if>
+            </volist>
+            <tr style="display:none">
+                <td>姓名</td>
+                <td>预约时间</td>
+                <td>已就诊</td>
+                <td>列入研究对象</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="am-cf">
+        <div class="am-fr">
+            <div>
+                <ul class="am-pagination">
+                    <li class="am-disabled"></li>
+                    <if condition="($pagenum neq $page)">
+                        <li class="am-active"><a onclick="Jumppage('tablepasslist');" href="javascript:void(0)" style="background: #0f8184; color: white">加载更多</a></li>
+
+                    </if>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- 以上页面内容 开发时删除 -->
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{$JS_URL}jquery.min.js"></script>
+<!--<![endif]-->
+<script src="{$JS_URL}amazeui.min.js"></script>
+
+<script>
+    $(function() {
+        $('#doc-modal-table').find('.am-icon-close').
+        on('click', function() {
+            $('#my-confirm').modal({
+                relatedTarget: this,
+                onConfirm: function(options) {
+//                    var $link = $(this.relatedTarget).prev('a');
+                    var $link = $(this.relatedTarget).parent().siblings().first();
+                    var msg = $link.length ? '你要删除的链接 ID 为 ' + $link.html() :
+                            '确定了，但不知道要整哪样';
+                    alert(msg);
+                },
+                // closeOnConfirm: false,
+                onCancel: function() {
+                    alert('算求，不弄了');
+                }
+            });
+        });
+    });
+
+    var pageNum = [];
+    pageNum["tablelist"] = 1;
+    pageNum["tablepasslist"] = 1;
+    Jumppage("tablelist");
+
+    Jumppage("tablepasslist");
+    jQuery("#recordnum").val()
+    function Jumppage(type){
+        var pagesize = 3;
+        var url = '__SELF__';
+//        var queryStr = $('#queryStr').val()
+        $("<div></div>").load(url,{queryStr:type,page:pageNum[type],pagesize:pagesize},function(){
+            '{$data}'
+            var hasTbody = $('#'+type + " tbody tr").length;
+            if(hasTbody){
+                var data = $(this).find("#"+type + " tbody").html();
+                $('#'+type + " tbody").append(data);
+            }
+            else{
+                var data = $(this).find("#"+type).html();
+                $('#'+type).html(data);
+
+            }
+            pageNum[type]=pageNum[type]+1;
+            $(this).remove();
+
+            //h5 title数量显示
+            jQuery("#"+type + "Title").html($(this).find("#"+type + "Title").html())
+
+
+        });
+
+
+    }
+
+    function PassAppointment() {
+
+        var appointmentId = $("tbody :checked").map(function(){return $(this).val()}).get().join(",")
+        if (confirm("审核通过?")) {
+            $.post("__URL__/passAppointment", {id: appointmentId}, function (data, textStatus) {
+               Jumppage("tablelist");
+               Jumppage("tablepasslist");
+            });
+        }
+    }
+
+    function CancelAppointment() {
+        var appointmentId = $("tbody :checked").map(function(){return $(this).val()}).get().join(",")
+        if (confirm("审核失败?")) {
+            $.post("__URL__/cancelAppointment", {id: appointmentId}, function (data, textStatus) {
+//      alert(data);
+               Jumppabge("tablelist");
+            });
+        }
+    }
+
+    jQuery("tbody").on("click", "tr",function(e){
+        if (e.target.type === 'checkbox') {
+            return;
+        }
+        var input = $(this).find("input");
+        if ($(input).attr("checked")) {
+            $(input).removeAttr("checked");
+        }
+        else {
+            $(input).attr("checked", true);
+        }
+    })
+</script>
+</body>
+</html>

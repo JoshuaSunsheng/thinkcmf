@@ -1,0 +1,174 @@
+<include file="Public:amaze_css" />
+
+
+<div class="am-cf admin-main">
+
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">病例信息</strong> / <small>list</small></div>
+      </div>
+
+      <hr>
+
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+              <!--<button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> 新增</button>-->
+              <!--<button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> 保存</button>-->
+              <!--<button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>-->
+              <!--<button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>-->
+            </div>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-3">
+          <!--<div class="am-form-group">-->
+            <!--<select data-am-selected="{btnSize: 'sm'}">-->
+              <!--<option value="option1">所有类别</option>-->
+              <!--<option value="option2">IT业界</option>-->
+              <!--<option value="option3">数码产品</option>-->
+              <!--<option value="option3">笔记本电脑</option>-->
+              <!--<option value="option3">平板电脑</option>-->
+              <!--<option value="option3">只能手机</option>-->
+              <!--<option value="option3">超极本</option>-->
+            <!--</select>-->
+          <!--</div>-->
+        </div>
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" id="queryStr">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button" onclick="Jumppage()">搜索</button>
+          </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <div id="tablelist">
+
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-check"><input type="checkbox" id="inputChooseAll"/></th>
+                <th class="table-id">ID</th>
+                <th class="table-title">名字</th>
+                <th class="table-type">性别</th>
+                <th class="table-author am-hide-sm-only">手机号</th>
+                <th class="table-author am-hide-sm-only">民族</th>
+                <th class="table-date am-hide-sm-only">录入日期</th>
+                <!--<th class="table-set">操作</th>-->
+              </tr>
+              </thead>
+              <tbody>
+              <volist name="data" id="patientCase">
+
+              <tr>
+                <td><input type="checkbox" value="{$patientCase.id}"/></td>
+                <td>{$patientCase.id}</td>
+                <!--<td><a href='form?patientCaseId={$patientCase.id}'>{$patientCase.name}</a></td>-->
+                <td><a href='#'>{$patientCase.name}</a></td>
+                  <td>{$patientCase.sex}</td>
+                </if>
+                <td class="am-hide-sm-only">{$patientCase.phonenumber}</td>
+                <td class="am-hide-sm-only">{$patientCase.nationality}</td>
+                <td class="am-hide-sm-only">{$patientCase.createtime}</td>
+                <!--<td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <eq name="doctor.statuscode" value="0">
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
+                                onclick='PassDoctor("{$doctor.id}")'><span class="am-icon-pencil-square-o"></span> 审核通过
+                        </button>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
+                                onclick='CancelDoctor("{$doctor.id}")'><span class="am-icon-pencil-square-o"></span>
+                          审核失败
+                        </button>
+                        <else/>
+                        已处理
+                      </eq>
+
+                    </div>
+                  </div>
+                </td>-->
+              </tr>
+              </volist>
+
+              </tbody>
+            </table>
+              </div>
+
+            <div class="am-cf" id="tableFooter">
+              共 {$recordnum} 条记录
+              <div class="am-fr">
+                <div id="pages">
+
+                <ul class="am-pagination">
+                  <li class="am-disabled"><a href="#">«</a></li>
+                    <for start="1" end="$pagenum+1" step="1" name="i">
+                      <if condition="($i eq 1)">
+                        <li class="am-active"><a onclick="Jumppage(this);" href="#">{$i}</a></li>
+                        <else />
+                        <li><a onclick="Jumppage(this);" href="#">{$i}</a></li>
+                      </if>
+                    </for>
+
+                  <li><a href="#">»</a></li>
+                </ul>
+                  </div>
+              </div>
+            </div>
+            <hr />
+            <p>注：.....</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="admin-content-footer">
+      <hr>
+      <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+    </footer>
+
+
+  </div>
+  <!-- content end -->
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<include file="Public:js" />
+
+<script>
+  function Jumppage(page){
+    var pagesize = 10;
+    var pageNum = 1;
+    var url = '__SELF__';
+    var queryStr = $('#queryStr').val()
+    if(page)  pageNum = page.innerHTML;
+
+
+    jQuery(".am-active").removeClass("am-active");
+    jQuery(page).parent("li").addClass("am-active");
+
+    $("<div></div>").load(url,{queryStr:queryStr,page:pageNum,pagesize:pagesize},function(){
+
+      var data = $(this).find("#tablelist").html();
+      $('#tablelist').html(data);
+
+      if(!page){
+        var tableFooter = $(this).find("#tableFooter").html();
+        $('#tableFooter').html(tableFooter);
+      }
+
+      $(this).remove();
+    });
+  }
+
+</script>
+</body>
+</html>

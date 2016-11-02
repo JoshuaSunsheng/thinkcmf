@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Login | hp</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css"/>
+    <style>
+        .header {
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 200%;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .header p {
+            font-size: 14px;
+        }
+
+        .am-u-lg-12 input.am-form-field {
+            background-color: #4CB0E6;
+            color: #BCE1F6;
+        }
+
+        html, body {
+            background-color: #EBEBEB;
+        }
+
+        .am-form input[type=number]::-webkit-input-placeholder, .am-form input[type=search]::-webkit-input-placeholder, .am-form input[type=text]::-webkit-input-placeholder, .am-form input[type=password]::-webkit-input-placeholder, .am-form input[type=datetime]::-webkit-input-placeholder, .am-form input[type=datetime-local]::-webkit-input-placeholder, .am-form input[type=date]::-webkit-input-placeholder, .am-form input[type=month]::-webkit-input-placeholder, .am-form input[type=time]::-webkit-input-placeholder, .am-form input[type=week]::-webkit-input-placeholder, .am-form input[type=email]::-webkit-input-placeholder, .am-form input[type=url]::-webkit-input-placeholder, .am-form input[type=tel]::-webkit-input-placeholder, .am-form input[type=color]::-webkit-input-placeholder, .am-form select::-webkit-input-placeholder, .am-form textarea::-webkit-input-placeholder, .am-form-field::-webkit-input-placeholder {
+            color: #BCE1F6;
+        }
+
+        .am-form input[type=number]:focus, .am-form input[type=search]:focus, .am-form input[type=text]:focus, .am-form input[type=password]:focus, .am-form input[type=datetime]:focus, .am-form input[type=datetime-local]:focus, .am-form input[type=date]:focus, .am-form input[type=month]:focus, .am-form input[type=time]:focus, .am-form input[type=week]:focus, .am-form input[type=email]:focus, .am-form input[type=url]:focus, .am-form input[type=tel]:focus, .am-form input[type=color]:focus, .am-form select:focus, .am-form textarea:focus, .am-form-field:focus {
+            background-color: #4CB0E6;
+            border-color: #3bb4f2;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 5px rgba(59, 180, 242, .3);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 5px rgba(59, 180, 242, .3)
+        }
+
+    </style>
+</head>
+<body style="">
+<div style="margin: 0;">
+    <div class="header">
+        <br />
+        <br />
+        <div class="am-g">
+            <h1>HP众包研究</h1>
+            <!--<p>Integrated Development Environment<br/>代码编辑，代码生成，界面设计，调试，编译</p>-->
+        </div>
+        <hr>
+    </div>
+    <div class="am-g">
+        <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+            <h3 style="
+        text-align: center;
+        font-size: 1.5em;">登录</h3>
+
+
+            <form id="form" method="post" class="am-form">
+                <div class="am-g">
+                    <div class="am-u-lg-12">
+                        <div class="am-input-group">
+                            <span class="am-input-group-label"><i class="am-icon-phone am-icon-fw"></i></span>
+                            <input type="text" id="phoneNumber" name="phoneNumber" class="am-form-field" maxlength="11" placeholder="手机号">
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="am-g">
+                    <div class="am-u-lg-12">
+                        <div class="am-input-group">
+                            <span class="am-input-group-label"><i class="am-icon-comment am-icon-fw"></i></span>
+                            <input  name="msgCode" id="msgCode" type="text" class="am-form-field" maxlength="6" placeholder="验证码">
+                <span class="am-input-group-btn">
+                  <button  id="submit"  class="am-btn am-btn-default" type="button">获取验证码</button>
+                </span>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <div class="am-g">
+                    <div class="am-u-sm-6 am-u-sm-centered">
+                        <input type="submit" name="" value="登 录"
+                                                                   class="am-btn am-btn-primary am-fl"
+                                                                   onclick="login();return false;" style="
+                                                                   width: 100%;;">
+                    </div>
+                </div>
+
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
+
+
+<!--[if lt IE 9]>
+<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<!--<![endif]-->
+<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+
+
+<script>
+
+    function login() {
+
+        if(!jQuery("#phoneNumber").val()){
+            alert("手机号码不能为空!");
+            return;
+        }
+
+        if (!$("#msgCode").val()) {
+            alert("验证码不能为空!");
+            return;
+        }
+
+        var tourl = $("#form").attr("action");
+        $.post("__URL__/verifyCode",{to:$("#phoneNumber").val(), msgCode:$("#msgCode").val()},function(data,textStatus){
+            if(data['rescode'] == "00" && textStatus == "success"){
+                alert("验证通过!")
+                window.location.href = "{$Think.const.CONTROLLER}/agreement?phoneNumber=" + $("#phoneNumber").val();
+            }
+            else{
+                alert(data['msg']);
+            }
+        });
+    }
+
+
+    jQuery(function(){
+
+        //发送短信
+        $("#submit").click(function(){
+            if(!jQuery("#phoneNumber").val()){
+                alert("手机号码不能为空!");
+                return;
+            }
+
+            sendCode(this);
+
+            var tourl = $("#form").attr("action");
+            $.post("__URL__/send",{to:$("#phoneNumber").val()},function(data,textStatus){
+                alert(data);
+            });
+        })
+
+        var wait = 60;
+        function sendCode(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.innerHTML = "获取验证码";
+                wait = 60;
+            } else {
+                o.setAttribute("disabled", true);
+                o.innerHTML = "重新发送(" + wait + ")";
+                wait--;
+                setTimeout(function () {
+                            sendCode(o)
+                        },
+                        1000)
+            }
+        }
+    })
+
+
+
+
+</script>
+</body>
+</html>

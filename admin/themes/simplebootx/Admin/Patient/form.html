@@ -1,0 +1,554 @@
+<include file="Public:amaze_css" />
+
+
+
+<div class="am-cf admin-main">
+
+
+<div class="admin-content">
+  <div class="admin-content-body">
+    <div class="am-cf am-padding am-padding-bottom-0">
+      <div class="am-fl am-cf">
+        <strong class="am-text-primary am-text-lg">基本信息</strong> /
+        <small>profile</small>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="am-tabs am-margin" data-am-tabs>
+      <ul class="am-tabs-nav am-nav am-nav-tabs">
+        <li class="am-active"><a href="#tab2">患者信息</a></li>
+      </ul>
+
+      <div class="am-tabs-bd">
+
+
+
+        <div class="am-tab-panel am-fade am-in am-active" id="tab2">
+
+          <form class="am-form">
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">姓名</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="realName" name="realName" value="{$data.realname}">
+
+                <!--<input type="text" class="am-input-sm" id="realName" name="realName" placeholder="输入您的姓名">-->
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">性别</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="sex" {$sex[1]}> 男
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="sex" {$sex[0]} > 女
+                </label>
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">出生日期</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="birthday" name="birthday" value="{$data.birthday}">
+
+                <!--<input id="birthday" name="birthday" type="text" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker required  readonly/>-->
+              </div>
+            </div>
+
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">民族</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="nationality" name="nationality" value="{$data.nationality}">
+
+                <!--<select id="nationality" name="nationality">-->
+                  <!--<option value="0">汉族</option>-->
+                  <!--<option value="1">壮族</option>-->
+                  <!--<option value="2">满族</option>-->
+                  <!--<option value="3">回族</option>-->
+                  <!--<option value="4">苗族</option>-->
+                  <!--<option value="5">维吾尔族</option>-->
+                  <!--<option value="6">土家族</option>-->
+                  <!--<option value="7">蒙古族</option>-->
+                  <!--<option value="8">藏族</option>-->
+                  <!--<option value="9">朝鲜族</option>-->
+                  <!--<option value="10">其他名族</option>-->
+                <!--</select>-->
+                <!--<span class="am-form-caret"></span>-->
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">婚姻状况</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="maritalStatus" name="maritalStatus" value="{$data.maritalstatus}">
+
+                <!--<select id="maritalStatus" name="maritalStatus">-->
+                  <!--<option value="0">已婚</option>-->
+                  <!--<option value="1">丧偶</option>-->
+                  <!--<option value="2">离异</option>-->
+                  <!--<option value="3">未婚</option>-->
+                <!--</select>-->
+                <!--<span class="am-form-caret"></span>-->
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">主业</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="occupation" name="occupation" value="{$data.occupation}">
+
+                <!--<select id="occupation" name="occupation">-->
+                  <!--<option value="0">无职业</option>-->
+                  <!--<option value="1">工人</option>-->
+                  <!--<option value="2">务农</option>-->
+                  <!--<option value="3">服务行业</option>-->
+                  <!--<option value="4">个体户</option>-->
+                  <!--<option value="5">家务</option>-->
+                  <!--<option value="6">其它（说明）</option>-->
+                <!--</select>-->
+              </div>
+              <div class="am-u-sm-5">
+                <input type="text" class="" id="otherOccupation" name="otherOccupation" placeholder="其它,请说明" value="{$data.otheroccupation}">
+              </div>
+            </div>
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">副业</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+
+                <input type="text" class="am-input-sm" id="avocation" name="avocation" value="{$data.avocation}">
+
+                <!--<select id="avocation" name="avocation">-->
+                  <!--<option value="0">无职业</option>-->
+                  <!--<option value="1">工人</option>-->
+                  <!--<option value="2">务农</option>-->
+                  <!--<option value="3">服务行业</option>-->
+                  <!--<option value="4">个体户</option>-->
+                  <!--<option value="5">家务</option>-->
+                  <!--<option value="6">其它（说明）</option>-->
+                <!--</select>-->
+              </div>
+              <div class="am-u-sm-5">
+                <input type="text" class="" id="otherAvocation" name="otherAvocation" placeholder="其它,请说明" value="{$data.otheravocation}">
+              </div>
+            </div>
+
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">您是否在本县(市)出生</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="isBrithInTown" {$isbrithintown[0]}> 是
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio"  value="0" name="isBrithInTown" {$isbrithintown[1]}> 否
+                </label>
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">您是否一直住在本县</div>
+              <div class="am-u-sm-8 am-u-md-2 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="isInTown" {$isintown[0]}> 是
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="isInTown" {$isintown[1]}> 否
+                </label>
+              </div>
+              <div class="am-u-sm-12 am-u-md-4 am-text-right">若不是一直住在本县，在本县共住了</div>
+              <div class="am-u-sm-4 am-u-md-1 ">
+                <input type="text" class="" id="residenceTime" name="residenceTime" placeholder="几" value="{$data.residencetime}">
+              </div>
+
+              <div class="am-u-sm-4 am-u-md-1  am-u-end col-end">年</div>
+
+            </div>
+
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">常住地址</div>
+
+              <div id="address">
+                <div class="am-u-sm-3">
+                  <input type="text" class="am-input-sm" id="province" name="province" value="{$data.province}">
+
+                  <!--<select class="prov" id="province" name="province"></select><span class="am-form-caret"></span>-->
+                </div>
+                <div class="am-u-sm-3">
+                  <input type="text" class="am-input-sm" id="city" name="city" value="{$data.city}">
+
+                  <!--<select class="city" id="city" name="city" disabled="disabled"></select><span class="am-form-caret"></span>-->
+                </div>
+                <div class="am-u-sm-3">
+                  <input type="text" class="am-input-sm" id="district" name="district" value="{$data.district}">
+
+                  <!--<select class="dist" id="district" name="district" disabled="disabled"></select><span class="am-form-caret"></span>-->
+                </div>
+              </div>
+
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">胃镜诊断</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="gastroScope" name="gastroScope" value="{$data.gastroscope}">
+
+                <!--<select id="gastroScope" name="gastroScope">-->
+                  <!--<option value="">请选择</option>-->
+                  <!--<option value="0">慢性浅表性炎</option>-->
+                  <!--<option value="1">慢性萎缩性胃炎</option>-->
+                  <!--<option value="2">胃溃疡</option>-->
+                  <!--<option value="3">十二指肠溃疡</option>-->
+                  <!--<option value="4">复合溃疡</option>-->
+                  <!--<option value="5">胃癌</option>-->
+                  <!--<option value="6">其它（说明）</option>-->
+                <!--</select>-->
+              </div>
+              <div class="am-u-sm-6">
+                <input type="text" class="" id="otherGastroScope" name="otherGastroScope" placeholder="其它,请说明" value="{$data.othergastroscope}">
+              </div>
+
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">病理诊断</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="pathology" name="pathology" value="{$data.pathology}">
+
+                <!--<select id="pathology" name="pathology">-->
+                  <!--<option value="">请选择</option>-->
+                  <!--<option value="0">慢性浅表性炎</option>-->
+                  <!--<option value="1">慢性萎缩性胃炎</option>-->
+                  <!--<option value="2">胃溃疡</option>-->
+                  <!--<option value="3">十二指肠溃疡</option>-->
+                  <!--<option value="4">非典型增生</option>-->
+                  <!--<option value="5">肠上皮化生</option>-->
+                  <!--<option value="6">胃癌</option>-->
+                  <!--<option value="7">其它（说明）</option>-->
+                <!--</select>-->
+              </div>
+              <div class="am-u-sm-6" >
+                <input type="text" class="" id="otherPathology" name="otherPathology" placeholder="其它,请说明" value="{$data.otherpathology}">
+              </div>
+
+
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">胃、十二指肠病病史</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="stomachHistory" name="stomachHistory" value="{$data.stomachhistory}">
+
+                <!--<select id="stomachHistory" name="stomachHistory">-->
+                  <!--<option value="">请选择</option>-->
+                  <!--<option value="0">无</option>-->
+                  <!--<option value="1">有慢性胃炎病史</option>-->
+                  <!--<option value="2">有胃溃疡病史</option>-->
+                  <!--<option value="3">有十二指肠溃疡病史</option>-->
+                  <!--<option value="4">肠道疾病手术史</option>-->
+                  <!--<option value="4">其它（说明）</option>-->
+                <!--</select>-->
+              </div>
+
+              <div class="am-u-sm-6" >
+                <input type="text" class="am-input-sm" id="otherStomachHistory" name="otherStomachHistory" value="{$data.otherstomachhistory}">
+
+                <!--<input type="text" class="" id="otherStomachHistory" name="otherStomachHistory" placeholder="其它,请说明">-->
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否有肿瘤家族史</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="isCancerFamily" {$iscancerfamily[0]}> 是
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="isCancerFamily" {$iscancerfamily[1]}> 否
+                </label>
+              </div>
+            </div>
+
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">直系亲属中是否有人患过癌症</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="familyCancer" name="familyCancer" value="{$data.familycancer}">
+
+                <!--<select id="familyCancer" name="familyCancer">-->
+                  <!--<option value="">请选择</option>-->
+                  <!--<option value="0">肝癌</option>-->
+                  <!--<option value="1">肺癌</option>-->
+                  <!--<option value="2">食道癌</option>-->
+                  <!--<option value="3">结肠癌</option>-->
+                  <!--<option value="4">乳腺癌</option>-->
+                  <!--<option value="5">其它(说明)</option>-->
+                <!--</select>-->
+                <span class="am-form-caret"></span>
+              </div>
+              <div class="am-u-sm-6">
+                <input type="text" class="am-input-sm" id="otherFamilyCancer" name="otherFamilyCancer" value="{$data.otherfamilycancer}">
+
+                <!--<input type="text" class="" id="otherFamilyCancer" name="otherFamilyCancer" placeholder="其它,请说明">-->
+              </div>
+            </div>
+
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">与您的关系</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="relationship" name="relationship" value="{$data.relationship}">
+
+                <!--<select id="relationship" name="relationship">-->
+                  <!--<option value="0">父亲</option>-->
+                  <!--<option value="1">母亲</option>-->
+                  <!--<option value="2">兄弟</option>-->
+                  <!--<option value="3">姐妹</option>-->
+                  <!--<option value="4">祖父母</option>-->
+                  <!--<option value="5">外祖父母</option>-->
+                <!--</select>-->
+                <!--<span class="am-form-caret"></span>-->
+              </div>
+              <div class="am-u-sm-2">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">胃肠道疾病相关症状</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="similarHistory" name="similarHistory" value="{$data.similarhistory}">
+
+                <!--<select id="similarHistory" name="similarHistory">-->
+                  <!--<option value="0">无</option>-->
+                  <!--<option value="1">曾反复返酸</option>-->
+                  <!--<option value="2">有胸骨后灼热感或疼痛</option>-->
+                  <!--<option value="3">其它</option>-->
+                <!--</select>-->
+              </div>
+
+              <div class="am-u-sm-6" >
+                <input type="text" class="am-input-sm" id="othersimilarHistory" name="othersimilarHistory" value="{$data.othersimilarhistory}">
+
+                <!--<input type="text" class="" id="othersimilarHistory" name="othersimilarHistory" placeholder="其它,请说明">-->
+              </div>
+
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否患过其它肿瘤</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="isOtherCancer" {$isothercancer[0]}> 是
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="isOtherCancer" {$isothercancer[1]}> 否
+                </label>
+              </div>
+              <div class="am-u-sm-6" >
+                <input type="text" class="" id="othercancer" name="othercancer" placeholder="是,请说明">
+              </div>
+
+            </div>
+
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否曾做过幽门螺杆菌感染的相关检查</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="isCheck" {$ischeck[0]}> 是
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="isCheck" {$ischeck[1]}> 否
+                </label>
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">若做过,结果如何</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="checkStatus" {$checkstatus[0]}> 阳性
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="checkStatus" {$checkstatus[1]}> 阴性
+                </label>
+
+              </div>
+            </div>
+
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否做过抗幽门螺杆菌治疗</div>
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="isCure" {$iscure[0]}> 是
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="isCure" {$iscure[1]}> 否
+                </label>
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">若有, 所用药物有</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="drug" name="drug" value="{$data.drug}">
+
+                <!--<select id="drug" name="drug">-->
+                  <!--<option value="0">克拉霉素</option>-->
+                  <!--<option value="1">左氧氟沙星</option>-->
+                  <!--<option value="2">甲硝唑</option>-->
+                  <!--<option value="3">阿莫西林</option>-->
+                  <!--<option value="4">呋喃唑酮</option>-->
+                  <!--<option value="5">四环素</option>-->
+                  <!--<option value="6">奥美拉唑</option>-->
+                  <!--<option value="7">埃索美拉唑</option>-->
+                  <!--<option value="8">雷贝拉唑</option>-->
+                <!--</select>-->
+                <!--<span class="am-form-caret"></span>-->
+              </div>
+              <div class="am-u-sm-6">
+
+                <input type="text" class="" id="otherDrug" name="otherDrug" placeholder="其它药物" value="{$data.otherdrug}">
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">近2周来服用过消炎止痛药吗?</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="usedAnalgesic" {$usedanalgesic[0]}> 有
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="usedAnalgesic" {$usedanalgesic[1]}> 无
+                </label>
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">近2周来服用过抗酸吗?</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="usedAntiacid" {$usedantiacid[0]}> 有
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="usedAntiacid" {$usedantiacid[1]}> 无
+                </label>
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">是否了解幽门螺杆感染和消化道疾病的关系?</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="knowRelation" {$knowrelation[0]}> 是
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="knowRelation" {$knowrelation[1]}> 否
+                </label>
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">第</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+                <input type="text" class="am-input-sm" id="cureTimes" name="cureTimes" value="{$data.curetimes}">
+
+              </div>
+              <label class="am-u-sm-3 am-form-label"
+                     style="line-height: 33px; height: 33px; padding-top: 0;">次治疗</label>
+
+              <div class="am-u-sm-4">
+
+              </div>
+            </div>
+
+            <div class="am-g am-margin-top">
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">我的治疗意愿</div>
+
+              <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
+
+                <label class="am-radio-inline">
+                  <input type="radio" value="1" name="inclination" {$inclination[0]}>强烈治疗意愿
+                </label>
+                <label class="am-radio-inline">
+                  <input type="radio" value="0" name="inclination"  {$inclination[1]}> 根据病情
+                </label>
+              </div>
+            </div>
+            <div class="am-g">
+              <div class="am-u-sm-6 am-u-sm-centered">
+                <!--<input type="submit" name="" value="提交" class="am-btn am-btn-primary am-btn-sm am-fl" onclick="apply();return false;"-->
+                       <!--style="width: 100%;">-->
+
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="am-margin">
+      <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>-->
+      <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>-->
+    </div>
+  </div>
+
+  <footer class="admin-content-footer">
+    <hr>
+    <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+  </footer>
+</div>
+<!-- content end -->
+
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+
+<include file="Public:js" />
+<script>
+  function getDoctor(patientId){
+
+    var url = '__SELF__';
+
+
+    $("<div></div>").load(url,{patientId:patientId},function(ret){
+      alert(ret.data)
+
+      var data = $(this).find("#tablelist").html();
+      $('#tablelist').html(data);
+
+
+      $(this).remove();
+    });
+  }
+
+  $("form input").prop("readonly", true);
+  $("form textarea").prop("readonly", true);
+</script>
+</body>
+</html>
