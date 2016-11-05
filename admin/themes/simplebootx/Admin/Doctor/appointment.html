@@ -60,7 +60,7 @@
                 <th class="table-date am-hide-sm-only">就诊时间</th>
                 <th class="table-title">状态</th>
 
-                <!--<th class="table-set">操作</th>-->
+                <th class="table-set">操作</th>
               </tr>
               </thead>
               <tbody>
@@ -73,22 +73,22 @@
                 <td class="am-hide-sm-only">{$appointment.begindate}-{$appointment.enddate}</td>
                 <td class="am-hide-sm-only">{$appointment.status}</td>
 
-                <!--<td>-->
-                  <!--<div class="am-btn-toolbar">-->
-                    <!--<div class="am-btn-group am-btn-group-xs">-->
-                      <!--<eq name="appointment.statuscode" value="0">-->
-                        <!--<button class="am-btn am-btn-default am-btn-xs am-text-secondary"-->
-                                <!--onclick='PassAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span> 审核通过-->
-                        <!--</button>-->
-                        <!--<button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"-->
-                                <!--onclick='CancelAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span>-->
-                          <!--审核失败-->
-                        <!--</button>-->
-                        <!--<else/>-->
-                        <!--已处理-->
-                      <!--</eq>-->
-                  <!--</div>-->
-                <!--</td>-->
+                <td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <eq name="appointment.statuscode" value="0">
+                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
+                                onclick='PassAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span> 审核通过
+                        </button>
+                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
+                                onclick='CancelAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span>
+                          审核失败
+                        </button>
+                        <else/>
+                        已处理
+                      </eq>
+                  </div>
+                </td>
               </tr>
               </volist>
 

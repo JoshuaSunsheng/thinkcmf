@@ -432,7 +432,8 @@
                         var beginDate = $("#beginDate").val();
                         var endDate = $("#endDate").val();
                         $.post("__URL__/appointment", { doctor_id: doctor_id, patient_id: patient_id, beginDate: beginDate, endDate: endDate},function(data,textStatus){
-                            if(status){
+                            if(data.state == "success"){
+                                alert("预约成功!")
                                 location.href = data.url;
                             }
                             else{
