@@ -1,3 +1,4 @@
+<tc_include file="Public:hp:head" />
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -13,13 +14,13 @@
 
     <title>主页</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{$Think.const.CSS_URL}planeui.css"/>
-    <link href="{$Think.const.CSS_URL}bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css"/>
+    <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
     <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
     <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
-    <link href="{$Think.const.CSS_URL}mbase.css" rel="stylesheet">
+    <link href="{$CSS_URL}mbase.css" rel="stylesheet">
     <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
-    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css">
+    <link rel="stylesheet" href="{$CSS_URL}amazeui.min.css">
 
     <style>
         html, body {
@@ -49,6 +50,10 @@
         .first {
             margin: auto;
             height: 420px;
+        }
+
+        p{
+            text-indent:2em;
         }
     </style>
 </head>
@@ -118,58 +123,44 @@
 
     <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
         <div class="am-intro-hd">
-            <h2 class="am-intro-title">参与方式</h2>
+            <h2 class="am-intro-title">权利义务</h2>
         </div>
 
         <div class="am-g am-intro-bd">
 
-            <div class="am-intro-center am-u-sm-12">
+            <div class="am-intro-center am-u-sm-12" style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto">
+                <h4>尊敬的幽门螺杆菌专家：</h4>
+                <p>您好，您被邀请参加中国幽门螺杆菌感染及相关疾病精准医疗众包研究。如果您了解本研究内容后，同意参加本项研究，请认真阅读以下权利义务条款：</p>
+                <h5>义务：</h5>
                 <p>
-                    无论你是身处边陲小镇而任劳任怨的基层医生，还是繁华都市里忙忙碌碌的名医名家，或你仅是一名幽门螺杆菌感染者。如果您对我们的研究感兴趣，如果您想为中国的幽门螺杆菌诊疗贡献一份力量，欢迎您加入我们“幽门螺杆菌众包研究”大家庭，请您按照下面方式加入我们的研究。
+                    如果您同意参加本项研究，您需对就诊于您处的HP感染者纳入本项研究，正确无误的将患者个人信息、疾病诊断、用药方案、随访情况等内容输入系统，并随疗程进展，完善研究患者的数据信息。
                 </p>
+                <h5>权利：</h5>
+                <ul>
+                    <li>（1）可通过本系统查询您纳入研究患者的治疗进展、HP根除治疗情况；</li>
+                    <li>（2）可通过本系统查询您所在地区，近年来幽门螺杆菌根除和耐药情况，还可了解您周边医生HP的根除率情况；</li>
+                    <li>（3）通过资讯交流了解HP最新研究进展、与专家交流HP治疗过程中的相关问题；</li>
+                    <li>（4）可通本系统中的耐药地图查询全国各地的HP耐药情况；</li>
+                    <li>（5）本研究的最终研究成果由您与其他参与专家、医生共享，研究成果署名顺序按参与贡献度大小排名。</li>
+                </ul>
+
             </div>
         </div>
 
-        <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default">
-            <h2 class="am-titlebar-title ">
-                医生
-            </h2>
-        </div>
-        <div class="am-g am-intro-bd">
-
-            <div class="am-intro-center am-u-sm-12">
-                <p>
-                    微信搜索“致远检验”或扫描二维码，关注、进入“致远检验”公众号，选择众包研究，点击参与研究，选择医生界面，注册并登录系统，将您纳入本研究的患者信息、诊疗信息、用药方案及随访信息等按照系统要求填写。</p>
-            </div>
-        </div>
-
-
-        <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default">
-            <h2 class="am-titlebar-title ">
-                公众
-            </h2>
-
-
-        </div>
-        <div class="am-g am-intro-bd">
-            <div class="am-intro-center am-u-sm-12">
-                <p>微信搜索“致远检验”或扫描二维码，关注、进入“致远检验”公众号，选择众包研究，点击参与研究，选择公众界面，注册并登录系统，将您的基本信息按照系统要求填写。</p>
-            </div>
-        </div>
 
     </div>
 
 </div>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<script src="{$JS_URL}jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="{$Think.const.JS_URL}amazeui.ie8polyfill.min.js"></script>
+<script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
-<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+<script src="{$JS_URL}amazeui.min.js"></script>
 
 <!-- center -->
 <!-- JavaScript-->

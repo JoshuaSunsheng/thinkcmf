@@ -55,7 +55,6 @@ class  DoctorController extends HomebaseController{
                         echo $Study->getError();
                     } else {
                         $this->success('新增成功', 'myStudy');
-
                     }
                     \Think\Log::write('dataImport begin $z:' . $z, "INFO");
 
@@ -83,33 +82,51 @@ class  DoctorController extends HomebaseController{
 
         \Think\Log::write('register begin:', "INFO");
 
-        //微信网页授权登录获取code
-        $code = $_GET['code'];
-        $get_code_url = OAURL_ACCESS_TOKEN.'?appid='.appId.'&secret='.appsecret.'&code='.$code.'&grant_type=authorization_code';
-        $token_data = file_get_contents($get_code_url);
-
-        $token = json_decode($token_data, TRUE);
-        $token['appid'] = appId;
-        //$param = file_get_contents(OAURL, false, stream_context_create($opts));
-        session('token',$token); //保存授权信息
-        //var_dump(session('token'), true);
-
+        //获取session中token
+        $token = session('token');
+        \Think\Log::write('register begin:'.$token, "INFO");
 
         if(!empty($_POST)){
+            $users_model=M("Users");
 
-            $Doctor = new \Portal\Model\DoctorModel(); // 实例化 Patient对象
-            //$Patient->getByPhoneNumber();
+            $mobile=I('post.phoneNumber');
+            if(!$mobile){
+                $this->error("手机号不能为空！");
 
-            $Doctor->create($_POST, 1);
-            $Doctor -> cureTime = implode(',', $_POST['cureTime']);
-
-            $z = $Doctor->add();
-            if($z){
-                $this->success('新增成功', 'myStudy');
             }
-            else{
-                $this->error('新增成功', 'myStudy');
+
+            $where['mobile']=$mobile;
+
+            $users_model=M("Users");
+            $result = $users_model->where($where)->count();
+            \Think\Log::write('register $result:'.$result, "INFO");
+
+            if($result){
+                $this->error("手机号已被注册！");
+                //直接通过
+                //还需要处理
+                //不会发生这种情况
+            }else{
+                $data=array(
+                    'user_login' => '',
+                    'user_email' => '',
+                    'mobile' =>$mobile,
+                    'user_nicename' =>'',
+                    'user_pass' => sp_password('111111'),
+                    'last_login_ip' => get_client_ip(0,true),
+                    'create_time' => date("Y-m-d H:i:s"),
+                    'last_login_time' => date("Y-m-d H:i:s"),
+                    'user_status' => 1,
+                    "user_type"=>DOCTOR,//医生
+                    "openid"=>$token['openid'],//医生
+                );
+
+                $rst = $users_model->add($data);
+                \Think\Log::write('register $rst:'.$rst, "INFO");
+
+                $this->_to_register($rst, $data);
             }
+
         }
         else{
             $this -> display();
@@ -229,5 +246,40 @@ class  DoctorController extends HomebaseController{
 //        $db->where('id=' . $id)->delete();
         $db->where($map['id'])->setField('status',APPOINTMENT_FAIL);
         \Think\Log::write('cancelAppointment record end', "INFO");
+    }
+
+    /**
+     * @param $rst
+     * @param $data
+     * @param $Doctor
+     */
+    public function _to_register($rst, $data)
+    {
+        $Doctor = new \Portal\Model\DoctorModel(); // 实例化 Patient对象
+
+        if ($rst) {
+            //注册成功页面跳转
+            $data['id'] = $rst;
+            session('user', $data);
+
+            $Doctor->create($_POST, 1);
+            $Doctor->cureTime = implode(',', $_POST['cureTime']);
+            $Doctor->userId = $rst;
+
+            $z = $Doctor->add();
+            \Think\Log::write('register $z:' . $z, "INFO");
+
+            if ($z) {
+                $data['id'] = $z;
+                session('doctor', $data);
+                $this->success('新增成功', 'myStudy');
+            } else {
+                $this->error('新增失败', 'myStudy');
+            }
+//                    $this->success("注册成功！",__ROOT__."/");
+
+        } else {
+            $this->error("注册失败！", U("user/register/index"));
+        }
     }
 }

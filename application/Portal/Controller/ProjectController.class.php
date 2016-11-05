@@ -23,5 +23,47 @@ class  ProjectController extends HomebaseController{
 
         $this -> display();
     }
+    function doctor(){
+        //获取系统常量, 并分组
+        //var_dump(get_defined_constants(true));
+
+        $this -> display();
+    }
+    function join(){
+        //获取系统常量, 并分组
+        //var_dump(get_defined_constants(true));
+
+        $this -> display();
+    }
+    function organization(){
+        //获取系统常量, 并分组
+        //var_dump(get_defined_constants(true));
+
+        $this -> display();
+    }
+    function participation(){
+        //获取系统常量, 并分组
+        //var_dump(get_defined_constants(true));
+
+        $this -> display();
+    }
+    function region(){
+        //获取系统常量, 并分组
+        //var_dump(get_defined_constants(true));
+
+        $this -> display();
+    }
+    function research(){
+        //获取系统常量, 并分组
+        //var_dump(get_defined_constants(true));
+
+        $this -> display();
+    }
+    function rights(){
+        //获取系统常量, 并分组
+        //var_dump(get_defined_constants(true));
+
+        $this -> display();
+    }
 
 }

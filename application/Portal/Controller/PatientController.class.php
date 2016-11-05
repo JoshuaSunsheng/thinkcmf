@@ -20,48 +20,15 @@ class PatientController extends HomebaseController{
      * */
 
     function login(){
-        //获取系统常量, 并分组
-        //var_dump(get_defined_constants(true));
-//        var_dump(get_defined_constants(true));
-        \Think\Log::record('login record');
-        \Think\Log::write('login write','WARN');
+        \Think\Log::write('login index', 'info');
+//        $this->success('验证成功', 'agreement');
 
-        $token = session('token');
-
-        if(!$token){
-            $code = $_GET['code'];
-            $get_code_url = OAURL_ACCESS_TOKEN.'?appid='.appId.'&redirect_uri='.CONTROLLER.'/login'.'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
-            //https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
-            \Think\Log::write('login write '.$get_code_url,'WARN');
-            redirect($get_code_url, 2, '页面跳转中...');
-
-            $token_data = file_get_contents($get_code_url);
-
-            $token = json_decode($token_data, TRUE);
-            if($token){
-                $token['appid'] = appId;
-                //$param = file_get_contents(OAURL, false, stream_context_create($opts));
-                session('token',$token); //保存授权信息
-                //var_dump(session('token'), true);
-                $this -> display();
-
-            }
-            else{
-                echo "获取异常";
-            }
-
-            echo "<hr>";
-
+        if (!empty($_POST)) {
+            $phoneNumber = I('post.phoneNumber');
+            session('phoneNumber',$phoneNumber); //保存用户手机信息
+        } else {
+            $this->display();
         }
-        else{
-            \Think\Log::record('$token already has '.$token);
-            $this -> display();
-
-        }
-
-        //微信网页授权登录获取code
-
-
     }
 
     /*
@@ -70,8 +37,14 @@ class PatientController extends HomebaseController{
      * */
     function agreement(){
         //获取系统常量, 并分组
-        //var_dump(get_defined_constants(true));
-        $this -> display();
+        $phoneNumber = session('phoneNumber');
+        if($phoneNumber){
+            $this -> display();
+        }
+        else{
+            //用户手机号信息不存在, 可能为认证, 或认证已经过期
+            $this->success('您的手机号验证信息已过期, 请重新验证', 'login');
+        }
     }
 
     /*
@@ -80,30 +53,90 @@ class PatientController extends HomebaseController{
      * */
     function application()
     {
-        //获取系统常量, 并分组
-        //var_dump(get_defined_constants(true));
+        //获取session中token
         $token = session('token');
+        \Think\Log::write('register begin:'.$token, "INFO");
 
-        if (empty($token)) {
-            //echo CONTROLLER.'/login';
-            redirect(CONTROLLER.'/login', 2, '页面跳转中...');
+        if(!empty($_POST)){
+            $users_model=M("Users");
+
+            $mobile=session('phoneNumber');  //患者注册第一步验证成功后, 将手机号存储
+            if(!$mobile){
+                $this->error("手机号不能为空！");
+
+            }
+
+            $where['mobile']=$mobile;
+
+            $users_model=M("Users");
+            $result = $users_model->where($where)->count();
+            \Think\Log::write('register $result:'.$result, "INFO");
+
+            if($result){
+                $this->error("手机号已被注册！");
+                //直接通过
+                //还需要处理
+                //不会发生这种情况
+            }else{
+                $data=array(
+                    'user_login' => '',
+                    'user_email' => '',
+                    'mobile' =>$mobile,
+                    'user_nicename' =>'',
+                    'user_pass' => sp_password('111111'),
+                    'last_login_ip' => get_client_ip(0,true),
+                    'create_time' => date("Y-m-d H:i:s"),
+                    'last_login_time' => date("Y-m-d H:i:s"),
+                    'user_status' => 1,
+                    "user_type"=>PATIENT,//患者
+                    "openid"=>$token['openid'],//患者
+                );
+
+                $rst = $users_model->add($data);
+                \Think\Log::write('register $rst:'.$rst, "INFO");
+
+                $this->_to_register($rst, $data);
+            }
+
+        }
+        else{
+            $this -> display();
         }
 
+        \Think\Log::write('register end.', "INFO");
 
-        if (!empty($_POST)) {
-            $Patient = new \Portal\Model\PatientModel(); // 实例化 Patient对象
-            //$Patient->getByPhoneNumber();
+    }
+
+    /**
+     * @param $rst
+     * @param $data
+     * @param $Doctor
+     */
+    public function _to_register($rst, $data)
+    {
+        $Patient = new \Portal\Model\PatientModel(); // 实例化 Patient对象
+
+        if ($rst) {
+            //注册成功页面跳转
+            $data['id'] = $rst;
+            session('user', $data);
 
             $Patient->create($_POST, 1);
+            $Patient->userId = $rst;
+
             $z = $Patient->add();
+            \Think\Log::write('register $z:' . $z, "INFO");
 
             if ($z) {
-                $this->success('提交成功', 'appointment');
+                $data['id'] = $z;
+                session('patient', $data);
+                $this->success('新增成功', 'appointment');
             } else {
-                echo '提交失败, 请重新提交!';
+                $this->error('新增失败', 'application');
             }
+
         } else {
-            $this->display();
+            $this->error("注册失败！", U("portal/patient/login"));
         }
     }
 
@@ -114,31 +147,34 @@ class PatientController extends HomebaseController{
     function appointment(){
         //获取系统常量, 并分组
 
-        //$Appointment = new \Home\Model\AppointmentModel(); // 实例化 Appointment对象
-
         $token = session('token');
 
         if (empty($token)) {
-            redirect(CONTROLLER . '/login', 2, '页面跳转中...');
+            redirect(CONTROLLER . '/../join/index', 2, 'please wait...');
         }
 
+        try{
+            if (!empty($_POST)) {
+                $Appointment = new \Portal\Model\AppointmentModel(); // 实例化 Patient对象
+                $Appointment->create($_POST, 1);
+                $string=implode(' ',$_POST);
+                \Think\Log::write($string);
 
-        if (!empty($_POST)) {
-            $Appointment = new \Portal\Model\AppointmentModel(); // 实例化 Patient对象
-            //$Patient->getByPhoneNumber();
-            $Appointment->create($_POST, 1);
-
-            \Think\Log::write("==========================================================");
-            $string=implode(' ',$_POST);
-            \Think\Log::write($string);
-            $z = $Appointment->add();
-            if ($z) {
-                $this->success('提交成功', 'appointment');
+                if (!$Appointment->add()) {
+                    \Think\Log::write('提交失败, 请重新提交!', "INFO");
+                    echo $Appointment->getError();
+                } else {
+                    $this->success('提交成功', 'appointment');
+                }
             } else {
-                echo '提交失败, 请重新提交!';
+                $this->assign('$patient_id', $this->get_patient_id());
+                $this->display();
             }
-        } else {
-            $this->display();
+        }
+            //这里的\Exception不加斜杠的话回使用think的Exception类
+        catch(\Exception $e){
+            \Think\Log::write('提交失败, 请重新提交!', "INFO");
+            $this->error('失败', 'appointment');
         }
     }
 

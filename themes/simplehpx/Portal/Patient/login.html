@@ -1,3 +1,5 @@
+<tc_include file="Public:hp:head" />
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -9,7 +11,7 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
-    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css"/>
+    <link rel="stylesheet" href="{$CSS_URL}amazeui.min.css"/>
     <style>
         .header {
             text-align: center;
@@ -66,7 +68,7 @@
         font-size: 1.5em;">登录</h3>
 
 
-            <form id="form" method="post" class="am-form">
+            <form id="register" method="post" class="am-form">
                 <div class="am-g">
                     <div class="am-u-lg-12">
                         <div class="am-input-group">
@@ -114,9 +116,9 @@
 <![endif]-->
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<script src="{$JS_URL}jquery.min.js"></script>
 <!--<![endif]-->
-<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+<script src="{$JS_URL}amazeui.min.js"></script>
 
 
 <script>
@@ -133,11 +135,18 @@
             return;
         }
 
-        var tourl = $("#form").attr("action");
+        var tourl = $("#register").attr("action");
+        var application = $("#register").serialize();
+
         $.post("__URL__/verifyCode",{to:$("#phoneNumber").val(), msgCode:$("#msgCode").val()},function(data,textStatus){
             if(data['rescode'] == "00" && textStatus == "success"){
                 alert("验证通过!")
-                window.location.href = "{$Think.const.CONTROLLER}/agreement?phoneNumber=" + $("#phoneNumber").val();
+                $.post("__URL__/login", application,function(data,textStatus){
+
+                    location.href = data.url;
+                    window.location.href = "agreement?phoneNumber=" + $("#phoneNumber").val();
+
+                });
             }
             else{
                 alert(data['msg']);

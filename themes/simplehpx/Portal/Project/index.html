@@ -1,5 +1,6 @@
 <tc_include file="Public:hp:head" />
 
+
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -13,7 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <title>咨询交流</title>
+    <title>主页</title>
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css" />
     <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
@@ -115,36 +116,48 @@
     <!-- center-->
     <div>
         <div class="col-xs-4 border_right border_bottom">
-            <a id="pressCenter" href="pressCenter.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
-                <i class="imooc-icon"><img src="{$IMG_URL}pressCenter.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 新闻中心</p>
+            <a id="research" href="research" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
+                <i class="imooc-icon"><img src="{$IMG_URL}research.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 研究内容</p>
             </a>
         </div>
         <div class="col-xs-4 border_right border_bottom">
-            <a id="academic" href="academic.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
-                <i class="imooc-icon"><img src="{$IMG_URL}academic.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 学术讲坛</p>
+            <a id="organization" href="organization" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
+                <i class="imooc-icon"><img src="{$IMG_URL}organization.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 组织框架</p>
             </a>
         </div>
         <div class="col-xs-4 border_right border_bottom">
-            <a id="question" href="/index.php/page/index/id/13" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$IMG_URL}question.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 疑惑答疑</p>
+            <a id="participation" href="participation" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$IMG_URL}participation.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 参与方式</p>
             </a>
         </div>
         <div class="col-xs-4 border_right border_bottom">
-            <a id="balance" href="chart.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$IMG_URL}chart.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 耐药地图</p>
+            <a id="rights" href="rights" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$IMG_URL}rights.png" width="60" height="60"></i>
+                <p class="color_grey font_size18"> 权利义务</p>
             </a>
         </div>
-        <div class="col-xs-4 border_riaght border_bottom">
-            <a id="download" href="#" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$IMG_URL}search.png" width="60" height="60"></i>
-                <p class="color_grey font_size18">耐药查询</p>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="doctor" href="doctor" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$IMG_URL}doctor.png" width="60" height="60"></i>
+                <p class="color_grey font_size18">专家团队</p>
+            </a>
+        </div>
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="region" href="region" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$IMG_URL}region.png" width="60" height="60"></i>
+                <p class="color_grey font_size18">区域负责</p>
             </a>
         </div>
 
+        <div class="col-xs-4 border_right border_bottom">
+            <a id="join" href="join" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
+                <i class="imooc-icon"><img src="{$IMG_URL}join.png" width="60" height="60"></i>
+                <p class="color_grey font_size18">参与成员</p>
+            </a>
+        </div>
     </div>
 </div>
 
@@ -167,6 +180,18 @@
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
     })
 
+    jQueryf(document).ready(function(){
+        appid = "wx50601fae46ea8a28"
+        href = "https://m.dianpayer.com";
+        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
+        href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+//        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
+//        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);
+//        jQueryf("#detail").attr("href", href_pre + "service/dFtradelist.htm" + href_suffix);
+//        jQueryf("#balance").attr("href", href_pre + "service/dFsearch.htm" + href_suffix);
+//        jQueryf("#download").attr("href", "https://m.dianpayer.com/wechat/about/download.htm");
+//        jQueryf("#info").attr("href", "https://m.dianpayer.com/wechat/about/limition.htm");
+    });
 </script>
 </body>
 </html>

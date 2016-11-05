@@ -59,11 +59,64 @@ function get_current_userid(){
 }
 
 /**
+ * 获取当前登录前台用户id,推荐使用sp_get_current_patientid
+ * @return int
+ */
+function get_current_patientid(){
+	$session_patient_id=session('patient.id');
+	if(!empty($session_patient_id)){
+		return $session_patient_id;
+	}else{
+		return 0;
+	}
+}
+
+
+/**
+ * 获取当前登录前台用户id,推荐使用sp_get_current_doctorid
+ * @return int
+ */
+function get_current_doctorid(){
+	$session_doctor_id=session('doctor.id');
+	if(!empty($session_doctor_id)){
+		return $session_doctor_id;
+	}else{
+		return 0;
+	}
+}
+
+/**
  * 获取当前登录前台用户id
  * @return int
  */
 function sp_get_current_userid(){
 	return get_current_userid();
+}
+
+/**
+ * 获取当前登录前台患者用户id
+ * @return int
+ */
+function sp_get_current_patientid(){
+	return get_current_patientid();
+}
+
+/**
+ * 获取当前登录前台医生用户id
+ * @return int
+ */
+function sp_get_current_doctorid(){
+	return get_current_doctorid();
+}
+
+/**
+ * 获取当前登录前台用户openid
+ * @return int
+ */
+function sp_get_current_user_openid(){
+	$token = session('token');
+	$openid = $token['openid'];
+	return $openid;
 }
 
 /**
@@ -1040,6 +1093,96 @@ function sp_get_comments($tag="field:*;limit:0,5;order:createtime desc;",$where=
 
 	$comments=$comments_model->field($field)->where($where)->order($order)->limit($limit)->select();
 	return $comments;
+}
+
+/**
+ * 获取留言板-疑问咨询
+ * @param string $tag
+ * @param array $where //按照thinkphp where array格式
+ */
+function sp_get_guestbook($tag="field:*;p:1;pageSize:5;order:createtime desc;",$where=array()){
+	$where=array();
+	$tag=sp_param_lable($tag);
+	if(!$tag['p']) $tag['p'] = 1;
+	$tag['limit'] = ($tag['p']-1) * $tag['pageSize'].",".$tag['p'] * $tag['pageSize'];
+	$field = !empty($tag['field']) ? $tag['field'] : '*';
+	$limit = !empty($tag['limit']) ? $tag['limit'] : '0,10';
+	$order = !empty($tag['order']) ? $tag['order'] : 'createtime desc';
+
+	//根据参数生成查询条件
+	$mwhere['status'] = array('eq',1);
+
+	if(is_array($where)){
+		$where=array_merge($mwhere,$where);
+	}else{
+		$where=$mwhere;
+	}
+
+	$guestbook_model=M("Guestbook");
+
+	$count=$guestbook_model->where($where)->count();
+
+//	$page = new \Page($count,3);
+
+//	$CommentController = new \Comment\Controller\CommentController();
+
+	$page=page($count,$tag['pageSize']);
+
+	$guestbooks = $guestbook_model->field($field)->where($where)->limit($limit)
+		->order($order)->select();
+
+
+	$guestbooks['page']=$page->show('default');
+	$guestbooks['guestbooks']=$guestbooks;
+
+	return $guestbooks;
+}
+
+function page($totalSize = 1, $pageSize = 0, $currentPage = 1, $listRows = 6, $pageParam = '', $pageLink = '', $static = FALSE) {
+	if ($pageSize == 0) {
+		$pageSize = C("PAGE_LISTROWS");
+	}
+	if (empty($pageParam)) {
+		$pageParam = C("VAR_PAGE");
+	}
+
+	$page = new \Page($totalSize, $pageSize, $currentPage, $listRows, $pageParam, $pageLink, $static);
+
+	$page->setLinkWraper("li");
+	if(sp_is_mobile()){
+		$page->SetPager('default', '{prev}&nbsp;{list}&nbsp;{next}', array("listlong" => "4", "prev" => "上一页", "next" => "下一页", "list" => "*", "disabledclass" => ""));
+	}else{
+		$page->SetPager('default', '{first}{prev}&nbsp;{liststart}{list}{listend}&nbsp;{next}{last}', array("listlong" => "4", "first" => "首页", "last" => "尾页", "prev" => "上一页", "next" => "下一页", "list" => "*", "disabledclass" => ""));
+	}
+
+	return $page;
+}
+
+/*
+     * 预约信息-后台显示
+     * */
+function appointment($queryStr = '', $page = 1, $pagesize = 10)
+{
+	\Think\Log::write('login appointment:', "INFO");
+
+	$DoctorController = new \Portal\Controller\DoctorController();
+
+	list($data, $recordnum, $pagenum) = $DoctorController->innerAppointment($queryStr, $page, $pagesize);
+
+
+//        var_dump(($data),true);
+	\Think\Log::write('login write', 'WARN' . $data);
+
+	$this->data = $data;
+	$this->pagenum = $pagenum;
+	$this->page = $page;
+	$this->pagesize = $pagesize;
+	$this->recordnum = $recordnum;
+	$this->title = "预约信息";
+
+	$this->display();
+	\Think\Log::write('login end', "INFO");
+
 }
 
 function sp_file_write($file,$content){
@@ -2131,4 +2274,26 @@ function sp_mobile_code_log($mobile,$code,$expire_time){
     }
     
     return $result;
+}
+
+// 微信使用
+define("WECHAT_CODE", "https://open.weixin.qq.com/connect/oauth2/authorize");
+define("OAURL_ACCESS_TOKEN", "https://api.weixin.qq.com/sns/oauth2/access_token");
+define("appId", "wxfb93bd95a58c1079");
+define("appsecret", "d4624c36b6795d1d99dcf0547af5443d");
+define("DOCTOR", "3");
+define("PATIENT", "4");
+
+
+//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520c15f417810387&redirect_uri=https%3A%2F%2Fchong.qq.com%2Fphp%2Findex.php%3Fd%3D%26c%3DwxAdapter%26m%3DmobileDeal%26showwxpaytitle%3D1%26vb2ctag%3D4_2030_5_1194_60&response_type=code&scope=snsapi_base&state=123#wechat_redirect
+function sp_get_wechat_code_url($redirect_uri){
+	$url = WECHAT_CODE.'?appid='.appId.'&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+	return $url;
+}
+
+//获取code后，请求以下链接获取access_token：
+//https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+function sp_get_access_token_url($code){
+	$url = OAURL_ACCESS_TOKEN.'?appid='.appId.'&secret='.appsecret.'&code='.$code.'&grant_type=authorization_code';
+	return $url;
 }

@@ -68,7 +68,7 @@ class RegisterController extends HomebaseController {
 
 	        $data=array(
 	            'user_login' => '',
-	            'user_email' => '',
+	            'user_email' =>	 '',
 	            'mobile' =>$mobile,
 	            'user_nicename' =>'',
 	            'user_pass' => sp_password($password),

@@ -49,7 +49,28 @@ class HomebaseController extends AppframeController {
 		}
 		
 	}
-	
+
+	/**
+	 * 检查微信用户信息
+	 */
+	function get_wechat_user(){
+		return M('Users')->where(array("openid"=>sp_get_current_user_openid()))->find();
+	}
+
+	/**
+	 * 检查医生用户信息
+	 */
+	function get_doctor_id(){
+		return M('Doctor')->where(array("userId"=>sp_get_current_userid()))->getField("id");
+	}
+
+	/**
+	 * 检查缓则用户信息
+	 */
+	function get_patient_id(){
+		return M('Patient')->where(array("userId"=>sp_get_current_userid()))->getField("id");
+	}
+
 	/**
 	 * 检查用户状态
 	 */

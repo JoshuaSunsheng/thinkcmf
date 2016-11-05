@@ -1,5 +1,4 @@
-
-
+<tc_include file="Public:hp:head" />
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -15,13 +14,13 @@
 
     <title>主页</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{$Think.const.CSS_URL}planeui.css" />
-    <link href="{$Think.const.CSS_URL}bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css"/>
+    <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
     <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
     <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
-    <link href="{$Think.const.CSS_URL}mbase.css" rel="stylesheet">
+    <link href="{$CSS_URL}mbase.css" rel="stylesheet">
     <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
-    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css">
+    <link rel="stylesheet" href="{$CSS_URL}amazeui.min.css">
 
     <style>
         html, body {
@@ -32,18 +31,22 @@
             padding-left: 0;
             padding-right: 0;
         }
+
         .btn {
             padding: 26px 12px;
         }
+
         .col-xs-6 {
             padding-left: 0;
             padding-right: 0;
         }
+
         .sms {
             position: absolute;
             top: 13px;
             left: 32%
         }
+
         .first {
             margin: auto;
             height: 420px;
@@ -68,35 +71,35 @@
 <script type="text/javascript">
     var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + "wx50601fae46ea8a28" + '&redirect_uri=https://m.dianpayer.com';
     //var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx50601fae46ea8a28&redirect_uri=https://m.dianpayer.com';
-    var url_tail='&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
+    var url_tail = '&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
 
-    (function() {
+    (function () {
 
         isBind = false;
         //普通页面不需要验证
-        ret =[];
+        ret = [];
         ret.resCode = "00";
-        if(ret) {
-            if(ret && ret.resCode == "00"){
+        if (ret) {
+            if (ret && ret.resCode == "00") {
                 isBind = true;
             }
             else {
                 Portal.error("请先app账号")
                 //alert(window.location.pathname)
-                window.location.href="/wechat/register/wbinduser.htm?userName=" + ret.openId + "&appUserName=" +appid + "&backPath="+window.location.pathname;
+                window.location.href = "/wechat/register/wbinduser.htm?userName=" + ret.openId + "&appUserName=" + appid + "&backPath=" + window.location.pathname;
             }
         }
 
         //使用js原始方法，勿改
         var muObj = document.getElementById("index");
-        if(muObj){
+        if (muObj) {
             muObj.className = "active";
         }
 
         /* 注销 */
-        function doLogout(){
-            DWR.call("userService.logout",function(){
-                document.location.href="../index.htm"
+        function doLogout() {
+            DWR.call("userService.logout", function () {
+                document.location.href = "../index.htm"
             });
         }
     })(jQueryf)
@@ -113,63 +116,36 @@
 <!-- Fixed navbar -->
 <div class="row margin0">
     <!-- center-->
-    <div>
-        <div class="col-xs-4 border_right border_bottom">
-            <a id="research" href="research.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
-                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}research.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 研究内容</p>
-            </a>
-        </div>
-        <div class="col-xs-4 border_right border_bottom">
-            <a id="organization" href="organization.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
-                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}organization.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 组织框架</p>
-            </a>
-        </div>
-        <div class="col-xs-4 border_right border_bottom">
-            <a id="participation" href="participation.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}participation.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 参与方式</p>
-            </a>
-        </div>
-        <div class="col-xs-4 border_right border_bottom">
-            <a id="rights" href="rights.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}rights.png" width="60" height="60"></i>
-                <p class="color_grey font_size18"> 权利义务</p>
-            </a>
-        </div>
-        <div class="col-xs-4 border_right border_bottom">
-            <a id="doctor" href="doctor.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}doctor.png" width="60" height="60"></i>
-                <p class="color_grey font_size18">专家团队</p>
-            </a>
-        </div>
-        <div class="col-xs-4 border_right border_bottom">
-            <a id="region" href="region.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}region.png" width="60" height="60"></i>
-                <p class="color_grey font_size18">区域负责</p>
-            </a>
+
+    <div data-am-widget="intro"
+         class="am-intro am-cf am-intro-default"
+    >
+        <div class="am-intro-hd">
+            <h2 class="am-intro-title">研究内容</h2>
         </div>
 
-        <div class="col-xs-4 border_right border_bottom">
-            <a id="join" href="join.html" type="button" style=" background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block">
-                <i class="imooc-icon"><img src="{$Think.const.IMG_URL}join.png" width="60" height="60"></i>
-                <p class="color_grey font_size18">参与成员</p>
-            </a>
+        <div class="am-g am-intro-bd">
+
+            <div class="am-intro-center am-u-sm-12"><p>
+                幽门螺杆菌（Helicobacterpylori，简称HP）感染是全球最常见的慢性胃炎病因,也是导致消化性溃疡及其并发症、胃癌的最重要危险因素。中国是一个HP感染率很高的国家，成人感染率达到40%～60%。为了解中国HP的感染、诊断和治疗现状，以及抗生素的耐药特征和趋势，依托云端大数据和移动应用平台，由临床消化、基础研究和信息技术专家团队发起，各地临床医生、HP感染者自由自愿参与的“众包”模式开展本项目研究。本研究通过本“众包”系统收集全国HP感染病人的尿素呼气试验或（和）细菌培养、药敏检测结果、用药方案及疗效随访等数据资料，经数据深入分析，以期为各地临床医生选择幽门螺杆菌最佳根除治疗方案、规范抗生素使用及管理提供科学依据。</p>
+            </div>
+        </div>
+        <div class="am-intro-more-bottom">
+
         </div>
     </div>
+
 </div>
 
-
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<script src="{$JS_URL}jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="{$Think.const.JS_URL}amazeui.ie8polyfill.min.js"></script>
+<script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
-<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+<script src="{$JS_URL}amazeui.min.js"></script>
 
 <!-- center -->
 <!-- JavaScript-->
@@ -179,10 +155,10 @@
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
     })
 
-    jQueryf(document).ready(function(){
+    jQueryf(document).ready(function () {
         appid = "wx50601fae46ea8a28"
         href = "https://m.dianpayer.com";
-        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
+        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize" + "?appid=" + appid + "&redirect_uri=" + href + "/wechat/"
         href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
 //        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
 //        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);

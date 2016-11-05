@@ -305,7 +305,7 @@
             if(data['rescode'] == "00" && textStatus == "success"){
                 alert("验证通过!")
                 $.post("__URL__/register", application,function(data,textStatus){
-                    //alert(data);
+
                     location.href = data.url;
                 });
 //                window.location.href = "{$CONTROLLER}/agreement";

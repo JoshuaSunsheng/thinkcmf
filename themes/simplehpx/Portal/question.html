@@ -68,18 +68,50 @@
 				<h3>疑问咨询</h3>
 				<div class="comment-area" id="comments">
 
+
+					<hr>
+					<div class="comments">
+						<php>$comments=sp_get_guestbook("field:*;p:$p;pageSize:5;order:createtime;");</php>
+
+						<foreach name="comments['guestbooks']" item="vo">
+							<if condition="!empty($vo['id'])">
+
+								<div class="comment" data-id="{$vo.id}" data-uid="{$vo.uid}" data-username="{$vo.full_name}"  id="comment{$vo.id}">
+									<a class="pull-left" href="{:U('user/index/index',array('id'=>$vo['uid']))}">
+										<img class="media-object avatar" src="{:U('user/public/avatar',array('id'=>$vo['uid']))}" class="headicon"/>
+									</a>
+									<div class="comment-body">
+										<div class="comment-content"><a href="{:U('user/index/index',array('id'=>$vo['uid']))}">{$vo.full_name}</a>患者:<span> {$vo.msg}</span></div>
+										<div><span class="time">{:date('m月d日  H:i',strtotime($vo['createtime']))}</span> <a onclick=";" href="javascript:;"></a></div>
+
+										<if condition="!empty($vo['answer'])">
+											<div class="comment" data-id="{$vo.id}" data-uid="{$vo.uid}" data-username="{$vo.full_name}" id="comment{$vo.id}">
+												<a class="pull-left" href="{:U('user/index/index',array('id'=>$vo['uid']))}">
+													<img class="media-object avatar" src="{:U('user/public/avatar',array('id'=>$vo['uid']))}" class="headicon"/>
+												</a>
+												<div class="comment-body">
+													<div class="comment-content"><a href="{:U('user/index/index',array('id'=>$vo['uid']))}">{$vo.full_name}</a>医生:<span> <a href="{:U('user/index/index',array('id'=>$vo['to_uid']))}">{$parent_comments[$vo['parentid']]['full_name']}</a> {$vo.answer}</span></div>
+													<div><span class="time">{:date('m月d日  H:i',strtotime($vo['createtime']))}</span> <a onclick="" href="javascript:;"></a></div>
+												</div>
+												<div class="clearfix"></div>
+											</div>
+
+										</if>
+									</div>
+
+
+									<div class="clearfix"></div>
+								</div>
+							</if>
+						</foreach>
+						<div class="pagination">
+							<ul>{$comments['page']}</ul>
+						</div>
+					</div>
+
+
 					<hr>
 					<form class="form-horizontal comment-form js-ajax-form" role="form" method="post" action="{:U('api/guestbook/addmsg')}">
-						<div class="control-group">
-							<label>姓名</label>
-							<input type="text" class="span3" placeholder="Your name" name="full_name">
-						</div>
-						<div class="control-group">
-
-							<label>邮箱</label>
-							<input type="email" class="span3" placeholder="Email address" name="email">
-						</div>
-
 
 						<div class="control-group">
 							<div class="comment-postbox-wraper">
@@ -87,95 +119,13 @@
 							</div>
 						</div>
 						<div class="control-group">
-							<button type="submit" class="btn  btn-primary js-ajax-submit"><i class="fa fa-comment-o"></i>咨询留言</button>
+							<button type="submit" class="btn pull-right btn-primary js-ajax-submit"><i class="fa fa-comment-o"></i>咨询留言</button>
 						</div>
 					</form>
 
-					<hr>
-
-
 				</div>
-
-
 		    </div>
-		    
-		    <php>$ad=sp_getad("portal_article_bottom");</php>
-			<if condition="!empty($ad)">
-        	<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>赞助商</h2>
-	        	</div>
-	        	<div>
-		        	{$ad}
-		        </div>
-			</div>
-			</if>
-		    
 		</div>
-		<div class="span3">
-			<div class="tc-box first-box">
-				<div class="headtitle">
-	          		<h2>分享</h2>
-	          	</div>
-	          	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a></div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"32"},"share":{},"image":{"viewList":["weixin","tsina","qzone","tqq","renren"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","qzone","tqq","renren"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-        	</div>
-        	
-        	<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>热门文章</h2>
-	        	</div>
-	        	<div class="ranking">
-	        		<php>
-						$hot_articles=sp_sql_posts("cid:$portal_hot_articles;field:post_title,post_excerpt,object_id,smeta,term_id;order:post_hits desc;limit:5;"); 
-					</php>
-		        	<ul class="unstyled">
-		        		<foreach name="hot_articles" item="vo">
-		        			<php>$top=$key<3?"top3":"";</php>
-							<li class="{$top}"><i>{$key+1}</i><a title="{$vo.post_title}" href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}">{$vo.post_title}</a></li>
-						</foreach>
-					</ul>
-				</div>
-			</div>
-			
-			<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>最新加入</h2>
-	        	</div>
-	        	<php>
-	        	$last_users=sp_get_users("field:*;limit:0,8;order:create_time desc;");
-	        	</php>
-	        	<ul class="list-unstyled tc-photos margin-bottom-30">
-	        		<foreach name="last_users" item="vo">
-                    <li>
-	                    <a href="{:U('user/index/index',array('id'=>$vo['id']))}">
-	                    <img alt="" src="{:U('user/public/avatar',array('id'=>$vo['id']))}">
-	                    </a>
-                    </li>
-                    </foreach>
-                </ul>
-			</div>
-			
-			<div class="tc-box">
-	        	<div class="headtitle">
-	        		<h2>最新评论</h2>
-	        	</div>
-	        	<div class="comment-ranking">
-	        		<php>$last_comments=sp_get_comments("field:*;limit:0,5;order:createtime desc;");</php>
-	        		<foreach name="last_comments" item="vo">
-	                    <div class="comment-ranking-inner">
-	                        <i class="fa fa-comment"></i>
-	                        <a href="{:U('user/index/index',array('id'=>$vo['uid']))}">{$vo.full_name}:</a>
-	                        <span>{$vo.content}</span>
-	                        <a href="__ROOT__/{$vo.url}#comment{$vo.id}">查看原文</a>
-	                        <span class="comment-time">{:date('m月d日  H:i',strtotime($vo['createtime']))}</span>
-	                    </div>
-                    </foreach>
-                </div>
-			</div>
-        	
-		</div>
-		
 	</div>
               
 <tc_include file="Public:footer"/>

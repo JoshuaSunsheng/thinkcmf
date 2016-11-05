@@ -1,3 +1,4 @@
+<tc_include file="Public:hp:head" />
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -13,13 +14,13 @@
 
     <title>主页</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{$Think.const.CSS_URL}planeui.css"/>
-    <link href="{$Think.const.CSS_URL}bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css"/>
+    <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
     <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
     <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
-    <link href="{$Think.const.CSS_URL}mbase.css" rel="stylesheet">
+    <link href="{$CSS_URL}mbase.css" rel="stylesheet">
     <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
-    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css">
+    <link rel="stylesheet" href="{$CSS_URL}amazeui.min.css">
 
     <style>
         html, body {
@@ -49,10 +50,6 @@
         .first {
             margin: auto;
             height: 420px;
-        }
-
-        p{
-            text-indent:2em;
         }
     </style>
 </head>
@@ -122,44 +119,56 @@
 
     <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
         <div class="am-intro-hd">
-            <h2 class="am-intro-title">权利义务</h2>
+            <h2 class="am-intro-title">组织框架</h2>
         </div>
+<!--暂时去除发起单位 9.18-->
+        <!--<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >-->
+            <!--<h2 class="am-titlebar-title ">-->
+                <!--发起单位-->
+            <!--</h2>-->
 
+
+        <!--</div>-->
+        <!--<div class="am-g am-intro-bd">-->
+
+            <!--<div class="am-intro-center am-u-sm-12">-->
+                <!--<p>中国医师协会消化医师分会</p>-->
+                <!--<p>中华医学会消化病学分会幽门螺杆菌学组</p>-->
+                <!--<p>中华医学会内科学会分会</p>-->
+                <!--<p>中华医学会公共卫生分会</p>-->
+                <!--<p>中华消化内镜杂志社</p>-->
+                <!--<p>杭州致远医学检验所</p>-->
+            <!--</div>-->
+        <!--</div>-->
+
+
+
+        <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+            <h2 class="am-titlebar-title ">
+                组织结构
+            </h2>
+
+
+        </div>
         <div class="am-g am-intro-bd">
-
-            <div class="am-intro-center am-u-sm-12" style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto">
-                <h4>尊敬的幽门螺杆菌专家：</h4>
-                <p>您好，您被邀请参加中国幽门螺杆菌感染及相关疾病精准医疗众包研究。如果您了解本研究内容后，同意参加本项研究，请认真阅读以下权利义务条款：</p>
-                <h5>义务：</h5>
-                <p>
-                    如果您同意参加本项研究，您需对就诊于您处的HP感染者纳入本项研究，正确无误的将患者个人信息、疾病诊断、用药方案、随访情况等内容输入系统，并随疗程进展，完善研究患者的数据信息。
-                </p>
-                <h5>权利：</h5>
-                <ul>
-                    <li>（1）可通过本系统查询您纳入研究患者的治疗进展、HP根除治疗情况；</li>
-                    <li>（2）可通过本系统查询您所在地区，近年来幽门螺杆菌根除和耐药情况，还可了解您周边医生HP的根除率情况；</li>
-                    <li>（3）通过资讯交流了解HP最新研究进展、与专家交流HP治疗过程中的相关问题；</li>
-                    <li>（4）可通本系统中的耐药地图查询全国各地的HP耐药情况；</li>
-                    <li>（5）本研究的最终研究成果由您与其他参与专家、医生共享，研究成果署名顺序按参与贡献度大小排名。</li>
-                </ul>
-
+            <div class="am-intro-center am-u-sm-12">
+                <img src="{$IMG_URL}organization_hp.png">
             </div>
         </div>
-
 
     </div>
 
 </div>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<script src="{$JS_URL}jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="{$Think.const.JS_URL}amazeui.ie8polyfill.min.js"></script>
+<script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
-<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+<script src="{$JS_URL}amazeui.min.js"></script>
 
 <!-- center -->
 <!-- JavaScript-->
@@ -170,10 +179,10 @@
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
     })
 
-    jQueryf(document).ready(function () {
+    jQueryf(document).ready(function(){
         appid = "wx50601fae46ea8a28"
         href = "https://m.dianpayer.com";
-        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize" + "?appid=" + appid + "&redirect_uri=" + href + "/wechat/"
+        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
         href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
 //        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
 //        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);

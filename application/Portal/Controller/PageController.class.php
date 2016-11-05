@@ -14,6 +14,8 @@ class PageController extends HomebaseController{
     
 	public function index() {
 		$id=I('get.id',0,'intval');
+		$p=I('get.p');;
+
 		$content=sp_sql_page($id);
 		
 		if(empty($content)){
@@ -26,6 +28,7 @@ class PageController extends HomebaseController{
 		}
 		
 		$this->assign($content);
+		$this->assign("p", $p);
 		$smeta=json_decode($content['smeta'],true);
 		$tplname=empty($smeta['template'])?"":$smeta['template'];
 		

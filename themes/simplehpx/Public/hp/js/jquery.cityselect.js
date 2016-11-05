@@ -14,11 +14,11 @@ required:必选项
 (function($){
 	$.fn.citySelect=function(settings){
 		if(this.length<1){return;};
-		//var url = citySelect_url;
-		var city_url = '{$JS_URL}';
+		var url = citySelect_url;
+		//var city_url = '{$JS_URL}';
 		// 默认值
 		settings=$.extend({
-			url:city_url + "city.min.js",
+			url:url + "city.min.js",
 			prov:null,
 			city:null,
 			dist:null,

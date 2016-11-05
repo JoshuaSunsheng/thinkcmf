@@ -1,3 +1,4 @@
+<tc_include file="Public:hp:head" />
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -13,13 +14,13 @@
 
     <title>主页</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{$Think.const.CSS_URL}planeui.css"/>
-    <link href="{$Think.const.CSS_URL}bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css"/>
+    <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
     <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
     <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
-    <link href="{$Think.const.CSS_URL}mbase.css" rel="stylesheet">
+    <link href="{$CSS_URL}mbase.css" rel="stylesheet">
     <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
-    <link rel="stylesheet" href="{$Think.const.CSS_URL}amazeui.min.css">
+    <link rel="stylesheet" href="{$CSS_URL}amazeui.min.css">
 
     <style>
         html, body {
@@ -50,6 +51,45 @@
             margin: auto;
             height: 420px;
         }
+
+
+        #chart-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        .right-container .right-panel {
+            padding: 10px;
+            padding-left: 15px;
+        }
+
+        #main-container {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 50px;
+        }
+
+
+            #chart-demo {
+                left: 0;
+            }
+
+
+        #chart-demo {
+            position: absolute;
+            /*top: 50px;*/
+            right: 0;
+            bottom: 0;
+            /*overflow: hidden;*/
+            }
     </style>
 </head>
 <body>
@@ -59,7 +99,7 @@
 <!-- 新 Bootstrap 核心 CSS 文件 -->
 <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-
+<script src="//cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
 
@@ -118,56 +158,35 @@
 
     <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
         <div class="am-intro-hd">
-            <h2 class="am-intro-title">组织框架</h2>
+            <h2 class="am-intro-title">参与成员</h2>
         </div>
-<!--暂时去除发起单位 9.18-->
-        <!--<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >-->
-            <!--<h2 class="am-titlebar-title ">-->
-                <!--发起单位-->
-            <!--</h2>-->
-
-
-        <!--</div>-->
-        <!--<div class="am-g am-intro-bd">-->
-
-            <!--<div class="am-intro-center am-u-sm-12">-->
-                <!--<p>中国医师协会消化医师分会</p>-->
-                <!--<p>中华医学会消化病学分会幽门螺杆菌学组</p>-->
-                <!--<p>中华医学会内科学会分会</p>-->
-                <!--<p>中华医学会公共卫生分会</p>-->
-                <!--<p>中华消化内镜杂志社</p>-->
-                <!--<p>杭州致远医学检验所</p>-->
-            <!--</div>-->
-        <!--</div>-->
-
-
 
         <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
             <h2 class="am-titlebar-title ">
-                组织结构
+                参与成员团队分布
             </h2>
-
-
         </div>
-        <div class="am-g am-intro-bd">
-            <div class="am-intro-center am-u-sm-12">
-                <img src="{$Think.const.IMG_URL}organization_hp.png">
-            </div>
-        </div>
+    </div>
+</div>
+<div id="chart-demo">
+<div id="main-container" style="top: 0px;width: 100%;">
+    <div class="right-container" style="left: 0%; width: 100%;">
+        <div id="chart-panel" class="right-panel" style=" width: 100%;height: 600px"></div>
 
     </div>
-
+</div>
 </div>
 
+
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="{$Think.const.JS_URL}jquery.min.js"></script>
+<script src="{$JS_URL}jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="{$Think.const.JS_URL}amazeui.ie8polyfill.min.js"></script>
+<script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
-<script src="{$Think.const.JS_URL}amazeui.min.js"></script>
+<script src="{$JS_URL}amazeui.min.js"></script>
 
 <!-- center -->
 <!-- JavaScript-->
@@ -190,6 +209,120 @@
 //        jQueryf("#download").attr("href", "https://m.dianpayer.com/wechat/about/download.htm");
 //        jQueryf("#info").attr("href", "https://m.dianpayer.com/wechat/about/limition.htm");
     });
+
+
+
+    // 基于准备好的dom，初始化echarts实例
+//    var myChart = echarts.init(document.getElementById('main'));
+//
+//    // 指定图表的配置项和数据
+//    var option = {
+//        title: {
+//            text: 'ECharts 入门示例'
+//        },
+//        tooltip: {},
+//        legend: {
+//            data:['销量']
+//        },
+//        xAxis: {
+//            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+//        },
+//        yAxis: {},
+//        series: [{
+//            name: '销量',
+//            type: 'bar',
+//            data: [5, 20, 36, 10, 10, 20]
+//        }]
+//    };
+//
+//    // 使用刚指定的配置项和数据显示图表。
+//    myChart.setOption(option);
+
+
+    var app = echarts.init(document.getElementById('chart-panel'));
+
+
+    app.title = '折柱混合';
+
+    option = {
+        title: {
+            text:'医生人数（位）'
+        },
+        tooltip: {
+            trigger: 'axis',
+            padding: '100'
+        },
+        toolbox: {
+//            feature: {
+//                restore: {show: true}
+//            }
+        },
+        legend: {
+            padding: 50,
+            left: 'center',
+            data:['主任医师','副主任医师','主治医师','住院医师']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            top: '16%',
+            containLabel: true
+        },
+        yAxis: [
+            {
+                type: 'category',
+//                data: ['华东地区','华中地区','华南地区','华北地区','西北地区','西南地区','东北地区','台港澳地区']
+                data: ['台港澳','华北','西北','西南','东北','华中','华南','华东']
+            }
+        ],
+        xAxis: [
+            {
+                type: 'value',
+                name: '人数',
+                min: 0,
+                max: 250,
+                interval: 50,
+                axisLabel: {
+                    formatter: '{value} '
+                }
+            },
+            {
+                type: 'value',
+                name: '人数',
+                min: 0,
+                max: 250,
+                interval: 50,
+                axisLabel: {
+                    formatter: '{value} '
+                }
+            }
+        ],
+        series: [
+            {
+                name:'主任医师',
+                type:'bar',
+                data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2]
+            },
+            {
+                name:'副主任医师',
+                type:'bar',
+                data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2]
+            },
+            {
+                name:'主治医师',
+                type:'bar',
+                data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4]
+            },
+            {
+                name:'住院医师',
+                type:'bar',
+                data:[2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4]
+            }
+        ]
+    };
+
+    app.setOption(option);
 </script>
 </body>
 </html>
