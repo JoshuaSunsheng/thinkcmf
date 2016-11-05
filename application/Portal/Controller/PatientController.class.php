@@ -167,7 +167,7 @@ class PatientController extends HomebaseController{
                     $this->success('提交成功', 'appointment');
                 }
             } else {
-                $this->assign('$patient_id', $this->get_patient_id());
+                $this->assign('patient_id', $this->get_patient_id());
                 $this->display();
             }
         }

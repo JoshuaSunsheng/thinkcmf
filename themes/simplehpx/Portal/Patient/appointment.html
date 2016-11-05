@@ -428,19 +428,22 @@
                     var tourl = $("#appointment").attr("action");
                     var doctor_id = liObj.id;
                     var patient_id = '{$patient_id}';
-                    var beginDate = $("#beginDate").val();
-                    var endDate = $("#endDate").val();
-                    $.post("__URL__/appointment", { doctor_id: doctor_id, patient_id: patient_id, beginDate: beginDate, endDate: endDate},function(data,textStatus){
-                        if(status){
-                            location.href = data.url;
-                        }
-                        else{
-                            alert("预约失败!")
-                        }
+                    if(patient_id){
+                        var beginDate = $("#beginDate").val();
+                        var endDate = $("#endDate").val();
+                        $.post("__URL__/appointment", { doctor_id: doctor_id, patient_id: patient_id, beginDate: beginDate, endDate: endDate},function(data,textStatus){
+                            if(status){
+                                location.href = data.url;
+                            }
+                            else{
+                                alert("预约失败!")
+                            }
 
-                    });
-
-                    alert(msg);
+                        });
+                    }
+                    else{
+                        alert("系统错误!")
+                    }
 
                 },
                 // closeOnConfirm: false,
