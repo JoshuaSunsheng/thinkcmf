@@ -92,7 +92,7 @@
                     <label class="am-u-sm-3 am-form-label">性别:</label>
                     <div class="am-u-sm-9">
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="sex" checked="true"> 男
+                            <input type="radio" value="0" name="sex" checked> 男
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio" value="1" name="sex"> 女
@@ -183,7 +183,7 @@
                     <label class="am-u-sm-12 am-form-label">您是否在本县(市)出生:</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="isBrithInTown" checked="true"> 是
+                            <input type="radio" value="1" name="isBrithInTown" checked> 是
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio"  value="0" name="isBrithInTown"> 否
@@ -195,7 +195,7 @@
                     <label class="am-u-sm-12 am-form-label">您是否一直住在本县:</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="isInTown" checked="true"> 是
+                            <input type="radio" value="1" name="isInTown" checked> 是
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio" value="0" name="isInTown"> 否
@@ -295,16 +295,16 @@
                     <label class="am-u-sm-12 am-form-label">是否有肿瘤家族史:</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="isCancerFamily" checked="true"> 是
+                            <input type="radio" value="1" name="isCancerFamily"> 是
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="isCancerFamily"> 否
+                            <input type="radio" value="0" name="isCancerFamily" checked> 否
                         </label>
                     </div>
                 </div>
 
 
-                <div class="am-form-group">
+                <div class="am-form-group isCancerFamily" style="display: none">
                     <label for="familyCancer" class="am-u-sm-12 am-form-label">直系亲属中是否有人患过癌症</label>
                     <div class="am-u-sm-6">
                         <select id="familyCancer" name="familyCancer">
@@ -324,7 +324,7 @@
                 </div>
 
 
-                <div class="am-form-group">
+                <div class="am-form-group isCancerFamily" style="display: none">
                     <label for="relationship" class="am-u-sm-5 am-form-label">与您的关系</label>
                     <div class="am-u-sm-4">
                         <select id="relationship" name="relationship">
@@ -362,7 +362,7 @@
                     <label class="am-u-sm-12 am-form-label">是否患过其它肿瘤:</label>
                     <div class="am-u-sm-6">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="isOtherCancer" checked="true"> 是
+                            <input type="radio" value="1" name="isOtherCancer" checked> 是
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio" value="0" name="isOtherCancer"> 否
@@ -379,7 +379,7 @@
                     <label class="am-u-sm-12 am-form-label">是否曾做过幽门螺杆菌感染的相关检查:</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="isCheck" checked="true"> 是
+                            <input type="radio" value="1" name="isCheck" checked> 是
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio" value="0" name="isCheck"> 否
@@ -394,7 +394,7 @@
                             <input type="radio" value="1" name="checkStatus"> 阳性
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="checkStatus" checked="true"> 阴性
+                            <input type="radio" value="0" name="checkStatus" checked> 阴性
                         </label>
                     </div>
                 </div>
@@ -404,7 +404,7 @@
                     <label class="am-u-sm-12 am-form-label">是否做过抗幽门螺杆菌治疗:</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="isCure"  checked="true"> 是
+                            <input type="radio" value="1" name="isCure"  checked> 是
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio" value="0" name="isCure"> 否
@@ -440,7 +440,7 @@
                             <input type="radio" value="1" name="usedAnalgesic"> 有
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="usedAnalgesic" checked="true"> 无
+                            <input type="radio" value="0" name="usedAnalgesic" checked> 无
                         </label>
                     </div>
                 </div>
@@ -452,7 +452,7 @@
                             <input type="radio" value="1" name="usedAntiacid"> 有
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="usedAntiacid" checked="true"> 无
+                            <input type="radio" value="0" name="usedAntiacid" checked> 无
                         </label>
                     </div>
                 </div>
@@ -461,7 +461,7 @@
                     <label class="am-u-sm-12 am-form-label">是否了解幽门螺杆感染和消化道疾病的关系?</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="knowRelation" checked="true"> 是
+                            <input type="radio" value="1" name="knowRelation" checked> 是
                         </label>
                         <label class="am-radio-inline">
                             <input type="radio" value="0" name="knowRelation"> 否
@@ -470,7 +470,7 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label for="doc-select-10" class="am-u-sm-1 am-form-label"
+                    <label for="cureTimes" class="am-u-sm-1 am-form-label"
                            style="line-height: 33px; height: 33px; padding-top: 0;">第</label>
 
                     <div class="am-u-sm-3">
@@ -481,7 +481,7 @@
                             <option value="4">>3</option>
                         </select>
                     </div>
-                    <label for="doc-select-10" class="am-u-sm-3 am-form-label"
+                    <label for="cureTimes" class="am-u-sm-3 am-form-label"
                            style="line-height: 33px; height: 33px; padding-top: 0;">次治疗</label>
 
                     <div class="am-u-sm-4">
@@ -497,7 +497,7 @@
                             <input type="radio" value="1" name="inclination">强烈治疗意愿
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="inclination" checked="true"> 根据病情
+                            <input type="radio" value="0" name="inclination" checked> 根据病情
                         </label>
                     </div>
                 </div>
@@ -533,9 +533,7 @@
 <script src="{$JS_URL}amazeui.datetimepicker.js"></script>
 
 <script>
-    $('#datetimepicker')
-            .datetimepicker()
-            .on('changeDate', function(ev){
+    $('#datetimepicker').datetimepicker().on('changeDate', function(ev){
                 alert(ev.date)
             });
 
@@ -559,6 +557,14 @@
 
     }
 
+    $("input:radio[name='isCancerFamily']").change(function (){ //拨通
+        var v = $(this).val()
+        if(v == "1"){
+            $(".isCancerFamily").show(); // 相当于$("p").show();
+        }else if(v == "0"){
+            $(".isCancerFamily").hide();  // 相当于$("p").hide();
+        }
+    });
 </script>
 
 </body>

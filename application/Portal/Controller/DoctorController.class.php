@@ -25,7 +25,8 @@ class  DoctorController extends HomebaseController{
 
     function dataImport(){
         \Think\Log::write('dataImport begin:', "INFO");
-
+        $this -> display();
+return;
 
         $token = session('token');
         if(empty($token)) {

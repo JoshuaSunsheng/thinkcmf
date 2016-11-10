@@ -228,13 +228,13 @@
                         <input type="radio" value="1" name="germ"> 阳性
                       </label>
                       <label class="am-radio-inline">
-                        <input type="radio" value="0" name="germ"> 阴性
+                        <input type="radio" value="0" name="germ" checked> 阴性
                       </label>
 
                     </div>
                   </div>
 
-                  <div class="am-form-group">
+                  <div class="am-form-group germ">
                     <label class="am-u-sm-4 am-form-label">克拉霉素:</label>
                     <div class="am-u-sm-8">
 
@@ -247,7 +247,7 @@
                     </div>
                   </div>
 
-                  <div class="am-form-group">
+                  <div class="am-form-group germ" >
                     <label class="am-u-sm-4 am-form-label">左氧氟沙星:</label>
                     <div class="am-u-sm-8">
 
@@ -260,7 +260,7 @@
                     </div>
                   </div>
 
-                  <div class="am-form-group">
+                  <div class="am-form-group germ">
                     <label class="am-u-sm-4 am-form-label">阿莫西林:</label>
                     <div class="am-u-sm-8">
 
@@ -273,7 +273,7 @@
                     </div>
                   </div>
 
-                  <div class="am-form-group">
+                  <div class="am-form-group germ">
                     <label class="am-u-sm-4 am-form-label">呋喃唑酮:</label>
                     <div class="am-u-sm-8">
 
@@ -287,7 +287,7 @@
                   </div>
 
 
-                  <div class="am-form-group">
+                  <div class="am-form-group germ">
                     <label class="am-u-sm-4 am-form-label">四环素:</label>
                     <div class="am-u-sm-8">
 
@@ -300,7 +300,7 @@
                     </div>
                   </div>
 
-                  <div class="am-form-group">
+                  <div class="am-form-group germ">
                     <label class="am-u-sm-4 am-form-label">甲硝唑:</label>
                     <div class="am-u-sm-8">
 
@@ -314,7 +314,7 @@
                   </div>
 
 
-                  <div class="am-form-group">
+                  <div class="am-form-group germ">
                     <label class="am-u-sm-4 am-form-label">其他——:</label>
                     <div class="am-u-sm-8">
 
@@ -697,6 +697,15 @@
 
   $("form input").prop("readonly", true);
   $("form textarea").prop("readonly", true);
+
+  $("input:radio[name='germ']").change(function (){ //拨通
+    var v = $(this).val()
+    if(v == "1"){
+      $(".germ").show(); // 相当于$("p").show();
+    }else if(v == "0"){
+      $(".germ").hide();  // 相当于$("p").hide();
+    }
+  });
 </script>
 </body>
 </html>

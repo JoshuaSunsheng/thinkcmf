@@ -198,7 +198,7 @@
                         <label class="am-u-sm-4 am-form-label">门诊日期:</label>
                         <div class="am-u-sm-8">
                                 <label class="am-checkbox-inline" style="    margin-left: 10px;">
-                                    <input type="checkbox" name="cureTime[]" value="0"> 周一上午
+                                    <input type="checkbox" name="cureTime[]" value="0" checked> 周一上午
                                 </label>
                                 <label class="am-checkbox-inline">
                                     <input type="checkbox" name="cureTime[]" value="1"> 周一下午
@@ -253,7 +253,9 @@
 
 <script type="text/javascript" src="{$JS_URL}jquery.min.js"></script>
 <script src="{$JS_URL}amazeui.min.js"></script>
-
+<script>
+    citySelect_url="{$SITE_URL}";
+</script>
 <script type="text/javascript" src="{$JS_URL}jquery.cityselect.js"></script>
 <script type="text/javascript">
     $(function () {

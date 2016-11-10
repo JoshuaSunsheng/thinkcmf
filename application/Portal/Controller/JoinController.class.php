@@ -28,6 +28,8 @@ class  JoinController extends HomebaseController{
 //        var_dump($token,true);
 //        $token['openid']="oFT0muO-LKGtUPx-4ZhvD3eKNoy0";
 //        session('token', $token);
+//        $token = session('token');
+
 
         if($token && $token['openid']){
             //已经获取了tokenid 用户 可以直接登录界面

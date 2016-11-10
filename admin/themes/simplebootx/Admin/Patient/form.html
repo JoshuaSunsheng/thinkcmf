@@ -280,27 +280,17 @@
               </div>
             </div>
 
-
+            <if condition="($iscancerfamily eq 'checked')">
             <div class="am-g am-margin-top">
-              <div class="am-u-sm-4 am-u-md-2 am-text-right">直系亲属中是否有人患过癌症</div>
+              <div class="am-u-sm-4 am-u-md-2 am-text-right">所患癌症类型</div>
               <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
                 <input type="text" class="am-input-sm" id="familyCancer" name="familyCancer" value="{$data.familycancer}">
 
-                <!--<select id="familyCancer" name="familyCancer">-->
-                  <!--<option value="">请选择</option>-->
-                  <!--<option value="0">肝癌</option>-->
-                  <!--<option value="1">肺癌</option>-->
-                  <!--<option value="2">食道癌</option>-->
-                  <!--<option value="3">结肠癌</option>-->
-                  <!--<option value="4">乳腺癌</option>-->
-                  <!--<option value="5">其它(说明)</option>-->
-                <!--</select>-->
                 <span class="am-form-caret"></span>
               </div>
               <div class="am-u-sm-6">
                 <input type="text" class="am-input-sm" id="otherFamilyCancer" name="otherFamilyCancer" value="{$data.otherfamilycancer}">
 
-                <!--<input type="text" class="" id="otherFamilyCancer" name="otherFamilyCancer" placeholder="其它,请说明">-->
               </div>
             </div>
 
@@ -310,20 +300,11 @@
 
               <div class="am-u-sm-8 am-u-md-4 am-u-end col-end">
                 <input type="text" class="am-input-sm" id="relationship" name="relationship" value="{$data.relationship}">
-
-                <!--<select id="relationship" name="relationship">-->
-                  <!--<option value="0">父亲</option>-->
-                  <!--<option value="1">母亲</option>-->
-                  <!--<option value="2">兄弟</option>-->
-                  <!--<option value="3">姐妹</option>-->
-                  <!--<option value="4">祖父母</option>-->
-                  <!--<option value="5">外祖父母</option>-->
-                <!--</select>-->
-                <!--<span class="am-form-caret"></span>-->
               </div>
               <div class="am-u-sm-2">
               </div>
             </div>
+            </if>
 
             <div class="am-g am-margin-top">
               <div class="am-u-sm-4 am-u-md-2 am-text-right">胃肠道疾病相关症状</div>
