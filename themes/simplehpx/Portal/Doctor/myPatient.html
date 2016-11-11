@@ -102,16 +102,13 @@
                 <th>培养结果</th>
                 <th> 预约状态</th>
                 <th>通知结果</th>
-                <th>不纳入研究</th>
+                <!--<th>不纳入研究</th>-->
             </tr>
             </thead>
             <tbody>
             <volist name="data" id="patient">
-                <if condition="($patient.statuscode eq 0)">
-
                     <tr>
                         <td><input type="checkbox" value="{$patient.id}"/></td>
-                        <!--<td>{$patient.id}</td>-->
                         <td>{$patient.patientname}</td>
                         <if condition="($patient.sex eq 0)">
                             <td>男</td>
@@ -130,38 +127,29 @@
                         <td>未培养</td>
                         <td>{$patient.status}</td>
                         <td>{$patient.notify}</td>
-                        <td>不纳入研究</td>
-                        <!--<td>1<i class="am-icon-close"></i></td>-->
+
                     </tr>
-                </if>
             </volist>
-            <!--<tr>-->
-                <!--<td class="table-check"><input type="checkbox"/></td>-->
-                <!--<td>姓名</td>-->
-                <!--<td>性别</td>-->
-                <!--<td>年龄</td>-->
-                <!--<td>呼气结果</td>-->
-                <!--<td>培养结果</td>-->
-                <!--<td> 预约状态</td>-->
-                <!--<td>通知结果</td>-->
-                <!--<td>不纳入研究</td>-->
-            <!--</tr>-->
+            <tr style="display: none">
+            </tr>
             </tbody>
         </table>
 
     </div>
 
-    <div class="am-cf">
-        <div class="am-fr">
-            <div>
-                <ul class="am-pagination">
-                    <li class="am-disabled"></li>
-                            <li class="am-active"><a onclick="Jumppage('tablelist');" href="javascript:void(0)" style="background: #0f8184; color: white">加载更多</a></li>
-                    <li></li>
-                </ul>
-            </div>
-        </div>
+    <div class="am-u-sm-12 am-center" id="moretablelist">
+        <if condition="($pagenum gt $page)">
+
+        <ul class="am-pagination">
+            <li class="am-disabled"></li>
+            <li class="am-active"><a onclick="Jumppage('tablelist');" href="javascript:void(0)"
+                                     style="background: #0f8184; color: white">加载更多</a></li>
+            <li></li>
+        </ul>
+        </if>
+
     </div>
+
 </div>
 
 <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
@@ -191,40 +179,37 @@
             </thead>
             <tbody>
             <volist name="data" id="patient">
-                <if condition="($patient.statuscode eq 2)">
+                <!--<if condition="($patient.statuscode eq 2)">-->
                 <tr>
                     <td>{$patient.patientname}</td>
                     <td>{$patient.begindate|substr=5,11}~{$patient.enddate|substr=5,11}</td>
                     <td>否</td>
                     <td>是</td>
                 </tr>
-                </if>
+                <!--</if>-->
             </volist>
-            <tr style="display:none">
-                <td>姓名</td>
-                <td>预约时间</td>
-                <td>已就诊</td>
-                <td>列入研究对象</td>
-            </tr>
+            <!--<tr style="display:none">-->
+                <!--<td>姓名</td>-->
+                <!--<td>预约时间</td>-->
+                <!--<td>已就诊</td>-->
+                <!--<td>列入研究对象</td>-->
+            <!--</tr>-->
             </tbody>
         </table>
     </div>
 
 
-    <div class="am-cf">
-        <div class="am-fr">
-            <div>
-                <ul class="am-pagination">
-                    <li class="am-disabled"></li>
-                    <if condition="($pagenum neq $page)">
-                        <li class="am-active"><a onclick="Jumppage('tablepasslist');" href="javascript:void(0)" style="background: #0f8184; color: white">加载更多</a></li>
-
-                    </if>
-                    <li></li>
-                </ul>
-            </div>
-        </div>
+    <div class="am-u-sm-12 am-center" id="moretablepasslist">
+        <if condition="($pagenum gt $page) OR ($queryStr eq '')">
+        <ul class="am-pagination">
+            <li class="am-disabled"></li>
+            <li class="am-active"><a onclick="Jumppage('tablepasslist');" href="javascript:void(0)"
+                                     style="background: #0f8184; color: white">加载更多</a></li>
+            <li></li>
+        </ul>
+        </if>
     </div>
+
 
 </div>
 
@@ -242,25 +227,7 @@
 <script src="{$JS_URL}amazeui.min.js"></script>
 
 <script>
-    $(function() {
-        $('#doc-modal-table').find('.am-icon-close').
-        on('click', function() {
-            $('#my-confirm').modal({
-                relatedTarget: this,
-                onConfirm: function(options) {
-//                    var $link = $(this.relatedTarget).prev('a');
-                    var $link = $(this.relatedTarget).parent().siblings().first();
-                    var msg = $link.length ? '你要删除的链接 ID 为 ' + $link.html() :
-                            '确定了，但不知道要整哪样';
-                    alert(msg);
-                },
-                // closeOnConfirm: false,
-                onCancel: function() {
-                    alert('算求，不弄了');
-                }
-            });
-        });
-    });
+
 
     var pageNum = [];
     pageNum["tablelist"] = 1;
@@ -274,7 +241,7 @@
         var url = '__SELF__';
 //        var queryStr = $('#queryStr').val()
         $("<div></div>").load(url,{queryStr:type,page:pageNum[type],pagesize:pagesize},function(){
-            '{$data}'
+//            '{$data}'
             var hasTbody = $('#'+type + " tbody tr").length;
             if(hasTbody){
                 var data = $(this).find("#"+type + " tbody").html();
@@ -286,10 +253,12 @@
 
             }
             pageNum[type]=pageNum[type]+1;
-            $(this).remove();
 
             //h5 title数量显示
             jQuery("#"+type + "Title").html($(this).find("#"+type + "Title").html())
+            jQuery("#more"+type).html($(this).find("#more"+type).html())
+
+            $(this).remove();
 
 
         });
@@ -300,20 +269,31 @@
     function PassAppointment() {
 
         var appointmentId = $("tbody :checked").map(function(){return $(this).val()}).get().join(",")
-        if (confirm("审核通过?")) {
+        if(!appointmentId){
+            alert("请选择您要审批的患者");
+            return;
+        }
+        if (confirm("审核通过, 并将病人纳入研究?")) {
             $.post("__URL__/passAppointment", {id: appointmentId}, function (data, textStatus) {
-               Jumppage("tablelist");
-               Jumppage("tablepasslist");
+//               Jumppage("tablelist");
+//                $("tbody :checked").parent().parent().remove()
+//               Jumppage("tablepasslist");
+                location.reload();
             });
         }
     }
 
     function CancelAppointment() {
-        var appointmentId = $("tbody :checked").map(function(){return $(this).val()}).get().join(",")
+        var appointmentId = $("tbody :checked").map(function(){return $(this).val()}).get().join(",");
+        if(!appointmentId){
+            alert("请选择您要审批的患者");
+            return;
+        }
         if (confirm("审核失败?")) {
             $.post("__URL__/cancelAppointment", {id: appointmentId}, function (data, textStatus) {
-//      alert(data);
-               Jumppabge("tablelist");
+//                $("tbody :checked").parent().parent().remove()
+                location.reload();
+
             });
         }
     }
@@ -323,11 +303,11 @@
             return;
         }
         var input = $(this).find("input");
-        if ($(input).attr("checked")) {
-            $(input).removeAttr("checked");
+        if ($(input).prop("checked")) {
+            $(input).prop("checked", false);
         }
         else {
-            $(input).attr("checked", true);
+            $(input).prop("checked", true);
         }
     })
 </script>

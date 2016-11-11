@@ -26,9 +26,9 @@ class  JoinController extends HomebaseController{
 
         $token = session('token');
 //        var_dump($token,true);
-//        $token['openid']="oFT0muO-LKGtUPx-4ZhvD3eKNoy0";
-//        session('token', $token);
-//        $token = session('token');
+        $token['openid']="oFT0muO-LKGtUPx-4ZhvD3eKNoy0";
+        session('token', $token);
+        $token = session('token');
 
 
         if($token && $token['openid']){
@@ -41,7 +41,7 @@ class  JoinController extends HomebaseController{
         }
         else{
             $code = $_GET['code'];
-            echo $code;
+//            echo $code;
             \Think\Log::write('index: '.$code,'info');
 
             $get_code_url = sp_get_access_token_url($code);

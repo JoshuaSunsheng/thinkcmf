@@ -78,10 +78,10 @@
                     <div class="am-btn-group am-btn-group-xs">
                       <eq name="appointment.statuscode" value="0">
                         <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
-                                onclick='PassAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span> 审核通过
+                                onclick='passAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span> 审核通过
                         </button>
                         <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
-                                onclick='CancelAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span>
+                                onclick='cancelAppointment("{$appointment.id}")'><span class="am-icon-pencil-square-o"></span>
                           审核失败
                         </button>
                         <else/>

@@ -140,9 +140,10 @@ class  DoctorController extends AdminbaseController
     function passAppointment($id)
     {
         \Think\Log::record('passAppointment record:'.$id);
+        \Think\Log::record('passAppointment record APPOINTMENT_ADMIN_PASS:'.APPOINTMENT_ADMIN_PASS);
         $db = new AppointmentModel();
 //        $db->where('id=' . $id)->delete();
-        $db->where('id=' . $id)->setField('status',APPOINTMENT_PASS);
+        $db->where('id=' . $id)->setField('status',APPOINTMENT_ADMIN_PASS);
         \Think\Log::record('passAppointment record end');
     }
 

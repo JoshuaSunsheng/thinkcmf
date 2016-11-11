@@ -2297,3 +2297,19 @@ function sp_get_access_token_url($code){
 	$url = OAURL_ACCESS_TOKEN.'?appid='.appId.'&secret='.appsecret.'&code='.$code.'&grant_type=authorization_code';
 	return $url;
 }
+
+
+
+define('DOCTOR_SUBMIT', 0);
+define('DOCTOR_FAIL', 1);
+define('DOCTOR_PASS', 2);
+
+
+define('PATIENT_SUBMIT', 0);
+define('PATIENT_FAIL', 1);
+define('PATIENT_PASS', 2);
+
+define('APPOINTMENT_SUBMIT', 0);
+define('APPOINTMENT_FAIL', 1);
+define('APPOINTMENT_PASS', 2);
+define('APPOINTMENT_ADMIN_PASS', 3);

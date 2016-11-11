@@ -142,25 +142,26 @@ return;
 
 //        $queryStr = "tablelist";
         if($queryStr == "tablelist") {
-            $status=0 ;
+            $status=APPOINTMENT_ADMIN_PASS ;
         }
         else if($queryStr == "tablepasslist"){
-            $status=2;
+            $status=APPOINTMENT_PASS;
         }
         else{
             $status="";
             \Think\Log::write('myPatient appointment 这里不显示内容', "INFO");
         }
         \Think\Log::write('myPatient appointment:'.$queryStr, "INFO");
-        \Think\Log::write('myPatient appointment:'.$status, "INFO");
+        \Think\Log::write('myPatient appointment $status:'.$status, "INFO");
 
         if($queryStr){
             list($data, $recordnum, $pagenum) = $this->innerAppointment($status, $page, $pagesize);
         }
 //        var_dump($data, true);
 //        var_dump($recordnum, true);
-        \Think\Log::write('myPatient appointment:'.$recordnum, "INFO");
+        \Think\Log::write('myPatient appointment $recordnum:'.$recordnum, "INFO");
 
+        $this->queryStr=$queryStr;
         $this->data = $data;
         $this->pagenum = $pagenum;
         $this->page = $page;
@@ -205,12 +206,11 @@ return;
             ->field('a.id, a.begindate, a.enddate, patient.realname as patientname, doctor.realname as doctorname,status.title as status,a.status as statusCode, np.title as checkstatus, notify.title as notify, patient.birthday as birthday')
             ->where($map)
             ->select();
-        $recordnum = $db->alias('a')->page($page, $pagesize)->join('__DOCTOR__ as doctor ON doctor.id = a.doctor_id')
+        $recordnum = $db->alias('a')->join('__DOCTOR__ as doctor ON doctor.id = a.doctor_id')
             ->join('__PATIENT__ as patient ON a.patient_id = patient.id')
             ->join('__DICT_NEGATIVE_POSITIVE__ as np ON np.id = patient.checkStatus')
             ->join('__DICT_NOTIFY__ as notify ON notify.id = a.notify')
             ->join('__DICT_STATUS__ as status ON status.id = a.status')
-            ->field('a.id, a.begindate, a.enddate, patient.realname as patientname, doctor.realname as doctorname,status.title as status,a.status as statusCode')
             ->where($map)
             ->count();
 
@@ -232,7 +232,6 @@ return;
         \Think\Log::write('passAppointment record:'.$id, "INFO");
         $db = new AppointmentModel();
         $map['id']=array('in',$id);
-//        $db->where('id=' . $id)->delete();
         $db->where($map)->setField('status',APPOINTMENT_PASS);
         \Think\Log::write('passAppointment record end', "INFO");
     }
@@ -244,8 +243,7 @@ return;
         $db = new AppointmentModel();
         $map['id']=array('in',$id);
 
-//        $db->where('id=' . $id)->delete();
-        $db->where($map['id'])->setField('status',APPOINTMENT_FAIL);
+        $db->where($map)->setField('status',APPOINTMENT_FAIL);
         \Think\Log::write('cancelAppointment record end', "INFO");
     }
 

@@ -260,20 +260,6 @@ function sp_get_breadcrumb($term_id){
 }
 
 
-
-define('DOCTOR_SUBMIT', 0);
-define('DOCTOR_FAIL', 1);
-define('DOCTOR_PASS', 2);
-
-
-define('PATIENT_SUBMIT', 0);
-define('PATIENT_FAIL', 1);
-define('PATIENT_PASS', 2);
-
-define('APPOINTMENT_SUBMIT', 0);
-define('APPOINTMENT_FAIL', 1);
-define('APPOINTMENT_PASS', 2);
-
 /*
  * http request tool
  */
