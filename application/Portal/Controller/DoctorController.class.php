@@ -281,4 +281,44 @@ return;
             $this->error("注册失败！", U("user/register/index"));
         }
     }
+
+
+
+    public function upload(){
+        \Think\Log::write('upload record:', "INFO");
+
+        $upload = new \Think\Upload();// 实例化上传类
+        $upload->maxSize   =     3145728 ;// 设置附件上传大小
+        $upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
+        $upload->rootPath  =      './Public/'; // 设置附件上传根目录
+        $upload->savePath = '/Uploads/Doctor/';
+        \Think\Log::write('upload record: $_FILES'.$_FILES, "INFO");
+
+
+//        while ($elem = each($_FILES)) {
+//            \Think\Log::write('upload record: $elem '.$elem['key'], "INFO");
+//            \Think\Log::write('upload record: $elem '.$elem['value'], "INFO");
+//        }
+
+        if (!is_writable($upload->rootPath)) {
+            \Think\Log::write('upload record: is_writable', "INFO");
+        }
+
+
+        // 上传单个文件
+        $info   =   $upload->uploadOne($_FILES['photoFile']);
+        if(!$info) {// 上传错误提示错误信息
+            \Think\Log::write('upload record err.'.$upload->getError(), "INFO");
+
+            $this->error($upload->getError());
+        }else{// 上传成功 获取上传文件信息
+            \Think\Log::write('upload record success.'.$info['savepath'].$info['savename'], "INFO");
+//            $jobj = new JSONArray();
+            $arr = array ('savepath'=>$info['savepath'],'savename'=>$info['savename']);
+            \Think\Log::write('upload record success.'.json_encode($arr), "INFO");
+
+            $this->ajaxReturn($arr);
+        }
+    }
+
 }
