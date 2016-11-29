@@ -164,6 +164,22 @@ class PatientController extends HomebaseController{
                     \Think\Log::write('提交失败, 请重新提交!', "INFO");
                     echo $Appointment->getError();
                 } else {
+                    $templateId = PATIENT_APPOINTMENT_NOTIFY;
+                    $appId = UCPASS_APPID;
+                    $patient = $_POST['patient_id'];
+                    $doctor = $_POST['doctor_id'];
+                    $arr=$ucpass->templateSMS($appId,$to,$templateId,$param);
+                    \Think\Log::write('send:'.$to, "INFO");
+                    \Think\Log::write('send:'.$param, "INFO");
+
+                    if (substr($arr,21,6) == 000000) {
+                        echo "短信验证码已发送成功，请注意查收短信";
+                    }else{
+                        //如果不成功
+                        echo "短信验证码发送失败，请联系客服";
+                    }
+
+
                     $this->success('提交成功', 'appointment');
                 }
             } else {
@@ -246,9 +262,11 @@ class PatientController extends HomebaseController{
 
 
         //短信验证码（模板短信）,默认以65个汉字（同65个英文）为一条（可容纳字数受您应用名称占用字符影响），超过长度短信平台将会自动分割为多条发送。分割后的多条短信将按照具体占用条数计费。
-        $appId = "dad0c81fddc140cb8566ea8f5e9b8252";  //填写自己的
+//        $appId = "dad0c81fddc140cb8566ea8f5e9b8252";  //填写自己的
+        $appId = UCPASS_APPID;  //填写自己的
         $to = $_POST['to'];
-        $templateId = "25567";
+//        $templateId = "25567";
+        $templateId = VERIFICATION_CODE;
         $param=$authnum;
 
         $MSGCODE = new \Portal\Model\MsgcodeModel();

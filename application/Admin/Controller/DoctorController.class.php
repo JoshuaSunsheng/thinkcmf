@@ -82,10 +82,9 @@ class  DoctorController extends AdminbaseController
         $db = new DoctorModel();
 
         if (isset($_GET['doctorId'])) {
-//            var_dump($_GET['doctorId']);
             $this->data = $db->alias('a')->join('__DICT_TITLE__ as title ON title.id = a.title')
-                ->find($_GET['patientId']);
-//            $this->data = $db->relation(true)->find($_GET['doctorId']);
+                ->where('a.id='.$_GET['doctorId'])->find();
+
             $cureTime = explode(',', $this->data["curetime"]);
             $cureTimes = [];
             foreach($cureTime as $ct){
@@ -95,6 +94,8 @@ class  DoctorController extends AdminbaseController
 
             $this->retCode = "00";
             $this->msg = "查找成功";
+            $this->doctorId = $_GET['doctorId'];
+
 
         } else {
             $this->retCode = "01";
@@ -103,6 +104,7 @@ class  DoctorController extends AdminbaseController
         }
 
         $this->title = "医生信息";
+        $this->statuscode = $_GET['statuscode'];
         $this->display();
         \Think\Log::write('login form end', "INFO");
 
@@ -120,7 +122,6 @@ class  DoctorController extends AdminbaseController
 
         list($data, $recordnum, $pagenum) = $DoctorController->innerAppointment($queryStr, $page, $pagesize);
 
-
 //        var_dump(($data),true);
         \Think\Log::write('login write', 'WARN' . $data);
 
@@ -133,7 +134,6 @@ class  DoctorController extends AdminbaseController
 
         $this->display();
         \Think\Log::write('login end', "INFO");
-
     }
 
     //审核通过预约
@@ -185,30 +185,5 @@ class  DoctorController extends AdminbaseController
         \Think\Log::record('deleteDoctor record end');
     }
 
-
-
-
-
-    /* function table($page=1,$pagesize=20){
-         $db=M("user");
-         $recordnum = $db->count();
-         //计算分页
-         $pagenum = $recordnum / $pagesize;
-         //如果不能整除，则自动加1页
-         if($pagenum % 1 !== $pagenum){
-             $pagenum = (int) $pagenum+1;
-         }
-         \Think\Log::record('login record');
-         \Think\Log::write('login write','WARN');
-         //利用page函数。来进行自动的分页
-         $data = $db->page($page,$pagesize)->select();
-         \Think\Log::write('login write','WARN');
- //        $this->assign('data',$data);
-         $this->data = $data;
-         $this->pagenum = $pagenum;
-         $this->page = $page;
-         $this->pagesize = $pagesize;
-         $this->display();
-     }*/
 
 }

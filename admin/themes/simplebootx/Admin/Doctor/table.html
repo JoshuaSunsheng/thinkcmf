@@ -74,7 +74,7 @@
               <tr>
                 <td><input type="checkbox" value="{$doctor.id}"/></td>
                 <td>{$doctor.id}</td>
-                <td><a href='form?doctorId={$doctor.id}'>{$doctor.realname}</a></td>
+                <td><a href='form?doctorId={$doctor.id}&statuscode={$doctor.statuscode}'>{$doctor.realname}</a></td>
                 <if condition="($doctor.sex eq 0)">
                   <td>男</td>
                   <elseif condition="($doctor.sex eq 1)"/>
