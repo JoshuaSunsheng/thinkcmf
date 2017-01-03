@@ -31,7 +31,7 @@
         }
 
         html, body {
-            background-color: #EBEBEB;
+            background-color: #F0F3FA;
         }
 
         .header .am-g{
@@ -42,7 +42,6 @@
         }
 
         .am-icon-ul li.on{
-            border-bottom: solid 5px #fff;
             height: 48px;
         }
 
@@ -63,6 +62,7 @@
 
         .am-form input[type=number], .am-form input[type=search], .am-form input[type=text], .am-form input[type=password], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form select, .am-form textarea, .am-form-field{
             font-size:1.5rem;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -70,8 +70,7 @@
 <div class="header">
     <div class="am-g" >
         <ul class="am-icon-ul am-nav-pills">
-            <li class="on">就诊预约</li>
-            <li class="off">信息填写</li>
+            <li class="on"><img width="34px" src="{$IMG_URL}organization_icon.png">  | 就诊预约</li>
         </ul>
     </div>
     <hr/>

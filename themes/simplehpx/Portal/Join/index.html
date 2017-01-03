@@ -145,8 +145,7 @@
             href = "https://m.dianpayer.com";
             href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
             href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-            //href2 = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/tehuigou/withdrawl.htm?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-            //jQueryf("#patient").attr("href", href_pre + "yungou/index.htm" + href_suffix);
+
             jQueryf("#patient").attr("href", "../Patient/login");
             jQueryf("#assistant").attr("href", "../Doctor/register");
         }

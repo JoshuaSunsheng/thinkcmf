@@ -164,10 +164,18 @@ class PatientController extends HomebaseController{
                     \Think\Log::write('提交失败, 请重新提交!', "INFO");
                     echo $Appointment->getError();
                 } else {
+                    //初始化必填
+                    $options['accountsid']=UCPASS_ACCOUNTSID; //填写自己的
+                    $options['token']=UCPASS_TOKEN; //填写自己的
+                    //初始化 $options必填
+                    $ucpass = new \Org\Com\Ucpaas($options);
+
                     $templateId = PATIENT_APPOINTMENT_NOTIFY;
                     $appId = UCPASS_APPID;
                     $patient = $_POST['patient_id'];
                     $doctor = $_POST['doctor_id'];
+                    $to = $patient;
+                    $param = $patient.name;
                     $arr=$ucpass->templateSMS($appId,$to,$templateId,$param);
                     \Think\Log::write('send:'.$to, "INFO");
                     \Think\Log::write('send:'.$param, "INFO");
@@ -179,8 +187,7 @@ class PatientController extends HomebaseController{
                         echo "短信验证码发送失败，请联系客服";
                     }
 
-
-                    $this->success('提交成功', 'appointment');
+                    $this->success('提交成功', 'appointSuccess');
                 }
             } else {
                 $this->assign('patient_id', $this->get_patient_id());
@@ -192,6 +199,10 @@ class PatientController extends HomebaseController{
             \Think\Log::write('提交失败, 请重新提交!', "INFO");
             $this->error('失败', 'appointment');
         }
+    }
+
+    function appointSuccess(){
+        $this->display();
     }
 
     public function fanye(){
@@ -243,8 +254,8 @@ class PatientController extends HomebaseController{
         \Think\Log::write('send:', "INFO");
 
         //初始化必填
-        $options['accountsid']='6c53057d22d325f222eb5d0188d38e89'; //填写自己的
-        $options['token']='4f57071121447bf5af8182dc7a7c3db5'; //填写自己的
+        $options['accountsid']=UCPASS_ACCOUNTSID; //填写自己的
+        $options['token']=UCPASS_TOKEN; //填写自己的
         //初始化 $options必填
         $ucpass = new \Org\Com\Ucpaas($options);
 

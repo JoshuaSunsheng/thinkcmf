@@ -241,7 +241,7 @@
         var url = '__SELF__';
 //        var queryStr = $('#queryStr').val()
         $("<div></div>").load(url,{queryStr:type,page:pageNum[type],pagesize:pagesize},function(){
-//            '{$data}'
+
             var hasTbody = $('#'+type + " tbody tr").length;
             if(hasTbody){
                 var data = $(this).find("#"+type + " tbody").html();

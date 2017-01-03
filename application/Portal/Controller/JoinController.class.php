@@ -25,7 +25,6 @@ class  JoinController extends HomebaseController{
 //        session('token', null);
 
         $token = session('token');
-//        var_dump($token,true);
         $token['openid']="oFT0muO-LKGtUPx-4ZhvD3eKNoy0";
         session('token', $token);
         $token = session('token');
@@ -38,10 +37,11 @@ class  JoinController extends HomebaseController{
             \Think\Log::record('$token already has '.$token);
             $this->assign('openid', $token['openid']);
             $this->check_wechat_user();
+            $this->display();
+
         }
         else{
             $code = $_GET['code'];
-//            echo $code;
             \Think\Log::write('index: '.$code,'info');
 
             $get_code_url = sp_get_access_token_url($code);
@@ -87,11 +87,15 @@ class  JoinController extends HomebaseController{
 
         if ($user) {
             if($user['user_type'] == DOCTOR){
-                if(!session('doctor')) session('doctor', $this->get_doctor_id());
+                $doctorId = $this->get_doctor_id();
+                session('doctor', $doctorId);
+                \Think\Log::write('check_wechat_user $doctorId: '.$doctorId,'info');
+
                 $return_url = U("portal/doctor/myPatient",'',true,true);
             }
             else{
-                if(!session('patient')) session('patient', $this->get_patient_id());
+                $patientId = $this->get_patient_id();
+                session('patient', $patientId);
                 $return_url = U("portal/patient/appointment",'',true,true);
             }
             redirect($return_url, 2, 'please wait...');

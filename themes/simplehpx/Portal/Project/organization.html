@@ -24,7 +24,7 @@
 
     <style>
         html, body {
-            background-color: #EBEBEB;
+            background-color: #F0F3FA;
         }
 
         .col-xs-4 {
@@ -50,6 +50,12 @@
         .first {
             margin: auto;
             height: 420px;
+        }
+
+        .am-intro-hd {
+            position: relative;
+            height: 60px;
+            line-height: 60px;
         }
     </style>
 </head>
@@ -118,41 +124,14 @@
     <!-- center-->
 
     <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
-        <div class="am-intro-hd">
-            <h2 class="am-intro-title">组织框架</h2>
+
+        <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
+            <h2 class="am-intro-title" style="padding-left:15px"><img width="34px" src="{$IMG_URL}organization_icon.png">  |  <span>组织框架</span></h2>
         </div>
-<!--暂时去除发起单位 9.18-->
-        <!--<div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >-->
-            <!--<h2 class="am-titlebar-title ">-->
-                <!--发起单位-->
-            <!--</h2>-->
-
-
-        <!--</div>-->
-        <!--<div class="am-g am-intro-bd">-->
-
-            <!--<div class="am-intro-center am-u-sm-12">-->
-                <!--<p>中国医师协会消化医师分会</p>-->
-                <!--<p>中华医学会消化病学分会幽门螺杆菌学组</p>-->
-                <!--<p>中华医学会内科学会分会</p>-->
-                <!--<p>中华医学会公共卫生分会</p>-->
-                <!--<p>中华消化内镜杂志社</p>-->
-                <!--<p>杭州致远医学检验所</p>-->
-            <!--</div>-->
-        <!--</div>-->
-
-
-
-        <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
-            <h2 class="am-titlebar-title ">
-                组织结构
-            </h2>
-
-
-        </div>
+        <br>
         <div class="am-g am-intro-bd">
-            <div class="am-intro-center am-u-sm-12">
-                <img src="{$IMG_URL}organization_hp.png">
+            <div class="am-intro-center am-u-sm-12" style="text-align: center;">
+                <img width="350px" src="{$IMG_URL}organization_hp.png">
             </div>
         </div>
 

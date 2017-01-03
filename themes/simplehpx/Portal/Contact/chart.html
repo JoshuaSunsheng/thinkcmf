@@ -86,8 +86,8 @@
                     <label for="drug" class="am-u-sm-6 am-form-label">抗生素:</label>
                     <div class="am-u-sm-6">
                         <select id="drug" name="drug">
-                            <option value="0">左氧氟沙星</option>
-                            <option value="1">克拉霉素</option>
+                            <option value="zyfsx">左氧氟沙星</option>
+                            <option value="klms">克拉霉素</option>
                         </select>
                         <span class="am-form-caret"></span>
                     </div>
@@ -97,12 +97,13 @@
                     <label for="year" class="am-u-sm-6 am-form-label">选择时间:</label>
                     <div class="am-u-sm-6">
                         <select id="year" name="year">
-                            <option value="0">2011</option>
-                            <option value="1">2012</option>
-                            <option value="2">2013</option>
-                            <option value="3">2014</option>
-                            <option value="4">2015</option>
-                            <option value="6">2016</option>
+                            <option value="2009">2009</option>
+                            <option value="2010">2010</option>
+                            <option value="2011">2011</option>
+                            <option value="2012">2012</option>
+                            <option value="2013">2013</option>
+                            <option value="2014">2014</option>
+                            <option value="2015">2015</option>
                         </select>
                         <span class="am-form-caret"></span>
                     </div>
@@ -115,11 +116,20 @@
                         <div class="am-u-sm-4">
                             <select class="prov" id="province" name="province"></select><span class="am-form-caret"></span>
                         </div>
-                        <div class="am-u-sm-4">
+                        <div class="am-u-sm-4"  style="display: none">
                             <select class="city" id="city" name="city" disabled="disabled"></select><span class="am-form-caret"></span>
                         </div>
 
                     </div>
+
+                </div>
+
+                <div class="am-form-group">
+
+                    <div class="am-u-sm-4">
+                        <button type="button" class="am-btn am-btn-primary am-radius" onclick="search();return false;">查询</button>
+                    </div>
+
 
                 </div>
 
@@ -132,7 +142,7 @@
 </div>
 
 
-<div class="row margin0">
+<div class="row margin0 ">
     <!-- center-->
 
 
@@ -165,14 +175,20 @@
 
     $(function () {
         $("#address").citySelect({
+            prov: "浙江",
+            city: "温州",
             nodata: "none",
             required: false
         });
+
+
     });
 
     var myChart = echarts.init(document.getElementById('chart-panel'));
+    var url = '__SELF__';
 
     myChart.showLoading();
+
 
     $.get('{$DATA_URL}ZJ.json', function (geoJson) {
 
@@ -182,7 +198,7 @@
 
         myChart.setOption(option = {
             title: {
-                text: '浙江省左氧氟沙星耐药率 （2016）',
+                text: '浙江省左氧氟沙星耐药率',
                 subtext: '耐药数据来自杭州致远医学检验所',
                 sublink: 'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'
             },
@@ -191,8 +207,8 @@
                 formatter: '{b}<br/>{c} %(耐药率)'
             },
             toolbox: {
-                show: true,
-                orient: 'vertical',
+                show: false,
+                orient: 'horizontal',
                 left: 'right',
                 top: 'center',
                 feature: {
@@ -213,26 +229,28 @@
             },
             series: [
                 {
-                    name: '香港18区人口密度',
+                    name: 'hp耐药地图',
                     type: 'map',
                     mapType: 'ZJ', // 自定义扩展图表类型
                     itemStyle:{
                         normal:{label:{show:true}},
                         emphasis:{label:{show:true}}
                     },
-                    data:[
-                        {name: '杭州市', value: 10},
-                        {name: '宁波市', value: 20},
-                        {name: '温州市', value: 30},
-                        {name: '嘉兴市', value: 40},
-                        {name: '湖州市', value: 50},
-                        {name: '绍兴市', value: 49.64},
-                        {name: '金华市', value: 39.78},
-                        {name: '衢州市', value: 40.97},
-                        {name: '舟山市', value: 54.26},
-                        {name: '台州市', value: 20.9},
-                        {name: '丽水市', value: 4.26}
-                    ]/*,
+                    data:[]
+//                    data:[
+//                        {name: '杭州市', value: 10},
+//                        {name: '宁波市', value: 20},
+//                        {name: '温州市', value: 30},
+//                        {name: '嘉兴市', value: 40},
+//                        {name: '湖州市', value: 50},
+//                        {name: '绍兴市', value: 49.64},
+//                        {name: '金华市', value: 39.78},
+//                        {name: '衢州市', value: 40.97},
+//                        {name: '舟山市', value: 54.26},
+//                        {name: '台州市', value: 20.9},
+//                        {name: '丽水市', value: 4.26}
+//                    ]
+            /*,
                     // 自定义名称映射
                     nameMap: {
                         'Central and Western': '中西区',
@@ -251,6 +269,90 @@
             ]
         });
     });
+
+    search();
+
+
+    function search(){
+
+        myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+
+
+        var application = $("#application").serialize();
+
+        $.ajax({
+            type : "post",
+            async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+            url : url,    //请求发送到TestServlet处
+            data : application,
+            dataType : "json",        //返回数据形式为json
+            success : function(result) {
+                //请求成功时执行该函数内容，result即为服务器返回的json对象
+                var solerate=[];    //类别数组（实际用来盛放X轴坐标值）
+//                var names= new Object();    //类别数组（实际用来盛放X轴坐标值）
+                //for 循环中使用新建的变量, 否则将指向同一指针
+                var max = 0;
+                if (result) {
+                    for(var i=0;i<result.count;i++){
+                        var names = {};
+                        names.name = result[i].region.replace("地区","市");
+                        names.value = (parseFloat(result[i].solerate) * 100).toString().substring(0,2);
+                        solerate.push(names);
+
+                        if(max < parseFloat(result[i].solerate) * 100) max = parseFloat(result[i].solerate) * 100;
+                        //挨个取出类别并填入类别数组
+                    }
+//                    var reg = new RegExp("地区","g");
+                    console.log(solerate)
+                    str = JSON.stringify(solerate)
+                    console.log(str)
+
+                    myChart.hideLoading();    //隐藏加载动画
+
+                    var titleName = jQuery("#drug").find("option:selected").val() == 'zyfsx'?'浙江省左氧氟沙星耐药率':'浙江省克拉霉素耐药率';
+
+                    myChart.setOption(option = {
+                        title: {
+                            text: titleName + ' (' + jQuery("#year").find("option:selected").val() + '年)',
+                            subtext: '耐药数据来自杭州致远医学检验所',
+                            sublink: 'http://zh.wikipedia.org/wiki/%E9%A6%99%E6%B8%AF%E8%A1%8C%E6%94%BF%E5%8D%80%E5%8A%83#cite_note-12'
+                        },
+                        visualMap: {
+                            min: 0,
+                            max: max,
+                            text:['High','Low'],
+                            realtime: false,
+                            calculable: true,
+                            inRange: {
+                                color: ['lightskyblue','yellow', 'orangered']
+                            }
+                        },
+                        series: [
+                            {
+                                name: '香港18区人口密度',
+                                type: 'map',
+                                mapType: 'ZJ', // 自定义扩展图表类型
+                                itemStyle:{
+                                    normal:{label:{show:true}},
+                                    emphasis:{label:{show:true}}
+                                },
+                                data:solerate
+
+                            }
+                        ]
+                    });
+
+                }
+
+            },
+            error : function(errorMsg) {
+                //请求失败时执行该函数
+                alert("图表请求数据失败!");
+                myChart.hideLoading();
+            }
+        })
+
+    }
 
 </script>
 </body>
