@@ -95,15 +95,20 @@
 
 
 <div style="margin: 0;">
-    <div class="header">
-        <br/>
-        <br/>
-        <div class="am-g">
-            <h1>医生注册</h1>
-            <!--<p>Integrated Development Environment<br/>代码编辑，代码生成，界面设计，调试，编译</p>-->
+    <!-- Fixed navbar -->
+    <div class="row margin0">
+        <!-- center-->
+        <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
+            <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
+                <h2 class="am-intro-title" style="padding-left:15px">
+                    <img width="34px" src="{$IMG_URL}organization_icon.png"> |
+                    <span>医生注册</span>
+                </h2>
+            </div>
         </div>
-        <hr>
+
     </div>
+    <br>
 
     <div class="am-g">
         <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
@@ -310,9 +315,10 @@
 
                     <div class="am-form-group">
                         <label for="mail" class="am-u-sm-8 am-form-label">医生每日就诊可接受患者人数:</label>
-                        <div class="am-u-sm-4">
+                        <div class="am-u-sm-3" style="padding-left: 0px;padding-right: 0px;">
                             <input type="text" class="" id="maxPatient" name="maxPatient" placeholder="人数">
                         </div>
+                        <label class="am-u-sm-1 am-form-label"></label>
 
 
                     </div>

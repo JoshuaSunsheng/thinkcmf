@@ -23,8 +23,9 @@ class  JoinController extends HomebaseController{
         //var_dump(get_defined_constants(true));
         \Think\Log::write('index','info');
 //        session('token', null);
-
-        $token = session('token');
+//        session('user', null);
+//
+//        $token = session('token');
         $token['openid']="oFT0muO-LKGtUPx-4ZhvD3eKNoy0";
         session('token', $token);
         $token = session('token');
@@ -91,13 +92,14 @@ class  JoinController extends HomebaseController{
                 session('doctor', $doctorId);
                 \Think\Log::write('check_wechat_user $doctorId: '.$doctorId,'info');
 
-                $return_url = U("portal/doctor/myPatient",'',true,true);
+                $return_url = U("portal/doctor/index",'',true,true);
             }
-            else{
-                $patientId = $this->get_patient_id();
-                session('patient', $patientId);
-                $return_url = U("portal/patient/appointment",'',true,true);
-            }
+            //众包取消患者入口
+//            else{
+//                $patientId = $this->get_patient_id();
+//                session('patient', $patientId);
+//                $return_url = U("portal/patient/appointment",'',true,true);
+//            }
             redirect($return_url, 2, 'please wait...');
         } else {
             $this->display();

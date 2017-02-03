@@ -1,0 +1,194 @@
+<tc_include file="Public:hp:head" />
+<!DOCTYPE html>
+<!-- saved from url=(0048) -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>医生账号</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css"/>
+    <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
+    <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
+    <link href="{$CSS_URL}mbase.css" rel="stylesheet">
+    <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="stylesheet" href="{$CSS_URL}amazeui.min.css">
+
+    <style>
+        html, body {
+            background-color: #F0F3FA;
+        }
+
+        .col-xs-4 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .btn {
+            padding: 26px 12px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .sms {
+            position: absolute;
+            top: 13px;
+            left: 32%
+        }
+
+        .first {
+            margin: auto;
+            height: 420px;
+        }
+
+        .am-intro-hd {
+            position: relative;
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .am-page .am-list>li>a {
+            margin-bottom: 0;
+            padding-left: 10px;
+        }
+
+        .m-widget-list .widget-icon {
+            width: 36px;
+            height: 36px;
+            margin-right: 10px;
+        }
+
+        .m-widget-list a::after {
+            display: inline-block;
+            font: normal normal normal 1.6rem/1 FontAwesome,sans-serif;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transform: translate(0,0);
+            content: "\f054";
+            position: absolute;
+            right: 10px;
+            color: #ccc;
+            top: 50%;
+            margin-top: -8px;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 导航	-->
+
+<!-- Bootstrap 公众账号首页已经引入bootstrap.css-->
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+
+<script>
+    var jQueryf = jQuery.noConflict();
+    //mootools中嵌入jQuery 需要启动jQuery无冲突模式
+</script>
+
+<div id="preloader">
+    <div class="pui-loading pui-loading-double-circle-rotation loder_status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+<!-- Fixed navbar -->
+<div class="row margin0">
+    <!-- center-->
+
+    <div data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
+
+        <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
+            <h2 class="am-intro-title" style="padding-left:15px"><img width="34px" src="{$IMG_URL}organization_icon.png">  |  <span>医生账号</span></h2>
+        </div>
+        <br>
+
+        <div>
+        </div>
+            <ul class="am-list m-widget-list" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+                <li style="line-height: 128px; height: 128px;">
+                    <a style="height: 100%; line-height: 100%;" href="#" data-rel="figure">
+                        <img style="width:25%;height: 100%; line-height: 100%;" class="widget-icon" src="http://cdn.amazeui.org/src/2.2/widget/figure/src/figure.png"
+                                                                     alt="Figure">
+                        <span class="widget-name">医生姓名: </span></a></li>
+            </ul>
+
+        <div>
+            <ul class="am-list m-widget-list"
+                style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+                <li><a href="#" data-rel="accordion"><img class="widget-icon"
+                                                                           src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
+                                                                           alt="Accordion"> <span class="widget-name">积分规则</span></a>
+                </li>
+                <li><a href="#" data-rel="accordion"><img class="widget-icon"
+                                                                           src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
+                                                                           alt="Accordion"> <span class="widget-name">积分统计</span></a>
+                </li>
+
+                <li><a href="#" data-rel="footer"><img class="widget-icon"
+                                                                     src="http://cdn.amazeui.org/src/2.2/widget/footer/src/footer.png"
+                                                                     alt="Footer"> <span
+                        class="widget-name">银行卡绑定</span></a></li>
+                <li><a href="#" data-rel="divider"><img class="widget-icon"
+                                                                       src="http://cdn.amazeui.org/src/2.2/widget/divider/src/divider.png"
+                                                                       alt="Divider"> <span
+                        class="widget-name">个人设置</span></a></li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="{$JS_URL}jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="{$JS_URL}amazeui.min.js"></script>
+
+<!-- center -->
+<!-- JavaScript-->
+
+<script type="text/javascript">
+    jQuery(window).load(function () { // makes sure the whole site is loaded
+        jQuery("#status").fadeOut(); // will first fade out the loading animation
+        jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
+    })
+
+    jQueryf(document).ready(function(){
+        appid = "wx50601fae46ea8a28"
+        href = "https://m.dianpayer.com";
+        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
+        href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
+//        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
+//        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);
+//        jQueryf("#detail").attr("href", href_pre + "service/dFtradelist.htm" + href_suffix);
+//        jQueryf("#balance").attr("href", href_pre + "service/dFsearch.htm" + href_suffix);
+//        jQueryf("#download").attr("href", "https://m.dianpayer.com/wechat/about/download.htm");
+//        jQueryf("#info").attr("href", "https://m.dianpayer.com/wechat/about/limition.htm");
+    });
+</script>
+</body>
+</html>

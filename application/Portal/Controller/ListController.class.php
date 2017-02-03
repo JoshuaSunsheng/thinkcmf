@@ -18,6 +18,14 @@ class ListController extends HomebaseController {
 	    $term_id=I('get.id',0,'intval');
 		$term=sp_get_term($term_id);
 
+		//将有子类的列表一同打包返回, 实现新闻中心显示通知\新闻\公告
+		$term_ids = sp_get_child_terms($term_id);
+		if ($term_ids) {
+			foreach ($term_ids as $br) {
+				$term_id = $term_id . "," . $br["term_id"];
+			}
+		}
+
 //		var_dump($term, true);
 		if(empty($term)){
 		    header('HTTP/1.1 404 Not Found');

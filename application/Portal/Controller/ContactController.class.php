@@ -26,37 +26,28 @@ class  ContactController extends HomebaseController{
 
     function pressCenter(){
         //获取系统常量, 并分组
-//        $this->display();
-//        $term_id=I('get.id',0,'intval');
 
-
-        $term_id=4;
+        $term_id=6; //通知
         $term=sp_get_term($term_id);
 
         $data[0]["term"] = $term;
         $data[0]["cat_id"] = $term_id;
 
-
-        $term_id=5;
+        $term_id=4; //HP临床诊治及学术研究最新成果
         $term=sp_get_term($term_id);
-
         $data[1]["term"] = $term;
         $data[1]["cat_id"] = $term_id;
 
-
-        $term_id=6;
+        $term_id=5; //阶段性研究成果
         $term=sp_get_term($term_id);
 
         $data[2]["term"] = $term;
         $data[2]["cat_id"] = $term_id;
 
-//        var_dump($data, true);
-
 
 
         $tplname=$term["list_tpl"];
         $tplname=sp_get_apphome_tpl($tplname, "list");
-//        $this->assign($data);
         $this->assign('data', $data);
 
         $this->display();
@@ -71,14 +62,14 @@ class  ContactController extends HomebaseController{
             $DrugResistanceRate = new \Portal\Model\DrugResistanceRateModel(); // 实例化 DrugResistanceRate 耐药率
 
             $drug = I('post.drug');
-//            $city = I('post.city')."地区";
+            $province = I('post.province');
             $year = I('post.year');
 
             \Think\Log::write('chart $drug:'.$drug, "INFO");
 
 
             $map = null;
-//            $map['region'] = array('like',"%".$city."%");
+            $map['province'] = array('like',"%".$province."%");
             $map['drug'] = array('like',"%".$drug."%");
             $map['year'] = array('like',"%".$year."%");
 

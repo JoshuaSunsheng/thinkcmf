@@ -153,27 +153,21 @@ class  DoctorController extends HomebaseController{
 
     function dataImport(){
         \Think\Log::write('dataImport begin:', "INFO");
-        $this -> display();
-        return;
-
-        $token = session('token');
-        if(empty($token)) {
-            redirect(CONTROLLER.'/register', 2, '页面跳转中...');
-        }
+//        $this -> display();
+//        return;
+//
+//        $token = session('token');
+//        if(empty($token)) {
+//            redirect(CONTROLLER.'/register', 2, '页面跳转中...');
+//        }
 
 
         if(!empty($_POST)){
             \Think\Log::write('dataImport begin:'.$_POST, "INFO");
-
-
             $Study = new \Portal\Model\CaseModel(); // 实例化 Patient对象
-//            throw new \Exception("测试错误");
-
 
             try{
-
                 if(!$Study->create($_POST, 1)){
-                    //echo $Study->_sql();//最后一条执行的Sql
                     echo $Study->getError();
                 }
                 else{
@@ -191,19 +185,43 @@ class  DoctorController extends HomebaseController{
 
                 }
             }
-                //这里的\Exception不加斜杠的话回使用think的Exception类
-            catch(\Exception $e){
+            catch(\Exception $e){ //这里的\Exception不加斜杠的话回使用think的Exception类
                 $this->error('失败', 'myStudy');
             }
-
-
-
         }
         else{
+            \Think\Log::write('caseId begin:'.$_GET['caseId'], "INFO");
 
-            $this->data = "";
-            $this->studyNo = build_order_no();
-            $this -> display();
+            if (isset($_GET['caseId'])) {
+                \Think\Log::write('caseId begin:'.$_GET['caseId'], "INFO");
+
+                $Study = new \Portal\Model\CaseModel(); // 实例化 Patient对象
+
+
+                $this->data = $Study->alias('a')
+                    ->where('a.id='.$_GET['caseId'])->find();
+
+                $badResponse = explode(',', $this->data["badResponse"]);
+                $badResponse = [];
+                foreach($cureTime as $br){
+                    $badResponses[$br["id"]] = 'checked';
+                }
+                $this->badResponses =$badResponses;
+
+                $this->retCode = "00";
+                $this->msg = "查找成功";
+                $this->caseId = $_GET['caseId'];
+                $this -> display();
+
+
+            }
+            else{
+                $data["studyNo"] = build_order_no();
+                $this->data = $data;
+//                $this->studyNo = build_order_no();
+                $this -> display();
+            }
+
         }
     }
 
@@ -447,8 +465,64 @@ class  DoctorController extends HomebaseController{
         }
     }
 
-    public function dataPicture(){
-
+    public function index(){
+        $this->display();
     }
+
+
+    public function doctorInfo(){
+        $this->display();
+    }
+
+    public function caseSearch($queryStr = "", $page = 1, $pagesize = 3){
+        \Think\Log::write('caseSearch table:', "INFO");
+
+        $db = new \Portal\Model\CaseModel();
+
+        //使用map作为查询条件,混合模式 1: 表示未完成, 2:表示已经完成, 0或没有查询条件:表示所有
+        if($queryStr == "1"){
+            $where['process'] = array('NEQ', '100');
+            $where['_logic'] = 'or';
+            $map['_complex'] = $where;
+        }
+        else if($queryStr == "2"){
+            $where['process'] = array('EQ', '100');
+            $where['_logic'] = 'or';
+            $map['_complex'] = $where;
+        }
+        else{
+            $map['_complex'] = "1=1";
+        }
+
+//        dump($map);
+
+        //利用page函数。来进行自动的分页
+        $data = $db->alias('a')->page($page, $pagesize)
+            ->where($map)
+            ->select();
+        $recordnum = $db->page($page, $pagesize)
+            ->where($map)
+            ->count();
+
+        //计算分页
+        $pagenum = $recordnum / $pagesize;
+        //如果不能整除，则自动加1页
+        if ($pagenum % 1 !== 0) {
+            \Think\Log::write('login record pagenum: '.$pagenum, "INFO");
+            $pagenum = (int)$pagenum + 1;
+        }
+
+        \Think\Log::write('caseSearch write', 'WARN' . $data);
+
+        $this->data = $data;
+        $this->pagenum = $pagenum;
+        $this->page = $page;
+        $this->pagesize = $pagesize;
+        $this->recordnum = $recordnum;
+        $this->title = "病例列表";
+
+        $this->display();
+        \Think\Log::write('caseSearch end', "INFO");    }
+
 
 }
