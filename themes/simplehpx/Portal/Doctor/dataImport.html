@@ -97,8 +97,6 @@
                     <div class="am-u-sm-3">
                         <select id="times" name="times" style="font-size: 1.4rem;" class="am-form-horizontal">
                             <for start="1" end="5">
-
-
                                 <eq name="i" value="$data[times]">
                                     <option value="{$i}" selected>{$i}</option>
                                     <else/>
@@ -201,7 +199,7 @@
                         </select>
                     </div>
                     <div class="am-u-sm-5">
-                        <input type="text" class="" id="otheroccupation" name="otheroccupation" placeholder="其它,请说明">
+                        <input type="text" class="" id="otheroccupation" name="otheroccupation" placeholder="其它,请说明" value="{$data[otheroccupation]}">
                     </div>
                 </div>
 
@@ -220,7 +218,7 @@
                         </select>
                     </div>
                     <div class="am-u-sm-6" style="padding-top: 5px;">
-                        <input type="text" class="" id="othergastroscope" name="othergastroscope" placeholder="其它,请说明">
+                        <input type="text" class="" id="othergastroscope" name="othergastroscope" placeholder="其它,请说明" value="{$data[othergastroscope]}">
                     </div>
                 </div>
 
@@ -241,16 +239,28 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label class="am-u-sm-12 am-form-label">患者HP根除治疗医院:</label>
+                    <label class="am-u-sm-12 am-form-label">患者HP根除治疗医院: </label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="2" name="inclination"> 一般
+                            <eq name="data[inclination]" value="2">
+                                <input type="radio" value="2" name="inclination" checked> 一般
+                                <else/>
+                                <input type="radio" value="2" name="inclination"> 一般
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="3" name="inclination"> 病情需要
+                            <eq name="data[inclination]" value="0">
+                                <input type="radio" value="0" name="inclination" checked> 病情需要
+                                <else/>
+                                <input type="radio" value="0" name="inclination"> 病情需要
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="4" name="inclination"> 强烈要求
+                            <eq name="data[inclination]" value="1">
+                                <input type="radio" value="1" name="inclination" checked> 强烈要求
+                                <else/>
+                                <input type="radio" value="1" name="inclination"> 强烈要求
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -273,6 +283,7 @@
                     <label class="am-u-sm-12 am-form-label">HP呼气实验:</label>
                     <div class="am-u-sm-4">
                         <select id="carbonType" name="carbonType">
+                            <option value="">请选择</option>
                             <option value="0">无</option>
                             <option value="13">13C</option>
                             <option value="14">14C</option>
@@ -281,10 +292,18 @@
                     </div>
                     <div class="am-u-sm-8 carbonType" style="display: none">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="carbon"> 阳性
+                            <eq name="data[carbon]" value="1">
+                                <input type="radio" value="1" name="carbon" checked> 阳性
+                                <else/>
+                                <input type="radio" value="1" name="carbon"> 阳性
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="carbon" > 阴性
+                            <eq name="data[carbon]" value="0">
+                                <input type="radio" value="0" name="carbon" checked> 阴性
+                                <else/>
+                                <input type="radio" value="0" name="carbon" > 阴性
+                            </eq>
                         </label>
 
                     </div>
@@ -294,26 +313,42 @@
                     <label class="am-u-sm-4 am-form-label">HP细菌培养:</label>
                     <div class="am-u-sm-8">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="germ"> 阳性
+                            <eq name="data[germ]" value="1">
+                                <input type="radio" value="1" name="germ" checked> 阳性
+                                <else/>
+                                <input type="radio" value="1" name="germ"> 阳性
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="germ"> 阴性
+                            <eq name="data[germ]" value="0">
+                                <input type="radio" value="0" name="germ" checked> 阴性
+                                <else/>
+                                <input type="radio" value="0" name="germ"> 阴性
+                            </eq>
                         </label>
 
                     </div>
                 </div>
                 <div class="am-form-group germ" style="">
-                    <label class="am-u-sm-4 am-form-label">药敏实验:</label>
+                    <label class="am-u-sm-4 am-form-label">药敏实验</label>
                 </div>
                 <div class="am-form-group germ" style="">
                     <label class="am-u-sm-4 am-form-label">克拉霉素:</label>
                     <div class="am-u-sm-8">
 
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="clarithromycin"> 耐药
+                            <eq name="data[clarithromycin]" value="1">
+                                <input type="radio" value="1" name="clarithromycin" checked> 耐药
+                                <else/>
+                                <input type="radio" value="1" name="clarithromycin"> 耐药
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="clarithromycin"> 敏感
+                            <eq name="data[clarithromycin]" value="0">
+                                <input type="radio" value="0" name="clarithromycin" checked> 敏感
+                                <else/>
+                                <input type="radio" value="0" name="clarithromycin"> 敏感
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -323,10 +358,18 @@
                     <div class="am-u-sm-8">
 
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="levofloxacin"> 耐药
+                            <eq name="data[levofloxacin]" value="1">
+                                <input type="radio" value="1" name="levofloxacin" checked> 耐药
+                                <else/>
+                                <input type="radio" value="1" name="levofloxacin"> 耐药
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="levofloxacin"> 敏感
+                            <eq name="data[levofloxacin]" value="0">
+                                <input type="radio" value="0" name="levofloxacin" checked> 敏感
+                                <else/>
+                                <input type="radio" value="0" name="levofloxacin"> 敏感
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -336,10 +379,18 @@
                     <div class="am-u-sm-8">
 
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="amoxycillin"> 耐药
+                            <eq name="data[amoxycillin]" value="1">
+                                <input type="radio" value="1" name="amoxycillin" checked> 耐药
+                                <else/>
+                                <input type="radio" value="1" name="amoxycillin"> 耐药
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="amoxycillin"> 敏感
+                            <eq name="data[amoxycillin]" value="0">
+                                <input type="radio" value="0" name="amoxycillin" checked> 敏感
+                                <else/>
+                                <input type="radio" value="0" name="amoxycillin"> 敏感
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -349,10 +400,18 @@
                     <div class="am-u-sm-8">
 
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="furazolidone"> 耐药
+                            <eq name="data[furazolidone]" value="1">
+                                <input type="radio" value="1" name="furazolidone" checked> 耐药
+                                <else/>
+                                <input type="radio" value="1" name="furazolidone"> 耐药
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="furazolidone"> 敏感
+                            <eq name="data[furazolidone]" value="0">
+                                <input type="radio" value="0" name="furazolidone" checked> 敏感
+                                <else/>
+                                <input type="radio" value="0" name="furazolidone"> 敏感
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -363,10 +422,18 @@
                     <div class="am-u-sm-8">
 
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="tetracycline"> 耐药
+                            <eq name="data[tetracycline]" value="1">
+                                <input type="radio" value="1" name="tetracycline" checked> 耐药
+                                <else/>
+                                <input type="radio" value="1" name="tetracycline"> 耐药
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="tetracycline"> 敏感
+                            <eq name="data[tetracycline]" value="0">
+                                <input type="radio" value="0" name="tetracycline" checked> 敏感
+                                <else/>
+                                <input type="radio" value="0" name="tetracycline"> 敏感
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -376,10 +443,18 @@
                     <div class="am-u-sm-8">
 
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="metronidazole"> 耐药
+                            <eq name="data[metronidazole]" value="1">
+                                <input type="radio" value="1" name="metronidazole" checked> 耐药
+                                <else/>
+                                <input type="radio" value="1" name="metronidazole"> 耐药
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="metronidazole"> 敏感
+                            <eq name="data[metronidazole]" value="0">
+                                <input type="radio" value="0" name="metronidazole" checked> 敏感
+                                <else/>
+                                <input type="radio" value="0" name="metronidazole"> 敏感
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -390,10 +465,18 @@
                     <div class="am-u-sm-8">
 
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="otherResult"> 耐药
+                            <eq name="data[otherresult]" value="1">
+                                <input type="radio" value="1" name="otherResult" checked> 耐药
+                                <else/>
+                                <input type="radio" value="1" name="otherResult"> 耐药
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="otherResult"> 敏感
+                            <eq name="data[otherresult]" value="0">
+                                <input type="radio" value="0" name="otherResult" checked> 敏感
+                                <else/>
+                                <input type="radio" value="0" name="otherResult"> 敏感
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -404,16 +487,32 @@
                     <label class="am-u-sm-12 am-form-label">PPI药物代谢类型:</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="3" name="PPIdxtype"> 无
+                            <eq name="data[ppidxtype]" value="3">
+                                <input type="radio" value="3" name="PPIdxtype" checked> 无
+                                <else/>
+                                <input type="radio" value="3" name="PPIdxtype"> 无
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="PPIdxtype"> 快代谢
+                            <eq name="data[ppidxtype]" value="0">
+                                <input type="radio" value="0" name="PPIdxtype" checked> 快代谢
+                                <else/>
+                                <input type="radio" value="0" name="PPIdxtype"> 快代谢
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="PPIdxtype"> 慢代谢
+                            <eq name="data[ppidxtype]" value="1">
+                                <input type="radio" value="1" name="PPIdxtype" checked> 慢代谢
+                                <else/>
+                                <input type="radio" value="1" name="PPIdxtype"> 慢代谢
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="2" name="PPIdxtype"> 超快代谢
+                            <eq name="data[ppidxtype]" value="2">
+                                <input type="radio" value="2" name="PPIdxtype" checked> 超快代谢
+                                <else/>
+                                <input type="radio" value="2" name="PPIdxtype"> 超快代谢
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -434,13 +533,25 @@
                     <label class="am-u-sm-12 am-form-label">患者HP根除治疗医院:</label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="perscription" id="sanlian"> 三联
+                            <eq name="data[perscription]" value="0">
+                                <input type="radio" value="0" name="perscription" id="sanlian" checked> 三联
+                                <else/>
+                                <input type="radio" value="0" name="perscription" id="sanlian"> 三联
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="perscription" id="silian"> 四联
+                            <eq name="data[perscription]" value="1">
+                                <input type="radio" value="1" name="perscription" id="silian" checked> 四联
+                                <else/>
+                                <input type="radio" value="1" name="perscription" id="silian"> 四联
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="2" name="perscription" id="otherlian"> 其它
+                            <eq name="data[perscription]" value="2">
+                                <input type="radio" value="2" name="perscription" id="otherlian" checked> 其它
+                                <else/>
+                                <input type="radio" value="2" name="perscription" id="otherlian"> 其它
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -449,13 +560,25 @@
                     <label class="am-u-sm-3 am-form-label">疗程:</label>
                     <div class="am-u-sm-9">
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="period"> 7天
+                            <eq name="data[period]" value="0">
+                                <input type="radio" value="0" name="period" checked> 7天
+                                <else/>
+                                <input type="radio" value="0" name="period"> 7天
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="period"> 10天
+                            <eq name="data[period]" value="1">
+                                <input type="radio" value="1" name="period" checked> 10天
+                                <else/>
+                                <input type="radio" value="1" name="period"> 10天
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="2" name="period"> 14天
+                            <eq name="data[period]" value="2">
+                                <input type="radio" value="2" name="period" checked> 14天
+                                <else/>
+                                <input type="radio" value="2" name="period"> 14天
+                            </eq>
                         </label>
                     </div>
                 </div>
@@ -481,10 +604,11 @@
                     </div>
                     <div class="am-u-sm-3">
 
-                        <input type="text" class="" id="doseA" name="doseA" placeholder="用量">
+                        <input type="text" class="" id="doseA" name="doseA" placeholder="用量" value="{$data[dosea]}">
                     </div>
                     <div class="am-u-sm-4">
                         <select id="sourceA" name="sourceA" style="font-size: 1.4rem;">
+                            <option value="">产地</option>
                             <option value="0">进口</option>
                             <option value="1">国产</option>
                         </select>
@@ -509,10 +633,11 @@
                     </div>
                     <div class="am-u-sm-3">
 
-                        <input type="text" class="" id="doseB" name="doseB" placeholder="用量">
+                        <input type="text" class="" id="doseB" name="doseB" placeholder="用量" value="{$data[doseb]}">
                     </div>
                     <div class="am-u-sm-4">
                         <select id="sourceB" name="sourceB" style="font-size: 1.4rem;">
+                            <option value="">产地</option>
                             <option value="0">进口</option>
                             <option value="1">国产</option>
                         </select>
@@ -533,10 +658,11 @@
                     </div>
                     <div class="am-u-sm-3">
 
-                        <input type="text" class="" id="dosePPI" name="dosePPI" placeholder="用量">
+                        <input type="text" class="" id="dosePPI" name="dosePPI" placeholder="用量" value="{$data[doseppi]}">
                     </div>
                     <div class="am-u-sm-4">
                         <select id="sourcePPI" name="sourcePPI" style="font-size: 1.4rem;">
+                            <option value="">产地</option>
                             <option value="0">进口</option>
                             <option value="1">国产</option>
                         </select>
@@ -556,10 +682,11 @@
                         </div>
                         <div class="am-u-sm-3">
 
-                            <input type="text" id="dosebismuth" name="dosebismuth" placeholder="用量">
+                            <input type="text" id="dosebismuth" name="dosebismuth" placeholder="用量" value="{$data[dosebismuth]}">
                         </div>
                         <div class="am-u-sm-4">
                             <select id="sourcebismuth" name="sourcebismuth" style="font-size: 1.4rem;">
+                                <option value="">产地</option>
                                 <option value="0">进口</option>
                                 <option value="1">国产</option>
                             </select>
@@ -574,6 +701,7 @@
                     <label style="display:none"  class="am-u-sm-12 am-form-label">其它:</label>
                     <div class="am-u-sm-5">
                         <select id="othelrperscription" name="othelrperscription" style="font-size: 1.4rem;">
+                            <option value="">其它</option>
                             <option value="0">其它A</option>
                             <option value="1">其它B</option>
                             <option value="2">其它C</option>
@@ -583,10 +711,11 @@
                     </div>
                     <div class="am-u-sm-3">
 
-                        <input type="text" id="doseOther" name="doseOther" placeholder="用量">
+                        <input type="text" id="doseOther" name="doseOther" placeholder="用量" value="{$data[doseother]}">
                     </div>
                     <div class="am-u-sm-4">
                         <select id="sourceOther" name="sourceOther" style="font-size: 1.4rem;">
+                            <option value="">产地</option>
                             <option value="0">进口</option>
                             <option value="1">国产</option>
                         </select>
@@ -612,7 +741,6 @@
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
         <form method="post" id="response" name="response" class="am-form am-form-horizontal">
             <fieldset>
-
                 <div class="am-form-group">
                     <label class="am-checkbox-inline">
                         <input type="checkbox" name="badResponse[]" value="0"> 头晕
@@ -660,17 +788,26 @@
                     <label class="am-u-sm-12 am-form-label"></label>
                     <div class="am-u-sm-4">
                         <select id="firstTimeType" name="firstTimeType">
-                            <option value="option1">13C</option>
-                            <option value="option2">14C</option>
+                            <option value="">类型</option>
+                            <option value="0">13C</option>
+                            <option value="1">14C</option>
                         </select>
                         <span class="am-form-caret"></span>
                     </div>
                     <div class="am-u-sm-8">
                         <label class="am-radio-inline">
-                            <input type="radio" value="1" name="firstTimeResult"> 阳性
+                            <eq name="data[firsttimeresult]" value="1">
+                                <input type="radio" value="1" name="firstTimeResult" checked> 阳性
+                                <else/>
+                                <input type="radio" value="1" name="firstTimeResult"> 阳性
+                            </eq>
                         </label>
                         <label class="am-radio-inline">
-                            <input type="radio" value="0" name="firstTimeResult"> 阴性
+                            <eq name="data[firsttimeresult]" value="0">
+                                <input type="radio" value="0" name="firstTimeResult" checked> 阴性
+                                <else/>
+                                <input type="radio" value="0" name="firstTimeResult"> 阴性
+                            </eq>
                         </label>
 
                     </div>
@@ -681,7 +818,7 @@
                 <div class="am-form-group">
                     <label for="doc-ipt-birthday-1" class="am-u-sm-12 am-form-label">呼吸实验诊断时间:</label>
                     <div class="am-u-sm-12">
-                        <input id="firstTimeDate" type="text" name="firstTimeDate" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker readonly required />
+                        <input id="firstTimeDate" type="text" name="firstTimeDate" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker readonly required value="{$data[firsttimedate]}"/>
                     </div>
                 </div>
 
@@ -721,15 +858,57 @@
         toSelect("nationality", parseInt("{$data[nationality]}"));
         toSelect("occupation", parseInt("{$data[occupation]}"));
         toSelect("gastroscope", parseInt("{$data[gastroscope]}"));
+        toSelect("antibioticA", parseInt("{$data[antibiotica]}"));
+        toSelect("sourceA", parseInt("{$data[sourcea]}"));
+        toSelect("antibioticB", parseInt("{$data[antibioticb]}"));
+        toSelect("sourceB", parseInt("{$data[sourceb]}"));
+        toSelect("PPI", parseInt("{$data[ppi]}"));
+        toSelect("sourcePPI", parseInt("{$data[sourceppi]}"));
+        toSelect("bismuth", parseInt("{$data[bismuth]}"));
+        toSelect("sourcebismuth", parseInt("{$data[sourcebismuth]}"));
+        toSelect("othelrperscription", parseInt("{$data[othelrperscription]}"));
+        toSelect("sourceOther", parseInt("{$data[sourceother]}"));
+        toSelect("firstTimeType", parseInt("{$data[firsttimetype]}"));
+
+        $('input:radio[name="perscription"]:checked').click();
+
+
+        var badresponse = "{$data[badresponse]}".split(",");
+        for( var br in badresponse){
+            $("input[name='badResponse[]']").eq(badresponse[br]).attr("checked","true");
+        }
+
+
 
         function toSelect(selectId, index){
+            //默认第一个是请选择, 因此需要加1
             index = index  +1;
             if(index){
                 document.getElementById(selectId)[index].selected = true;
             }
         }
 
+        //省份和城市 区
+        setTimeout(function(){
+            if('{$data[province]}'){
+                $("#province option:contains('{$data[province]}')").attr("selected", true)
+                if('{$data[city]}'){
+                    $("#city").append("<option value='{$data[city]}'>{$data[city]}</option>");
+                }
+                if('{$data[city]}'){
+                    $("#city").append("<option value='{$data[district]}'>{$data[district]}</option>");
+                }
+            }
+        },10);
+
+        //thinkphp模板 数据库变量需要使用小写
+        if('{$data[carbontype]}'){
+            $("#carbonType option:contains('{$data[carbontype]}')").attr("selected", true)
+        }
+
     })
+
+
 
     function dataImp() {
         var tourl = $("#response").attr("action");
@@ -742,7 +921,18 @@
             alert("请填写信息")
             return;
         }
-        response = response + "&" + baseInfo + "&" + experiment + "&" + cureMethod + "&" + result;
+
+        var process = 0;
+        if(baseInfo){ process = process + 20}
+        if(experiment){ process = process + 25}
+        if(cureMethod){ process = process + 25}
+        if(result){ process = process + 10}
+        if(response){ process = process + 20}
+
+        response = response + "&" + baseInfo + "&" + experiment + "&" + cureMethod + "&" + result + "&process=" + process ;
+        if('{$data[id]}' != ''){
+            response = response + "&id={$data[id]}"
+        }
         //lert (response);
         $.post("__URL__/dataImport", response,function(data,textStatus){
             if(data.state == "fail"){

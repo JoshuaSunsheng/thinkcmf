@@ -174,11 +174,22 @@ class  DoctorController extends HomebaseController{
                     $Study -> badResponse = implode(',', $_POST['badResponse']);
                     \Think\Log::write('dataImport begin $_POST:'.$_POST, "INFO");
 
-                    if (!$Study->add()) {
-                        echo $Study->getError();
-                    } else {
-                        $this->success('新增成功', 'myStudy');
+
+                    if($_POST['id']){
+                        if (!$Study->save()) {
+                            echo $Study->getError();
+                        } else {
+                            $this->success('更新成功', 'myStudy');
+                        }
                     }
+                    else{
+                        if (!$Study->add()) {
+                            echo $Study->getError();
+                        } else {
+                            $this->success('新增成功', 'myStudy');
+                        }
+                    }
+
                     \Think\Log::write('dataImport begin $z:' . $z, "INFO");
 
                     $this->error('失败', 'myStudy');
@@ -432,7 +443,7 @@ class  DoctorController extends HomebaseController{
         \Think\Log::write('upload record:', "INFO");
 
         $upload = new \Think\Upload();// 实例化上传类
-        $upload->maxSize   =     3145728 ;// 设置附件上传大小
+        $upload->maxSize   =     553145728 ;// 设置附件上传大小
         $upload->exts      =     array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
         $upload->rootPath  =      './Public/'; // 设置附件上传根目录
         $upload->savePath = '/Uploads/Doctor/';

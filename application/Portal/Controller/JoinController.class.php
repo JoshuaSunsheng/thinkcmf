@@ -26,8 +26,8 @@ class  JoinController extends HomebaseController{
 //        session('user', null);
 //
 //        $token = session('token');
-        $token['openid']="oFT0muO-LKGtUPx-4ZhvD3eKNoy0";
-        session('token', $token);
+//        $token['openid']="oFT0muO-LKGtUPx-4ZhvD3eKNoy0";
+//        session('token', $token);
         $token = session('token');
 
 

@@ -466,7 +466,13 @@
                     console.log(4,'响应全部接受完毕');
                     if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
                         var ret = JSON.parse(xhr.response)
-                        $("input[name='" + id + "']").val("/Public" + ret.savepath + ret.savename);
+
+                        if(location.href.indexOf('thinkcmf') > 0){ //未部署在根目录
+                            $("input[name='" + id + "']").val("/thinkcmf/Public" + ret.savepath + ret.savename);
+                        }
+                        else{
+                            $("input[name='" + id + "']").val("/Public" + ret.savepath + ret.savename);
+                        }
                     }else{
                         alert('error: 上传失败, 请重试!') ;
                     }
