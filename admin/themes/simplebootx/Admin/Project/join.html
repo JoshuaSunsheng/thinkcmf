@@ -1,0 +1,144 @@
+<include file="Public:amaze_css"/>
+
+<style>
+    body, table {
+        position: relative;
+        background: #fff;
+        font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+        color: #333;
+        font-size: 1.6rem;
+    }
+</style>
+<div class="am-cf admin-main">
+
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf">
+                    <strong class="am-text-primary am-text-lg">医生信息</strong> /
+                    <small>info</small>
+                </div>
+            </div>
+
+            <hr>
+            <div class="am-g">
+                <div class="am-u-sm-9">
+                    <table class="am-table am-table-bd am-table-striped admin-content-table">
+                        <thead>
+                        <tr>
+                            <th>地区</th>
+                            <th>主任医师(人数)</th>
+                            <th>副主任医师(人数)</th>
+                            <th>主治医师(人数)</th>
+                            <th>住院医师(人数)</th>
+                            <th>管理</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="data" id="join">
+
+                        <tr>
+                            <td>{$join.region}</td>
+                            <td>{$join.professor}</td>
+                            <td>{$join.associateprofessor}</td>
+                            <td>{$join.attendingdoctor}</td>
+                            <td>{$join.residentdoctor}</td>
+                            <td>
+                                <div class="am-dropdown" data-am-dropdown>
+                                    <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
+                                            data-am-dropdown-toggle><span class="am-icon-cog"></span> <span
+                                            class="am-icon-caret-down"></span></button>
+                                    <ul class="am-dropdown-content">
+                                        <li><a href="update?joinMemberId={$join.id}">1. 编辑</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        </volist>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+            <div class="am-margin">
+                <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>-->
+                <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>-->
+            </div>
+        </div>
+
+        <footer class="admin-content-footer">
+            <hr>
+            <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+        </footer>
+    </div>
+    <!-- content end -->
+
+</div>
+
+
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+   data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<include file="Public:js"/>
+
+<script>
+    function getDoctor(doctorId) {
+
+        var url = '__SELF__';
+
+        $("<div></div>").load(url, {doctorId: doctorId}, function () {
+
+            var data = $(this).find("#tablelist").html();
+            $('#tablelist').html(data);
+
+
+            $(this).remove();
+        });
+    }
+
+    $("form input").prop("readonly", true);
+    $("form textarea").prop("readonly", true);
+
+    function PassDoctor(doctorId) {
+
+        if (confirm("审核通过?")) {
+            $.post("__URL__/passDoctor", {id: doctorId}, function (data, textStatus) {
+                history.go(-1);
+            });
+        }
+    }
+
+    function CancelDoctor(doctorId) {
+
+        if (confirm("审核失败?")) {
+            $.post("__URL__/cancelDoctor", {id: doctorId}, function (data, textStatus) {
+                history.go(-1)
+            });
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadImg();
+    });
+    var loadImg = function() {
+        var imgs = document.querySelectorAll('img');
+        for (var i = 0; i < imgs.length; i++) {
+            if(imgs[i].getAttribute('img-src')){
+                imgs[i].setAttribute('src',imgs[i].getAttribute('img-src'));
+            }
+            else{
+                imgs[i].setAttribute('src',"{$IMG_URL}doctor.png");
+            }
+        }
+    };
+</script>

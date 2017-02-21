@@ -16,10 +16,6 @@
             font-size: 14px;
         }
 
-        .am-u-lg-12 input.am-form-field {
-            background-color: #4CB0E6;
-            color: #BCE1F6;
-        }
 
         html, body {
             background-color: #EBEBEB;
@@ -30,7 +26,7 @@
          }
 
         .am-form input[type=number]:focus, .am-form input[type=search]:focus, .am-form input[type=text]:focus, .am-form input[type=password]:focus, .am-form input[type=datetime]:focus, .am-form input[type=datetime-local]:focus, .am-form input[type=date]:focus, .am-form input[type=month]:focus, .am-form input[type=time]:focus, .am-form input[type=week]:focus, .am-form input[type=email]:focus, .am-form input[type=url]:focus, .am-form input[type=tel]:focus, .am-form input[type=color]:focus, .am-form select:focus, .am-form textarea:focus, .am-form-field:focus {
-            background-color: #4CB0E6;
+            /*background-color: #4CB0E6;*/
             border-color: #3bb4f2;
             outline: 0;
             -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 5px rgba(59, 180, 242, .3);
@@ -43,9 +39,10 @@
         }
 
         .am-form input[type=number], .am-form input[type=search], .am-form input[type=text], .am-form input[type=password], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form select, .am-form textarea, .am-form-field {
-            background-color: #4CB0E6;
-            border-color: #3bb4f2;
-            color: #BCE1F6;
+            /*background-color: #4CB0E6;*/
+            /*border-color: #3bb4f2;*/
+            /*color: #BCE1F6;*/
+            border-radius: 9px;
         }
 
         #birthday, #cureDate{
@@ -115,11 +112,11 @@
             <form method="post" id="register" name="register" class="am-form am-form-horizontal">
                 <fieldset>
 
-                    <div class="am-form-group">
+                    <div class="am-form-group" >
                         <div class="am-u-lg-12">
                             <div class="am-input-group">
-                                <span class="am-input-group-label"><i class="am-icon-phone am-icon-fw"></i></span>
-                                <input type="text" class="am-form-field" id="phoneNumber" name="phoneNumber" maxlength="11" placeholder="手机号">
+                                <span class="am-input-group-label" style="border-top-left-radius: 9px;border-bottom-left-radius: 9px;"><i class="am-icon-phone am-icon-fw"></i></span>
+                                <input type="text" class="am-form-field" id="phoneNumber" name="phoneNumber" maxlength="11" value="{$phoneNumber}" placeholder="手机号" style="display: none;">
                             </div>
                         </div>
                     </div>
@@ -127,21 +124,8 @@
                     <div class="am-form-group">
                         <div class="am-u-lg-12">
                             <div class="am-input-group">
-                                <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+                                <span class="am-input-group-label" style="border-top-left-radius: 9px;border-bottom-left-radius: 9px;"><i class="am-icon-user am-icon-fw"></i></span>
                                 <input type="text" class="am-form-field" id="realName" name="realName" placeholder="输入您的姓名">
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="am-form-group">
-                        <div class="am-u-lg-12">
-                            <div class="am-input-group">
-                                <span class="am-input-group-label"><i class="am-icon-comment am-icon-fw"></i></span>
-                                <input  name="msgCode" id="msgCode"  type="text" class="am-form-field" maxlength="6" placeholder="验证码">
-                <span class="am-input-group-btn">
-                  <button id="submit" class="am-btn am-btn-default" type="button">获取验证码</button>
-                </span>
                             </div>
                         </div>
                     </div>
@@ -316,13 +300,10 @@
                     <div class="am-form-group">
                         <label for="mail" class="am-u-sm-8 am-form-label">医生每日就诊可接受患者人数:</label>
                         <div class="am-u-sm-3" style="padding-left: 0px;padding-right: 0px;">
-                            <input type="text" class="" id="maxPatient" name="maxPatient" placeholder="人数">
+                            <input type="number" class="" id="maxPatient" name="maxPatient" placeholder="人数" pattern="[0-9]*">
                         </div>
                         <label class="am-u-sm-1 am-form-label"></label>
-
-
                     </div>
-
 
                     <input type="text" class="upload_pic" name="headLogoFile" hidden/>
                     <input type="text" class="upload_pic" name="idnoFile" hidden/>
@@ -335,10 +316,7 @@
                                    style="width: 100%;">
 
                         </div>
-
-
                     </div>
-
                 </fieldset>
             </form>
             <hr>
@@ -531,22 +509,22 @@
 
     function reg() {
 
-        if(!jQuery("#phoneNumber").val()){
-            alert("手机号码不能为空!");
-            return;
-        }
-
-        if (!$("#msgCode").val()) {
-            alert("验证码不能为空!");
-            return;
-        }
+//        if(!jQuery("#phoneNumber").val()){
+//            alert("手机号码不能为空!");
+//            return;
+//        }
+//
+//        if (!$("#msgCode").val()) {
+//            alert("验证码不能为空!");
+//            return;
+//        }
 
         var tourl = $("#register").attr("action");
         var application = $("#register").serialize();
 
-        $.post("__URL__/../Patient/verifyCode",{to:$("#phoneNumber").val(), msgCode:$("#msgCode").val()},function(data,textStatus){
-            if(data['rescode'] == "00" && textStatus == "success"){
-                alert("验证通过!")
+//        $.post("__URL__/../Patient/verifyCode",{to:$("#phoneNumber").val(), msgCode:$("#msgCode").val()},function(data,textStatus){
+//            if(data['rescode'] == "00" && textStatus == "success"){
+//                alert("验证通过!")
                 $.post("__URL__/register", application,function(data,textStatus){
                     if(data.state == "fail"){
                         alert(data.info)
@@ -556,11 +534,11 @@
                     }
                 });
 //                window.location.href = "{$CONTROLLER}/agreement";
-            }
-            else{
-                alert(data['msg']);
-            }
-        });
+//            }
+//            else{
+//                alert(data['msg']);
+//            }
+//        });
 
 //        var tourl = $("#register").attr("action");
 //        var application = $("#register").serialize();
@@ -577,42 +555,42 @@
     }
 
 
-    jQuery(function(){
-
-        //发送短信
-        $("#submit").click(function(){
-            if(!jQuery("#phoneNumber").val()){
-                alert("手机号码不能为空!");
-                return;
-            }
-
-            sendCode(this);
-
-            var tourl = $("#form").attr("action");
-            $.post("__URL__/../Patient/send",{to:$("#phoneNumber").val()},function(data,textStatus){
-                alert(data);
-            });
-        })
-
-
-        var wait = 60;
-        function sendCode(o) {
-            if (wait == 0) {
-                o.removeAttribute("disabled");
-                o.innerHTML = "获取验证码";
-                wait = 60;
-            } else {
-                o.setAttribute("disabled", true);
-                o.innerHTML = "重新发送(" + wait + ")";
-                wait--;
-                setTimeout(function () {
-                            sendCode(o)
-                        },
-                        1000)
-            }
-        }
-
-    })
+//    jQuery(function(){
+//
+//        //发送短信
+//        $("#submit").click(function(){
+//            if(!jQuery("#phoneNumber").val()){
+//                alert("手机号码不能为空!");
+//                return;
+//            }
+//
+//            sendCode(this);
+//
+//            var tourl = $("#form").attr("action");
+//            $.post("__URL__/../Patient/send",{to:$("#phoneNumber").val()},function(data,textStatus){
+//                alert(data);
+//            });
+//        })
+//
+//
+//        var wait = 60;
+//        function sendCode(o) {
+//            if (wait == 0) {
+//                o.removeAttribute("disabled");
+//                o.innerHTML = "获取验证码";
+//                wait = 60;
+//            } else {
+//                o.setAttribute("disabled", true);
+//                o.innerHTML = "重新发送(" + wait + ")";
+//                wait--;
+//                setTimeout(function () {
+//                            sendCode(o)
+//                        },
+//                        1000)
+//            }
+//        }
+//
+//    })
 </script>
 
 </body>

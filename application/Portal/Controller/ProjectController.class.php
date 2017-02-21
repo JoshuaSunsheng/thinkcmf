@@ -29,12 +29,29 @@ class  ProjectController extends HomebaseController{
 
         $this -> display();
     }
-    function join(){
+
+    function join()
+    {
         //获取系统常量, 并分组
         //var_dump(get_defined_constants(true));
+        \Think\Log::write('join:', "INFO");
+        if(!empty($_POST)) {
 
-        $this -> display();
+            $JoinMember = new \Portal\Model\JoinMemberModel(); // 实例化 JoinMemberModel 耐药率
+            //查找是否已经存在耐药率数据
+            $data = $JoinMember->select();
+            $data["count"] = $JoinMember->count();
+            \Think\Log::write('join post end.', "INFO");
+            $this->ajaxReturn($data,"json");
+        }
+        else{
+            \Think\Log::write('join get end.', "INFO");
+
+            $this->display();
+
+        }
     }
+
     function organization(){
         //获取系统常量, 并分组
         //var_dump(get_defined_constants(true));

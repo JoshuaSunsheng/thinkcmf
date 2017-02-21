@@ -723,7 +723,6 @@
                     </div>
                     <div class="am-u-sm-12">
                         如果无药敏数据录入，系统自动判别为经验治疗方案，并给予提示。
-
                     </div>
 
                 </div>
@@ -816,7 +815,7 @@
 
 
                 <div class="am-form-group">
-                    <label for="doc-ipt-birthday-1" class="am-u-sm-12 am-form-label">呼吸实验诊断时间:</label>
+                    <label for="firstTimeDate" class="am-u-sm-12 am-form-label">呼吸实验诊断时间:</label>
                     <div class="am-u-sm-12">
                         <input id="firstTimeDate" type="text" name="firstTimeDate" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker readonly required value="{$data[firsttimedate]}"/>
                     </div>
@@ -872,12 +871,12 @@
 
         $('input:radio[name="perscription"]:checked').click();
 
-
         var badresponse = "{$data[badresponse]}".split(",");
-        for( var br in badresponse){
-            $("input[name='badResponse[]']").eq(badresponse[br]).attr("checked","true");
+        if(badresponse != ""){  //当空字符串也会
+            for( var br in badresponse){
+                $("input[name='badResponse[]']").eq(badresponse[br]).attr("checked","true");
+            }
         }
-
 
 
         function toSelect(selectId, index){
@@ -917,17 +916,17 @@
         var cureMethod = $("#cureMethod").serialize();
         var result = $("#result").serialize();
         var response = $("#response").serialize();
-        if(!$("input[name='badResponse[]']:checked").length) {
-            alert("请填写信息")
-            return;
-        }
+//        if(!$("input[name='badResponse[]']:checked").length) {
+//            alert("请填写信息")
+//            return;
+//        }
 
         var process = 0;
-        if(baseInfo){ process = process + 20}
-        if(experiment){ process = process + 25}
-        if(cureMethod){ process = process + 25}
-        if(result){ process = process + 10}
-        if(response){ process = process + 20}
+//        if(baseInfo){ process = process + 20}
+//        if(experiment){ process = process + 25}
+//        if(cureMethod){ process = process + 25}
+//        if(result){ process = process + 10}
+//        if(response){ process = process + 20}
 
         response = response + "&" + baseInfo + "&" + experiment + "&" + cureMethod + "&" + result + "&process=" + process ;
         if('{$data[id]}' != ''){

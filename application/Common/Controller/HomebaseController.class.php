@@ -38,14 +38,31 @@ class HomebaseController extends AppframeController {
 		}
 		
 	}
-	
+
+	function user_login($phone = ''){
+		$users_model=M('Users');
+		$where['mobile']=$phone;
+		$user=$users_model->where($where)->find();
+		if(!empty($user)){
+			session('user',$user);
+		}
+	}
+
+	function user_logout(){
+		session('user',null);
+		$this->success('您还没有登录！',leuu('portal/join/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
+
+//		redirect(__ROOT__."/");
+	}
+
 	/**
 	 * 检查用户登录
 	 */
 	protected function check_login(){
 	    $session_user=session('user');
 		if(empty($session_user)){
-			$this->error('您还没有登录！',leuu('user/login/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
+//			$this->error('您还没有登录！',leuu('user/login/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
+			$this->error('您还没有登录！',leuu('portal/join/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
 		}
 		
 	}

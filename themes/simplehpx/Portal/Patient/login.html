@@ -165,7 +165,6 @@
             }
 
             sendCode(this);
-
             var tourl = $("#form").attr("action");
             $.post("__URL__/send",{to:$("#phoneNumber").val()},function(data,textStatus){
                 alert(data);

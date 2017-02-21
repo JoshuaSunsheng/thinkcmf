@@ -1,9 +1,9 @@
 <tc_include file="Public:hp:head" />
 
 
-<link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css" />
+<!--<link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css" />-->
 
-    <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
+    <!--<link href="{$CSS_URL}bootstrap.css" rel="stylesheet">-->
     <link href="{$CSS_URL}mbase.css" rel="stylesheet">
 
 
@@ -98,26 +98,68 @@
 <!-- Fixed navbar -->
 
 
-<div class="row margin0" style="margin-top: 40%;">
+    <div class="am-g doc-am-g" style="margin-top: 40%;">
     <!-- center-->
     <!--<center><h1>注册入口</h1></center>-->
 
-    <div>
-        <div class="col-xs-6" style="display: none">
+<!--        <div class="col-xs-6" style="display: none">
             <a id="patient" href="#" type="button" style="background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
                 <i class="imooc-icon"><img src="{$IMG_URL}patient.png" width="96" height="96"></i>
                 <p class="color_grey font_size18"> 公众</p>
             </a>
-        </div>
-        <div class="col-xs-12">
-            <a id="assistant" href="#" type="button" style="background-color: #EBEBEB;border-color: #EBEBEB;" class="btn btn-default border_radius0 btn-block ">
-                <i class="imooc-icon"><img src="{$IMG_URL}assistant.png" width="96" height="96"></i>
+        </div>-->
+        <div class="am-u-sm-12">
+            <center>
+                <i class="imooc-icon"><img src="{$IMG_URL}assistant.png" width="80" height="80"></i>
                 <p class="color_grey font_size18"> 医生</p>
-            </a>
+
+            </center>
+
         </div>
 
-    </div>
 </div>
+
+</br>
+</br>
+</br>
+<div class="am-g doc-am-g">
+
+            <form id="register" method="post" class="am-form" style="    margin-left: 40px;
+    margin-right: 40px;">
+                <div class="am-g">
+                    <div class="am-u-lg-12">
+                            <input type="number" id="phoneNumber" name="phoneNumber" class="am-form-field" maxlength="11" placeholder="手机号" style="border-radius:9px" pattern="[0-9]*">
+                    </div>
+                </div>
+
+                <br>
+                <div class="am-g">
+                    <div class="am-u-sm-7">
+                        <input name="msgCode" id="msgCode"  type="number"
+                               class="am-form-field" maxlength="6"
+                               placeholder="验证码" style="border-radius:9px" pattern="[0-9]*">
+                    </div>
+                    <div class="am-u-sm-5">
+                        <button id="submit" class="am-btn am-btn-secondary" type="button" style="border-radius:9px; font-size:1.1em">获取验证码
+                        </button>
+                    </div>
+
+                </div>
+
+                <br>
+                <div class="am-g">
+                    <div class="am-u-sm-6 am-u-sm-centered">
+                        <input type="submit" name="" value="登 录"
+                               class="am-btn am-btn-primary am-fl"
+                               onclick="login();return false;" style="
+                                                                   width: 100%;;">
+                    </div>
+                </div>
+            </form>
+
+
+</div>
+
 
 
 <!--[if (gte IE 9)|!(IE)]><!-->
@@ -139,22 +181,86 @@
     })
 
     jQueryf(document).ready(function(){
-        var openid = '{$openid}';
-        if(openid){
-            appid = "wx50601fae46ea8a28"
-            href = "https://m.dianpayer.com";
-            href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
-            href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-
-            jQueryf("#patient").attr("href", "../Patient/login");
-            jQueryf("#assistant").attr("href", "../Doctor/register");
-        }
-        else{
-            alert('未能获取微信id')
-        }
-
-
+//        var openid = '{$openid}';
+//        if(openid){
+//            jQueryf("#patient").attr("href", "../Patient/login");
+//            jQueryf("#assistant").attr("href", "../Doctor/register");
+//        }
+//        else{
+//            alert('未能获取微信id')
+//        }
     });
+
+
+    function login() {
+
+        if(!jQuery("#phoneNumber").val()){
+            alert("手机号码不能为空!");
+            return;
+        }
+
+        if (!$("#msgCode").val()) {
+            alert("验证码不能为空!");
+            return;
+        }
+
+        var tourl = $("#register").attr("action");
+        var application = $("#register").serialize();
+
+        $.post("__URL__/../Patient/verifyCode",{to:$("#phoneNumber").val(), msgCode:$("#msgCode").val()},function(data,textStatus){
+            if(data['rescode'] == "00" && textStatus == "success"){
+                $.post("__URL__/checkUser",{to:$("#phoneNumber").val()},function(data,textStatus){
+
+                    if(data['rescode'] == "00" && textStatus == "success") {
+                        window.location.href = "../Doctor/register?phoneNumber=" + $("#phoneNumber").val();
+                    }
+                    else if(data['rescode'] == "01" && textStatus == "success"){
+                        window.location.href = "../Doctor/index";
+                    }
+                    else{
+                        alert("登录出错, 请联系管理员!");
+                    }
+                });
+
+            }
+            else{
+            }
+        });
+    }
+
+    jQuery(function(){
+
+        //发送短信
+        $("#submit").click(function(){
+            if(!jQuery("#phoneNumber").val()){
+                alert("手机号码不能为空!");
+                return;
+            }
+
+            sendCode(this);
+            var tourl = $("#form").attr("action");
+            $.post("__URL__/../Patient/send",{to:$("#phoneNumber").val()},function(data,textStatus){
+//                alert(data);
+            });
+        })
+
+        var wait = 60;
+        function sendCode(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.innerHTML = "获取验证码";
+                wait = 60;
+            } else {
+                o.setAttribute("disabled", true);
+                o.innerHTML = "重新发送(" + wait + ")";
+                wait--;
+                setTimeout(function () {
+                            sendCode(o)
+                        },
+                        1000)
+            }
+        }
+    })
 </script>
 </body>
 </html>

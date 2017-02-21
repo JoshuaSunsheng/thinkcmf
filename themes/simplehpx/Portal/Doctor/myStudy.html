@@ -125,112 +125,110 @@
 <script src="{$JS_URL}amazeui.min.js"></script>
 
 <script>
+    jQuery(document).ready(function () {
 
-    var dom = document.getElementById("container");
-    var myChart = echarts.init(dom);
-    var option = {
-        title : {
-            text: '耐药率变化',
-            subtext: ''
-        },
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['', '', '','klms','zyfsx','mutilrate']
-        },
-        grid: {
-            left: '3%',
-            right: '10%',
-            bottom: '3%',
-            containLabel: true
-        },
-        calculable : true,
-        xAxis : [
-            {
-                type : 'category',
-                boundaryGap : false,
-                data : []
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value',
-                axisLabel : {
-                    formatter: '{value}%'
-                }
-            }
-        ],
-        series : [
-            {
-                name:'klms',
-                type:'line',
-                data:[],
-                markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值'},
-                        {type : 'min', name: '最小值'}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name: '平均值'}
-                    ]
-                }
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var option = {
+            title: {
+                text: '耐药率变化',
+                subtext: ''
             },
-            {
-                name:'zyfsx',
-                type:'line',
-                data:[],
-                markPoint : {
-                    data : [
-                        {type : 'max', name: '最大值'},
-                        {type : 'min', name: '最小值'}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name: '平均值'}
-                    ]
-                }
+            tooltip: {
+                trigger: 'axis'
             },
-            {
-                name:'mutilrate',
-                type:'line',
-                data:[],
-                markPoint : {
-                    data : [
-                        {type : 'min', name: '周最低'}
-                    ]
-                },
-                markLine : {
-                    data : [
-                        {type : 'average', name : '平均值'}
-                    ]
+            legend: {
+                data: ['', '', '', 'klms', 'zyfsx', 'mutilrate']
+            },
+            grid: {
+                left: '3%',
+                right: '10%',
+                bottom: '3%',
+                containLabel: true
+            },
+            calculable: true,
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
                 }
-            }
-        ]
-    };
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}%'
+                    }
+                }
+            ],
+            series: [
+                {
+                    name: 'klms',
+                    type: 'line',
+                    data: [],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name: 'zyfsx',
+                    type: 'line',
+                    data: [],
+                    markPoint: {
+                        data: [
+                            {type: 'max', name: '最大值'},
+                            {type: 'min', name: '最小值'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                },
+                {
+                    name: 'mutilrate',
+                    type: 'line',
+                    data: [],
+                    markPoint: {
+                        data: [
+                            {type: 'min', name: '周最低'}
+                        ]
+                    },
+                    markLine: {
+                        data: [
+                            {type: 'average', name: '平均值'}
+                        ]
+                    }
+                }
+            ]
+        };
 
-    if (option && typeof option === "object") {
-        myChart.setOption(option, true);
-    }
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
 
-    var url = '__SELF__';
-
-    search();
-    function search(){
+        var url = '__SELF__';
 
         myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
         var application = "city=温州";
 
         $.ajax({
-            type : "post",
-            async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-            url : url,    //请求发送到TestServlet处
-            data : application,
-            dataType : "json",        //返回数据形式为json
-            success : function(result) {
+            type: "post",
+            async: true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+            url: url,    //请求发送到TestServlet处
+            data: application,
+            dataType: "json",        //返回数据形式为json
+            success: function (result) {
                 //请求成功时执行该函数内容，result即为服务器返回的json对象
                 var map = {};
                 var klms = [];
@@ -239,14 +237,14 @@
                 var year = [];
 
                 if (result) {
-                    for(var i=0;i<result.count;i++){
-                        if(result[i].year == "2016") continue;
-                        if($.trim(result[i].drug) == "klms"){
-                            klms.push((parseFloat(result[i].solerate) * 100).toString().substring(0,2));
+                    for (var i = 0; i < result.count; i++) {
+                        if (result[i].year == "2016") continue;
+                        if ($.trim(result[i].drug) == "klms") {
+                            klms.push((parseFloat(result[i].solerate) * 100).toString().substring(0, 2));
                         }
-                        if($.trim(result[i].drug) == "zyfsx"){
-                            zyfsx.push((parseFloat(result[i].solerate) * 100).toString().substring(0,2));
-                            mutilrate.push((parseFloat(result[i].mutilrate) * 100).toString().substring(0,2)); //两种药记录相同, 取其一
+                        if ($.trim(result[i].drug) == "zyfsx") {
+                            zyfsx.push((parseFloat(result[i].solerate) * 100).toString().substring(0, 2));
+                            mutilrate.push((parseFloat(result[i].mutilrate) * 100).toString().substring(0, 2)); //两种药记录相同, 取其一
                             year.push(result[i].year);  // 取其一
                         }
 
@@ -254,59 +252,59 @@
 
                     myChart.hideLoading();    //隐藏加载动画
                     myChart.setOption(option = {
-                        xAxis : [
+                        xAxis: [
                             {
-                                type : 'category',
-                                boundaryGap : false,
-                                data : year
+                                type: 'category',
+                                boundaryGap: false,
+                                data: year
                             }
                         ],
-                        series : [
+                        series: [
                             {
-                                name:'klms',
-                                type:'line',
-                                data:klms,
-                                markPoint : {
-                                    data : [
-                                        {type : 'max', name: '最大值'},
-                                        {type : 'min', name: '最小值'}
+                                name: 'klms',
+                                type: 'line',
+                                data: klms,
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
                                     ]
                                 },
-                                markLine : {
-                                    data : [
-                                        {type : 'average', name: '平均值'}
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
                                     ]
                                 }
                             },
                             {
-                                name:'zyfsx',
-                                type:'line',
-                                data:zyfsx,
-                                markPoint : {
-                                    data : [
-                                        {type : 'max', name: '最大值'},
-                                        {type : 'min', name: '最小值'}
+                                name: 'zyfsx',
+                                type: 'line',
+                                data: zyfsx,
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
                                     ]
                                 },
-                                markLine : {
-                                    data : [
-                                        {type : 'average', name: '平均值'}
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
                                     ]
                                 }
                             },
                             {
-                                name:'mutilrate',
-                                type:'line',
-                                data:mutilrate,
-                                markPoint : {
-                                    data : [
+                                name: 'mutilrate',
+                                type: 'line',
+                                data: mutilrate,
+                                markPoint: {
+                                    data: [
 //                        {name : '周最低', value : -2, xAxis: 1, yAxis: -1.5}
-                                        {type : 'min', name: '周最低'}
+                                        {type: 'min', name: '周最低'}
                                     ]
                                 },
-                                markLine : {
-                                    data : [
-                                        {type : 'average', name : '平均值'}
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
                                     ]
                                 }
                             }
@@ -314,13 +312,13 @@
                     });
                 }
             },
-            error : function(errorMsg) {
+            error: function (errorMsg) {
                 //请求失败时执行该函数
                 alert("图表请求数据失败!");
                 myChart.hideLoading();
             }
         })
-    }
+    });
 
 </script>
 <script>

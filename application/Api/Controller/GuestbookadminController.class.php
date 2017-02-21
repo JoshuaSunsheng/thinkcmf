@@ -32,7 +32,6 @@ class GuestbookadminController extends AdminbaseController{
 		}
 	}
 
-
 	/**
 	 *  添加
 	 */

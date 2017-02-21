@@ -54,10 +54,11 @@ class  DoctorController extends HomebaseController{
 
     /*
      * 用于分析耐药excel中的单耐药率和多耐药率
+     * DrugResistance 分析结果 存储 DrugResistanceRate表中
+     * 增量分析数据, 若该耐药率已经存在则跳过计算
      * */
     function generateData(){
         $this -> display();
-
 
         \Think\Log::write('upload myStudy:', "INFO");
         $initYear = 2009;
@@ -73,7 +74,6 @@ class  DoctorController extends HomebaseController{
         $DrugResistance = new \Portal\Model\DrugResistanceModel(); // 实例化 DrugResistance 耐药率数据
 
         foreach($drug as $d) {
-//            $drugMap[$d]="敏感";
             $drugMap[$d] = array('like','%敏感%');
         }
 //      var_dump($drugMap, true);
@@ -171,9 +171,26 @@ class  DoctorController extends HomebaseController{
                     echo $Study->getError();
                 }
                 else{
+                    $process = 0;
+                    if (($_POST['phoneNumber'] != null) && ($_POST['name'] != null) && ($_POST['inclination'] != null)) { //baseInfo 基本信息
+                        $process = $process + 20;
+                    }
+                    if (($_POST['carbonType'] != null) && ($_POST['carbon'] != null) && ($_POST['PPIdxtype'] != null)) { //experiment 实验诊断
+                        $process = $process + 25;
+                    }
+                    if (($_POST['perscription'] != null) && ($_POST['period'] != null)) { //cureMethod 治疗方案
+                        $process = $process + 25;
+                    }
+                    if ($_POST['firstTimeType'] != null && $_POST['firstTimeResult'] != null) { //result 疗效随访
+                        $process = $process + 20;
+                    }
+                    if ($_POST['badResponse'] != null) {             //response 不良反应
+                        $process = $process  + 10;
+                    }
+                    $Study -> process = $process;
+
                     $Study -> badResponse = implode(',', $_POST['badResponse']);
                     \Think\Log::write('dataImport begin $_POST:'.$_POST, "INFO");
-
 
                     if($_POST['id']){
                         if (!$Study->save()) {
@@ -190,9 +207,7 @@ class  DoctorController extends HomebaseController{
                         }
                     }
 
-                    \Think\Log::write('dataImport begin $z:' . $z, "INFO");
-
-                    $this->error('失败', 'myStudy');
+                    $this->success('成功', 'myStudy');
 
                 }
             }
@@ -212,12 +227,12 @@ class  DoctorController extends HomebaseController{
                 $this->data = $Study->alias('a')
                     ->where('a.id='.$_GET['caseId'])->find();
 
-                $badResponse = explode(',', $this->data["badResponse"]);
-                $badResponse = [];
-                foreach($cureTime as $br){
-                    $badResponses[$br["id"]] = 'checked';
-                }
-                $this->badResponses =$badResponses;
+//                $badResponse = explode(',', $this->data["badResponse"]);
+//                $badResponse = [];
+//                foreach($cureTime as $br){
+//                    $badResponses[$br["id"]] = 'checked';
+//                }
+//                $this->badResponses =$badResponses;
 
                 $this->retCode = "00";
                 $this->msg = "查找成功";
@@ -236,13 +251,15 @@ class  DoctorController extends HomebaseController{
         }
     }
 
+
+
     function register(){
 
         \Think\Log::write('register begin:', "INFO");
 
         //获取session中token
-        $token = session('token');
-        \Think\Log::write('register begin:'.$token, "INFO");
+//        $token = session('token');
+//        \Think\Log::write('register begin:'.$token, "INFO");
 
         if(!empty($_POST)){
             $users_model=M("Users");
@@ -250,7 +267,6 @@ class  DoctorController extends HomebaseController{
             $mobile=I('post.phoneNumber');
             if(!$mobile){
                 $this->error("手机号不能为空！");
-
             }
 
             $where['mobile']=$mobile;
@@ -276,7 +292,7 @@ class  DoctorController extends HomebaseController{
                     'last_login_time' => date("Y-m-d H:i:s"),
                     'user_status' => 1,
                     "user_type"=>DOCTOR,//医生
-                    "openid"=>$token['openid'],//医生
+                    "openid"=>"",//医生
                 );
 
                 $rst = $users_model->add($data);
@@ -287,6 +303,9 @@ class  DoctorController extends HomebaseController{
 
         }
         else{
+            $phoneNumber=I('get.phoneNumber');
+
+            $this->phoneNumber = $phoneNumber;
             $this -> display();
         }
 
