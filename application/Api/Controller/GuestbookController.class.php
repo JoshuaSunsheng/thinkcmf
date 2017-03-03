@@ -2,10 +2,10 @@
 namespace Api\Controller;
 
 use Common\Controller\AppframeController;
-use Common\Controller\MemberbaseController;
+use Common\Controller\HomebaseController;
 
 
-class GuestbookController  extends MemberbaseController{
+class GuestbookController  extends HomebaseController{
 
 	protected $guestbook_model;
 
@@ -33,6 +33,10 @@ class GuestbookController  extends MemberbaseController{
 				$email=$user['user_email'];
 				$_POST['full_name']=empty($user_nicename)?$username:$user_nicename;
 				$_POST['email']=$email;
+			} else {
+				$_POST['full_name']="匿名";
+				$_POST['email']="";
+
 			}
 
 			if ($this->guestbook_model->create()!==false) {

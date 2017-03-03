@@ -48,7 +48,7 @@
 					<a href="{:leuu('article/index',array('id'=>$next['object_id'],'cid'=>$next['term_id']))}" class="btn btn-warning pull-right">下一篇</a>
 					</if>
     	            <script type="text/javascript" src="__TMPL__Public/assets/js/qrcode.min.js"></script>
-                    <div id="qrcode" style="width: 100px;margin:0 auto"></div>
+                    <div id="qrcode" style="width: 100px;margin:0 auto; display: none;"></div>
     					<script type="text/javascript">
                         var qrcode = new QRCode(document.getElementById("qrcode"), {
                         width : 100,
@@ -132,5 +132,9 @@
 </div>
 
 <tc_include file="Public:scripts"/>
+<script>
+	jQuery(".btn-navbar").css("display","none");
+
+</script>
 </body>
 </html>

@@ -94,8 +94,6 @@ class  ProjectController extends AdminbaseController
             \Think\Log::write('update end', "INFO");
         }
 
-
-
     }
 
 
