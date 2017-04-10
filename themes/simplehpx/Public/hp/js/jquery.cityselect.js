@@ -84,7 +84,7 @@ required:必选项
 				return;
 			};
 			
-			// 遍历赋值市级下拉列表
+			// 遍历赋值区县下拉列表
 			temp_html=select_prehtml;
 			$.each(city_json.citylist[prov_id].c[city_id].a,function(i,dist){
 				temp_html+="<option value='"+dist.s+"'>"+dist.s+"</option>";

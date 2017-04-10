@@ -1,4 +1,5 @@
 <tc_include file="Public:hp:head" />
+<!--全国地图,点击查看各省耐药情况,目前取消该方案-->
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -6,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=yes">
     <meta name="description" content="">
     <meta name="author" content="">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -78,11 +79,11 @@
 <div class="header">
 
 </div>
-<div class="am-g">
+<div class="am-g" style="display: none" id="search">
     <div class="am-u-lg-12 am-u-md-12 am-u-sm-centered">
         <form method="post" id="application" name="application" class="am-form am-form-horizontal" style="    font-size: 1.5rem;">
             <fieldset>
-                <div class="am-form-group" id="drugList" style="display: none">
+                <div class="am-form-group">
                     <label for="drug" class="am-u-sm-6 am-form-label">抗生素:</label>
                     <div class="am-u-sm-6">
                         <select id="drug" name="drug">
@@ -97,7 +98,7 @@
                     </div>
                 </div>
 
-                <div class="am-form-group" id="yearList" style="display: none">
+                <div class="am-form-group">
                     <label for="year" class="am-u-sm-6 am-form-label">选择时间:</label>
                     <div class="am-u-sm-6">
                         <select id="year" name="year">
@@ -114,23 +115,21 @@
 
                 </div>
 
-                <div class="am-form-group">
-                    <label class="am-u-sm-4 am-u-lg-4 am-u-md-4 am-form-label">按地区查询:</label>
+                <!--<div class="am-form-group">
+                    <label class="am-u-sm-4 am-u-lg-4 am-u-md-4 am-form-label">选择地区:</label>
                     <div id="address">
                         <div class="am-u-sm-4">
                             <select class="prov" id="province" name="province"></select><span class="am-form-caret"></span>
                         </div>
-                        <div class="am-u-sm-4">
+                        <div class="am-u-sm-4"  style="display: none">
                             <select class="city" id="city" name="city" disabled="disabled"></select><span class="am-form-caret"></span>
                         </div>
-                        <!--<div class="am-u-sm-3">-->
-                            <!--<select class="dist" id="district" name="district" disabled="disabled"></select><span class="am-form-caret"></span>-->
-                        <!--</div>-->
+
                     </div>
 
-                </div>
+                </div>-->
 
-                <div class="am-form-group"  id="search" style="display: none">
+                <div class="am-form-group">
 
                     <div class="am-u-sm-4">
                         <button type="button" class="am-btn am-btn-primary am-radius" onclick="showProvince(provinceName, provinceText);return false;">查询</button>
@@ -150,13 +149,16 @@
 
 <div class="row margin0 ">
     <!-- center-->
-    <!--<div class="am-form-group">-->
+    <div class="am-form-group">
 
-        <!--<div class="am-u-sm-4">-->
-            <!--<button id="returnBack" type="button" class="am-btn am-btn-primary am-radius" onclick="returnBack();return false;" style="display: none">返回</button>-->
-        <!--</div>-->
+        <div class="am-u-sm-4">
+            <button id="returnBack" type="button" class="am-btn am-btn-primary am-radius" onclick="returnBack();return false;" style="display: none">返回</button>
+        </div>
 
-    <!--</div>-->
+        <br>
+
+
+    </div>
 
     <div class="am-form-group">
         <div id="chart-panel" class="right-panel" style=" width: 100%;height: 600px"></div>
@@ -179,10 +181,10 @@
 <script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
 <script src="{$JS_URL}amazeui.min.js"></script>
-<script>
+<!--<script>
     citySelect_url="{$SITE_URL}";
 </script>
-<script type="text/javascript" src="{$JS_URL}jquery.cityselect.js"></script>
+<script type="text/javascript" src="{$JS_URL}jquery.cityselect.js"></script>-->
 
 <!--<script type="text/javascript" src="{$JS_URL}china.js"></script>-->
 
@@ -199,15 +201,14 @@
     })(navigator.userAgent || navigator.vendor || window.opera);
 
 
-    $(function () {
+    /*$(function () {
         $("#address").citySelect({
-//            prov: "省份",
-//            city: "市",
-//            dist:"区(县)",
+            prov: "浙江",
+            city: "温州",
             nodata: "none",
             required: false
         });
-    });
+    });*/
 
     var myChart = echarts.init(document.getElementById('chart-panel'));
     var url = '__SELF__';
@@ -346,55 +347,21 @@
     var provincesText = ['上海', '河北', '山西', '内蒙古', '辽宁', '吉林','黑龙江',  '江苏', '浙江', '安徽', '福建', '江西', '山东','河南', '湖北', '湖南', '广东', '广西', '海南', '四川', '贵州', '云南', '西藏', '陕西', '甘肃', '青海', '宁夏', '新疆', '北京', '天津', '重庆', '香港', '澳门'];
 
     function chinaMapInit() {
-//        myChart.on('click', function (param) {
-//
-//            // alert(param.name);
-//            //遍历取到provincesText 中的下标  去拿到对应的省js
-//            for (var i = 0; i < provincesText.length; i++) {
-//
-//                if (param.name == provincesText[i]) {
-//                    //显示对应省份的方法
-//                    showProvince(provinces[i], provincesText[i]);
-//
-//                    break;
-//                }
-//
-//            }
-//        });
-        $("#district").on('change', function (param) {
+        myChart.on('click', function (param) {
 
-            //遍历取到provincesText 中的下标  去拿到对应的省js
-//            for (var i = 0; i < provincesText.length; i++) {
-//
-//                if (param.name == provincesText[i]) {
-//                    //显示对应省份的方法
-//                    showProvince(provinces[i], provincesText[i]);
-//
-//                    break;
-//                }
-//
-//            }
-        });
-
-        $("#city").on('change', function () {
-            var name =$("#province").val()
-//            var name = $(this).children('option:selected').val();
+            // alert(param.name);
             //遍历取到provincesText 中的下标  去拿到对应的省js
             for (var i = 0; i < provincesText.length; i++) {
 
-                if (name == provincesText[i]) {
+                if (param.name == provincesText[i]) {
                     //显示对应省份的方法
                     showProvince(provinces[i], provincesText[i]);
-                    $("#drugList").css('display','');
-                    $("#yearList").css('display','');
 
                     break;
                 }
 
             }
         });
-
-
     }
     chinaMapInit();
 
@@ -409,7 +376,7 @@
             initEcharts(pNameText);
             provinceName = pName;
             provinceText = pNameText;
-//            $("#returnBack").css('display','');
+            $("#returnBack").css('display','');
             $("#search").css('display','');
 
         });
