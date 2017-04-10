@@ -27,7 +27,6 @@ class  DoctorController extends HomebaseController{
 
             $DrugResistanceRate = new \Portal\Model\DrugResistanceRateModel(); // 实例化 DrugResistanceRate 耐药率
 
-
 //            $city = I('post.city')."地区";
             $city = $doctor["city"]."地区";
 
@@ -42,11 +41,25 @@ class  DoctorController extends HomebaseController{
             $data = $DrugResistanceRate->field('year, drug, solerate, mutilrate')->where($map)->order('year')->select();
             $data["count"] = $DrugResistanceRate->where($map)->count();
 
+
             \Think\Log::write('chart $data:'.$data, "INFO");
 
             $this->ajaxReturn($data,"json");
         }
         else{
+
+            //根除率
+            $doctor["totalradication"] =$this->getEradictionRate("", ""); //  所有 所有
+
+            //以下为细分
+            $doctor["personal3rate"] = $this->getEradictionRate("0", "1"); //  三联 个体化
+            $doctor["personal4rate"] = $this->getEradictionRate("1", "1"); // 四联 个体化
+
+            $doctor["exp3rate"] = $this->getEradictionRate("0", "0"); // 三联 经验
+            $doctor["exp4rate"] = $this->getEradictionRate("1", "0"); // 四联 经验
+
+            $doctor["otherrate"] = $this->getEradictionRate("2", "1") + $this->getEradictionRate("2", "0"); // 其它 个体化 + 经验
+
             $this->assign('doctor',$doctor);
             $this -> display();
         }
@@ -188,6 +201,7 @@ class  DoctorController extends HomebaseController{
                         $process = $process  + 10;
                     }
                     $Study -> process = $process;
+                    $Study -> doctorId = $this->get_doctor_id();
 
                     $Study -> badResponse = implode(',', $_POST['badResponse']);
                     \Think\Log::write('dataImport begin $_POST:'.$_POST, "INFO");
@@ -196,18 +210,18 @@ class  DoctorController extends HomebaseController{
                         if (!$Study->save()) {
                             echo $Study->getError();
                         } else {
-                            $this->success('更新成功', 'myStudy');
+                            $this->success('更新成功', 'index');
                         }
                     }
                     else{
                         if (!$Study->add()) {
                             echo $Study->getError();
                         } else {
-                            $this->success('新增成功', 'myStudy');
+                            $this->success('新增成功', 'index');
                         }
                     }
 
-                    $this->success('成功', 'myStudy');
+                    $this->success('成功', 'index');
 
                 }
             }
@@ -534,6 +548,9 @@ class  DoctorController extends HomebaseController{
             ->where($map)
             ->count();
 
+        $finishnum = $db->where('process like "100"')
+            ->count();
+
         //计算分页
         $pagenum = $recordnum / $pagesize;
         //如果不能整除，则自动加1页
@@ -549,10 +566,40 @@ class  DoctorController extends HomebaseController{
         $this->page = $page;
         $this->pagesize = $pagesize;
         $this->recordnum = $recordnum;
+        $this->finishnum = $finishnum;
         $this->title = "病例列表";
 
         $this->display();
-        \Think\Log::write('caseSearch end', "INFO");    }
+        \Think\Log::write('caseSearch end', "INFO");
+    }
 
+    /**
+     * @param $perscription 0为三联 1为四联
+     * @param $germ 1 阳性为个体化治疗, 0 阴性为经验治疗
+     * @return float 根除率
+     */
+    public function getEradictionRate( $perscription, $germ)
+    {
+        \Think\Log::write('getEradictionRate $perscription, $germ:'.$perscription.", ".$germ, "INFO");
+
+        //根除率
+        $Study = new \Portal\Model\CaseModel(); // 实例化 Patient对象
+        $map = null;
+        $map['process'] = array('like',"%100%");         //治疗结束
+        $map['carbon'] = array('like',"%1%");           //呼气结果: 1阳性, 0阴性
+        $map['doctorId'] = $this->get_doctor_id();          //呼气结果: 1阳性, 0阴性
+
+        if($perscription != "") $map['perscription'] = array('like', "%".$perscription."%");           //三联, 四联
+        if($germ != "") $map['germ'] = array('like',"%".$germ."%");           //呼气结果为阳性, 个体化治疗方案
+
+        $total = $Study->where($map)->count();
+        \Think\Log::write('getEradictionRate $total:'.$total, "INFO");
+        $map['firstTimeResult'] = array('like', "%0%");  //第一次随访 阴性为已经根除
+        $count = $Study->where($map)->count();
+        \Think\Log::write('getEradictionRate $count:'.$count, "INFO");;
+
+        return $count * 100 / $total;
+
+    }
 
 }

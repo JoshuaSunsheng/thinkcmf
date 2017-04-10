@@ -290,7 +290,7 @@
                        </select>
                         <span class="am-form-caret"></span>
                     </div>
-                    <div class="am-u-sm-8 carbonType" style="display: none">
+                    <div class="am-u-sm-8 carbonType" style="">
                         <label class="am-radio-inline">
                             <eq name="data[carbon]" value="1">
                                 <input type="radio" value="1" name="carbon" checked> 阳性
@@ -327,12 +327,20 @@
                             </eq>
                         </label>
 
+                        <label class="am-radio-inline">
+                            <eq name="data[germ]" value="3">
+                                <input type="radio" value="3" name="germ" checked> 无
+                                <else/>
+                                <input type="radio" value="3" name="germ"> 无
+                            </eq>
+                        </label>
+
                     </div>
                 </div>
-                <div class="am-form-group germ" style="">
+                <div class="am-form-group germ" style="display: none">
                     <label class="am-u-sm-4 am-form-label">药敏实验</label>
                 </div>
-                <div class="am-form-group germ" style="">
+                <div class="am-form-group germ" style="display: none;">
                     <label class="am-u-sm-4 am-form-label">克拉霉素:</label>
                     <div class="am-u-sm-8">
 
@@ -996,7 +1004,11 @@
         }
     });
 
-
+    jQuery(window).load(function () { // makes sure the whole site is loaded
+        if($("input[name=germ]:checked").val() == "1"){ //病例修改页面, 细菌培养结果为阳性需要显示不同药的耐药情况
+            $(".germ").show(); // 相当于$("p").show();
+        }
+    })
 
 </script>
 </body>

@@ -35,7 +35,7 @@ class GuestbookController  extends HomebaseController{
 				$_POST['email']=$email;
 			} else {
 				$_POST['full_name']="匿名";
-				$_POST['email']="";
+				$_POST['email']="www@www.com";
 
 			}
 

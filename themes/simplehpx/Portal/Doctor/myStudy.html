@@ -79,7 +79,7 @@
 </header>
 <!-- 页面内容 开发时删除 -->
 <div class="am-g am-g-fixed am-margin-top">
-    <h5 class="am-am-g-myStudy-h5">您所在的{$doctor.city}地区, 以不同时间周期为每年的病例数计算，计算单药、多药耐药率、耐药趋势。</h5>
+    <h5 class="am-am-g-myStudy-h5">{$doctor.city}</h5>
     <div class="am-u-sm-12 am-center">
         <div id="container" style="width: 100%;height: 300px"></div>
         <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
@@ -96,14 +96,15 @@
     </div>
 </div>
 
+<hr>
 
 <div class="am-g am-g-fixed am-margin-top">
-    <h5 class="am-am-g-myStudy-h5">我已进行XXliHP根除治疗的研究病例，
-        其中XXli已完成全部研究内容。</h5>
+    <!--<h5 class="am-am-g-myStudy-h5">我已进行XXliHP根除治疗的研究病例，-->
+        <!--其中XXli已完成全部研究内容。</h5>-->
     <div class="am-u-sm-12">
-        <p>我参与管理研究的病例总根除率为XX%。
-            其中个体化三联方案根除率为XX，个体化四联方案根除率为XX%
-            经验三联方案根除率为XX%，经验四联方案根除率为XX%，其它根除方案根除率为XX%。</p>
+        <p>我参与管理研究的病例总根除率为{$doctor.totalradication}%。
+            其中个体化三联方案根除率为{$doctor.personal3rate}%，个体化四联方案根除率为{$doctor.personal4rate}%
+            经验三联方案根除率为{$doctor.exp3rate}%，经验四联方案根除率为{$doctor.exp4rate}%，其它根除方案根除率为{$doctor.otherrate}%。</p>
         <!--<button type="button" class="am-btn am-btn-primary am-round"-->
                 <!--style="width: 150px;height: 150px;background: #0f8184;font-size: 20px;opacity: 1;" disabled="disabled">-->
             <!--图表显示-->
@@ -125,21 +126,22 @@
 <script src="{$JS_URL}amazeui.min.js"></script>
 
 <script>
+    var myChart;
     jQuery(document).ready(function () {
 
         var dom = document.getElementById("container");
-        var myChart = echarts.init(dom);
+        myChart = echarts.init(dom);
         var option = {
             title: {
-                text: '耐药率变化',
+                text: '耐药率及耐药趋势',
                 subtext: ''
             },
             tooltip: {
                 trigger: 'axis'
             },
-            legend: {
+            /*legend: {
                 data: ['', '', '', 'klms', 'zyfsx', 'mutilrate']
-            },
+            },*/
             grid: {
                 left: '3%',
                 right: '10%',
@@ -261,7 +263,8 @@
                         ],
                         series: [
                             {
-                                name: 'klms',
+//                                name: 'klms',
+                                name: 'CLR',
                                 type: 'line',
                                 data: klms,
                                 markPoint: {
@@ -277,7 +280,8 @@
                                 }
                             },
                             {
-                                name: 'zyfsx',
+//                                name: 'zyfsx',
+                                name: 'LVX',
                                 type: 'line',
                                 data: zyfsx,
                                 markPoint: {
@@ -326,30 +330,58 @@
     var myChart1 = echarts.init(dom1);
     var dataAll = [
         [
-            [10.0, 88.04],
-            [8.0, 76.95],
-            [13.0, 77.58],
-            [9.0, 78.81],
-            [11.0, 78.33],
-            [14.0, 79.96],
-            [6.0, 77.24],
-            [4.0, 74.26],
-            [12.0, 80.84],
-            [7.0, 74.82],
-            [5.0, 75.68]
+            [1, 88.04],
+            [3, 76.95],
+            [5, 77.58],
+            [7, 78.81],
+            [9, 78.33],
+            [11, 79.96],
+            [13, 77.24],
+//            [15, 74.26],
+//            [17, 80.84],
+//            [19, 74.82],
+//            [21, 75.68]
         ],
         [
-            [10.0, 9.14],
-            [8.0, 8.14],
-            [13.0, 8.74],
-            [9.0, 8.77],
-            [11.0, 9.26],
-            [14.0, 8.10],
-            [6.0, 6.13],
-            [4.0, 3.10],
-            [12.0, 9.13],
-            [7.0, 7.26],
-            [5.0, 4.74]
+            [2, 79.14],
+            [4, 78.14],
+            [6, 78.74],
+            [8, 87.77],
+            [10, 79.26],
+            [12, 78.10],
+            [14, 76.13],
+//            [16, 73.10],
+//            [18, 79.13],
+//            [20, 77.26],
+//            [22, 74.74]
+        ]
+    ];
+    var dataAllTitle = [
+        [
+            [18,"张贤仁0","协和医院"],
+            [18,"张贤仁1","协和医院"],
+            [18,"张贤仁2","协和医院"],
+            [18,"张贤仁3","协和医院"],
+            [18,"张贤仁4","协和医院"],
+            [18,"张贤仁5","协和医院"],
+            [18,"张贤仁6","协和医院"],
+            [18,"张贤仁7","协和医院"],
+            [18,"张贤仁8","协和医院"],
+            [18,"张贤仁9","协和医院"],
+            [18,"张贤仁10","协和医院"]
+        ],
+        [
+            [18,"张贤仁0","协和医院"],
+            [18,"张贤仁1","协和医院"],
+            [18,"张贤仁2","协和医院"],
+            [18,"张贤仁3","协和医院"],
+            [18,"张贤仁4","协和医院"],
+            [18,"张贤仁5","协和医院"],
+            [18,"张贤仁6","协和医院"],
+            [18,"张贤仁7","协和医院"],
+            [18,"张贤仁8","协和医院"],
+            [18,"张贤仁9","协和医院"],
+            [18,"张贤仁10","协和医院"]
         ]
     ];
 
@@ -373,13 +405,23 @@
             data: ['个体化治疗', '经验治疗']
         },
         tooltip: {
-            formatter: 'Group {a}: ({c})'
+            formatter: function(params) {
+                var info = dataAllTitle[params.seriesIndex][params.dataIndex];
+                var res='姓名:'+info[1]+'</br>'
+                res+='医院:'+info[2]+'</br>'
+                res+='根除例数：'+info[0]+'</br>'
+                res+='根除率:'+params.data[1]+'%</br>'
+
+//                alert(dataAllTitle[params.seriesIndex][params.dataIndex])
+                return res;
+            }
         },
         xAxis: [
-            {gridIndex: 0, min: 0, max: 25, name:'附近同行'}
+            {gridIndex: 0, min: 0, name:'附近同行',axisLine:false},
+//            {show:false}
         ],
         yAxis: [
-            {gridIndex: 0, min: 0, max: 18,  name:'根除率(%)'}
+            {gridIndex: 0, min: 0, max: 100,  name:'根除率(%)'}
         ],
         series: [
             {
@@ -404,6 +446,12 @@
 
     myChart1.hideLoading();    //隐藏加载动画
     myChart1.setOption(option1);
+
+
+    window.onresize = function(){
+        myChart1.resize();
+        myChart.resize();
+    }
 </script>
 
 </body>

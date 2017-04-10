@@ -65,49 +65,6 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 
 
-<script>
-    var jQueryf = jQuery.noConflict();
-    //mootools中嵌入jQuery 需要启动jQuery无冲突模式
-</script>
-<script type="text/javascript">
-    var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + "wx50601fae46ea8a28" + '&redirect_uri=https://m.dianpayer.com';
-    //var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx50601fae46ea8a28&redirect_uri=https://m.dianpayer.com';
-    var url_tail = '&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
-
-    (function () {
-
-        isBind = false;
-        //普通页面不需要验证
-        ret = [];
-        ret.resCode = "00";
-        if (ret) {
-            if (ret && ret.resCode == "00") {
-                isBind = true;
-            }
-            else {
-                Portal.error("请先app账号")
-                //alert(window.location.pathname)
-                window.location.href = "/wechat/register/wbinduser.htm?userName=" + ret.openId + "&appUserName=" + appid + "&backPath=" + window.location.pathname;
-            }
-        }
-
-        //使用js原始方法，勿改
-        var muObj = document.getElementById("index");
-        if (muObj) {
-            muObj.className = "active";
-        }
-
-        /* 注销 */
-        function doLogout() {
-            DWR.call("userService.logout", function () {
-                document.location.href = "../index.htm"
-            });
-        }
-    })(jQueryf)
-
-
-</script>
-
 <div id="preloader">
     <div class="pui-loading pui-loading-double-circle-rotation loder_status">
         <span></span>
@@ -129,22 +86,20 @@
 
         <div data-am-widget="list_news" class="am-list-news am-list-news-default">
             <php>
-//                var_dump($catagory, true);
                 $cat_id = $catagory["cat_id"];
                 $lists = sp_sql_posts_paged("cid:$cat_id;order:post_date DESC;",10);
             </php>
             <!--列表标题-->
             <div class="am-list-news-hd am-cf">
                 <!--带更多链接-->
-                <a href="###" class="">
+                <a href="__ROOT__/index.php/list/index/id/{$cat_id}" class="">
                     <h2 class="am-titlebar-title ">
                         {$catagory.term.name}
                     </h2>
                     <span class="am-list-news-more am-fr"><a class="am-list-news-more am-fr" href="/index.php/list/index/id/{$cat_id}">更多 &raquo;</a></span>
                 </a>
-
             </div>
-
+            <hr>
             <div class="am-list-news-bd">
                 <ul class="am-list">
 
@@ -154,7 +109,7 @@
                             $smeta=json_decode($vo['smeta'], true);
                         </php>
 
-                        <li class="am-g am-list-item-desced">
+                        <li class="am-g am-list-item-desced" style="display: none">
                             <a href="{:leuu('article/index',array('id'=>$vo['object_id'],'cid'=>$vo['term_id']))}"
                                class="am-list-item-hd ">{$vo.post_title}</a>
 
@@ -193,18 +148,9 @@
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
     })
 
-    jQueryf(document).ready(function () {
-        appid = "wx50601fae46ea8a28"
-        href = "https://m.dianpayer.com";
-        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize" + "?appid=" + appid + "&redirect_uri=" + href + "/wechat/"
-        href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-//        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
-//        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);
-//        jQueryf("#detail").attr("href", href_pre + "service/dFtradelist.htm" + href_suffix);
-//        jQueryf("#balance").attr("href", href_pre + "service/dFsearch.htm" + href_suffix);
-//        jQueryf("#download").attr("href", "https://m.dianpayer.com/wechat/about/download.htm");
-//        jQueryf("#info").attr("href", "https://m.dianpayer.com/wechat/about/limition.htm");
-    });
+
+    jQuery('.am-list-news-more').css('display','none');
+
 </script>
 </body>
 </html>

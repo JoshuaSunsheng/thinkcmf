@@ -87,6 +87,9 @@
         margin:20px 0 20px 50px;
     }
 </style>
+
+<link rel="stylesheet" href="{$CSS_URL}css-loader.css">
+
 </head>
 <body style="font-size: 14px;">
 
@@ -112,11 +115,11 @@
             <form method="post" id="register" name="register" class="am-form am-form-horizontal">
                 <fieldset>
 
-                    <div class="am-form-group" >
+                    <div class="am-form-group" style="display: none;">
                         <div class="am-u-lg-12">
                             <div class="am-input-group">
                                 <span class="am-input-group-label" style="border-top-left-radius: 9px;border-bottom-left-radius: 9px;"><i class="am-icon-phone am-icon-fw"></i></span>
-                                <input type="text" class="am-form-field" id="phoneNumber" name="phoneNumber" maxlength="11" value="{$phoneNumber}" placeholder="手机号" style="display: none;">
+                                <input type="text" class="am-form-field" id="phoneNumber" name="phoneNumber" maxlength="11" value="{$phoneNumber}" placeholder="手机号" >
                             </div>
                         </div>
                     </div>
@@ -227,7 +230,7 @@
                         <!--<div id="file-list"></div>-->
                     </div>
 
-                    <div class="am-form-group am-form-file">
+                    <div class="am-form-group am-form-file" style="display: none">
                         <div class="am-u-sm-12">
                             <label for="description">身份证照片</label>
                         </div>
@@ -306,7 +309,7 @@
                     </div>
 
                     <input type="text" class="upload_pic" name="headLogoFile" hidden/>
-                    <input type="text" class="upload_pic" name="idnoFile" hidden/>
+                    <!--<input type="text" class="upload_pic" name="idnoFile" hidden/>-->
                     <input type="text" class="upload_pic" name="docFile" hidden/>
 
                     <div class="am-g">
@@ -323,8 +326,11 @@
         </div>
     </div>
 
-
 </div>
+
+
+<!-- Loader -->
+<div class="loader loader-bar is-active" data-text style="display: none"></div>
 
 <script type="text/javascript" src="{$JS_URL}jquery.min.js"></script>
 <script src="{$JS_URL}amazeui.min.js"></script>
@@ -332,22 +338,33 @@
 <!--<script src="{$JS_URL}fileinput.js"></script>-->
 <script>
     citySelect_url="{$SITE_URL}";
+    //显示加载数据
+    function ShowDiv() {
+        $("#loading").show();
+    }
+
+    //隐藏加载数据
+    function HiddenDiv() {
+        $("#loading").hide();
+    }
+
+    ShowDiv();
 </script>
 <script type="text/javascript" src="{$JS_URL}jquery.cityselect.js"></script>
 <script type="text/javascript">
     //获取上传按钮
     var input0 = document.getElementById("headLogoFile");
-    var input1 = document.getElementById("idnoFile");
+//    var input1 = document.getElementById("idnoFile");
     var input2 = document.getElementById("docFile");
 
     if(typeof FileReader==='undefined'){
         //result.innerHTML = "抱歉，你的浏览器不支持 FileReader";
         input0.setAttribute('disabled','disabled');
-        input1.setAttribute('disabled','disabled');
+//        input1.setAttribute('disabled','disabled');
         input2.setAttribute('disabled','disabled');
     }else{
         input0.addEventListener('change',readFile,false);
-        input1.addEventListener('change',readFile,false);
+//        input1.addEventListener('change',readFile,false);
         input2.addEventListener('change',readFile,false);
         /*input1.addEventListener('change',function (e){
          console.log(this.files);//上传的文件列表
@@ -422,6 +439,7 @@
     console.log(xhr.readyState);
 
     function uploadPic(id, data){
+        lockScreen();
         var formdata = new FormData();
         formdata.append("photoFile", data);
 //        alert(data)
@@ -454,6 +472,8 @@
                     }else{
                         alert('error: 上传失败, 请重试!') ;
                     }
+                    setTimeout('cancelScreen()',500);
+
                     break;
             }
         }
@@ -461,9 +481,16 @@
 //        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
         xhr.send(formdata);
 
-
     };
 
+    function cancelScreen(){
+        $(".loader").css('display','none')
+    }
+
+    function lockScreen(){
+        $(".loader").css('display','')
+
+    }
     function encodeFormData(data){
         if(!data) return '';
         var pairs = [];
