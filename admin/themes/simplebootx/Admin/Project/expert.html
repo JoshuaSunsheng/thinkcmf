@@ -1,5 +1,5 @@
 <include file="Public:amaze_css"/>
-<!--参与成员展示-->
+<!--专家团队-->
 
 <style>
     body, table {
@@ -25,39 +25,36 @@
 
             <hr>
             <div class="am-g">
-                <div class="am-u-sm-9">
+                <div class="am-u-sm-12">
                     <table class="am-table am-table-bd am-table-striped admin-content-table">
                         <thead>
                         <tr>
-                            <th>地区</th>
-                            <th>主任医师(人数)</th>
-                            <th>副主任医师(人数)</th>
-                            <th>主治医师(人数)</th>
-                            <th>住院医师(人数)</th>
+                            <!--<th>ID</th>-->
+                            <th>姓名</th>
+                            <th>职位</th>
+                            <th>简介</th>
                             <th>管理</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <volist name="data" id="join">
+                        <volist name="data" id="expert">
 
                         <tr>
-                            <td>{$join.region}</td>
-                            <td>{$join.professor}</td>
-                            <td>{$join.associateprofessor}</td>
-                            <td>{$join.attendingdoctor}</td>
-                            <td>{$join.residentdoctor}</td>
+                            <!--<td>{$join.region}</td>-->
+                            <td>{$expert.name}ddd</td>
+                            <td>{$expert.profession}dddd</td>
+                            <td>{$expert.description}dddd</td>
                             <td>
                                 <div class="am-dropdown" data-am-dropdown>
                                     <button class="am-btn am-btn-default am-btn-xs am-dropdown-toggle"
                                             data-am-dropdown-toggle><span class="am-icon-cog"></span> <span
                                             class="am-icon-caret-down"></span></button>
                                     <ul class="am-dropdown-content">
-                                        <li><a href="joinUpdate?joinMemberId={$join.id}">1. 编辑</a></li>
+                                        <li id="{$expert.id}"><a href="#">1. 编辑</a></li>
                                     </ul>
                                 </div>
                             </td>
                         </tr>
-
 
                         </volist>
 
@@ -74,6 +71,22 @@
                 <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>-->
             </div>
         </div>
+
+
+        <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">Amaze UI</div>
+                <div class="am-modal-bd">
+                    来来来，吐槽点啥吧
+                    <input type="text" class="am-modal-prompt-input">
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                    <span class="am-modal-btn" data-am-modal-confirm>提交</span>
+                </div>
+            </div>
+        </div>
+
 
         <footer class="admin-content-footer">
             <hr>
@@ -92,54 +105,37 @@
 <include file="Public:js"/>
 
 <script>
-    function getDoctor(doctorId) {
-
-        var url = '__SELF__';
-
-        $("<div></div>").load(url, {doctorId: doctorId}, function () {
-
-            var data = $(this).find("#tablelist").html();
-            $('#tablelist').html(data);
-
-
-            $(this).remove();
+    $(function() {
+        $('.am-dropdown-content li').on('click', function() {
+            $(this)[0].id
+            $('#my-prompt').modal({
+                relatedTarget: this,
+                onConfirm: function(e) {
+                    alert('你输入的是：' + e.data || '')
+                },
+                onCancel: function(e) {
+                    alert('不想说!');
+                }
+            });
         });
-    }
-
-    $("form input").prop("readonly", true);
-    $("form textarea").prop("readonly", true);
-
-    function PassDoctor(doctorId) {
-
-        if (confirm("审核通过?")) {
-            $.post("__URL__/passDoctor", {id: doctorId}, function (data, textStatus) {
-                history.go(-1);
-            });
-        }
-    }
-
-    function CancelDoctor(doctorId) {
-
-        if (confirm("审核失败?")) {
-            $.post("__URL__/cancelDoctor", {id: doctorId}, function (data, textStatus) {
-                history.go(-1)
-            });
-        }
-    }
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-        loadImg();
     });
-    var loadImg = function() {
-        var imgs = document.querySelectorAll('img');
-        for (var i = 0; i < imgs.length; i++) {
-            if(imgs[i].getAttribute('img-src')){
-                imgs[i].setAttribute('src',imgs[i].getAttribute('img-src'));
-            }
-            else{
-                imgs[i].setAttribute('src',"{$IMG_URL}doctor.png");
-            }
+    function saveJoinMember() {
+
+        var response = $("#response").serialize();
+
+
+        if (confirm("保存修改?")) {
+            $.post("__URL__/update", response,function(data,textStatus){
+                if(data.state == "fail"){
+                    alert("服务忙, 请稍后重试");
+                }else{
+                    window.location.href="join"
+                }
+            });
+
         }
-    };
+    }
+
+
+
 </script>

@@ -78,12 +78,12 @@
 <div class="header">
 
 </div>
-<div class="am-g">
-    <div class="am-u-lg-12 am-u-md-12 am-u-sm-centered">
-        <form method="post" id="application" name="application" class="am-form am-form-horizontal" style="    font-size: 1.5rem;">
-            <fieldset>
+<div class="am-g" style="88px">
+    <div class="am-u-lg-12 am-u-md-12 am-u-sm-centered" style="padding-left:0px">
+        <form method="post" id="application" name="application" class="am-form am-form-horizontal" style="    font-size: 1.5rem;margin-bottom:0px">
+            <fieldset style="margin: 0;">
                 <div class="am-form-group" id="drugList" style="display: none">
-                    <label for="drug" class="am-u-sm-6 am-form-label">抗生素:</label>
+                    <label for="drug" class="am-u-sm-3 am-form-label" style="padding-left:0px">抗生素:</label>
                     <div class="am-u-sm-6">
                         <select id="drug" name="drug">
                             <option value="zyfsx">左氧氟沙星</option>
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="am-form-group" id="yearList" style="display: none">
-                    <label for="year" class="am-u-sm-6 am-form-label">选择时间:</label>
+                    <label for="year" class="am-u-sm-3 am-form-label" style="padding-left:0px">选择时间:</label>
                     <div class="am-u-sm-6">
                         <select id="year" name="year">
                             <option value="2015">2015</option>
@@ -115,7 +115,7 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label class="am-u-sm-4 am-u-lg-4 am-u-md-4 am-form-label">按地区查询:</label>
+                    <label class="am-u-sm-4 am-u-lg-4 am-u-md-4 am-form-label" style="padding-left:0px">按地区查询:</label>
                     <div id="address">
                         <div class="am-u-sm-4">
                             <select class="prov" id="province" name="province"></select><span class="am-form-caret"></span>
@@ -130,19 +130,20 @@
 
                 </div>
 
-                <div class="am-form-group"  id="search" style="display: none">
+                <div class="am-form-group" >
 
-                    <div class="am-u-sm-4">
-                        <button type="button" class="am-btn am-btn-primary am-radius" onclick="showProvince(provinceName, provinceText);return false;">查询</button>
+                    <div class="am-u-sm-4"  id="search">
+                        <button type="button" class="am-btn am-btn-primary am-radius" onclick="search();return false;">查询</button>
                     </div>
-
+                    <div class="am-u-sm-4"  id="returnBack" style="display: none">
+                        <button type="button" class="am-btn am-btn-primary am-radius" onclick="returnBack();return false;" >返回</button>
+                    </div>
 
                 </div>
 
             </fieldset>
 
         </form>
-        <hr>
 
     </div>
 </div>
@@ -152,9 +153,7 @@
     <!-- center-->
     <!--<div class="am-form-group">-->
 
-        <!--<div class="am-u-sm-4">-->
-            <!--<button id="returnBack" type="button" class="am-btn am-btn-primary am-radius" onclick="returnBack();return false;" style="display: none">返回</button>-->
-        <!--</div>-->
+
 
     <!--</div>-->
 
@@ -168,8 +167,8 @@
 
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="{$JS_URL}jquery.min.js"></script>
-<!--<script src="//cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>-->
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+<script src="//cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>
+<!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>-->
 <script type="text/javascript" src="{$DATA_URL}china.js"></script>
 
 <!--<![endif]-->
@@ -212,11 +211,8 @@
     var myChart = echarts.init(document.getElementById('chart-panel'));
     var url = '__SELF__';
 
-    var provinceName = 'china';
-    var provinceText = '全国';
+    var DATA_URL = '{$DATA_URL}'
 
-
-    var pName = "china";
     //关键是配置项
     var option;
     function randomData() {
@@ -247,11 +243,12 @@
             },
             series : [
                 {
+                    roam: true,
                     name: '网点个数',
                     //series[i]-map:系列列表。每个系列通过 type 决定自己的图表类型,此处是地图类型
                     type: 'map',
                     //这里是'china',及因为js中注册的名字，如果是上海市，则该出需pName 指的是'shanghai'
-                    mapType: pName,
+                    mapType: 'china',
                     //地图区域的多边形 图形样式，有 normal 和 emphasis 两个状态
                     itemStyle: {
                         //normal 是图形在默认状态下的样式；
@@ -265,12 +262,7 @@
                         emphasis: {
                             show: true,
                             areaColor:"#C8A5DF",
-//                        label: {
-//                            show: true
-//                            // position: 默认自适应，水平布局为'top'，垂直布局为'right'，可选为
-//                            //           'inside'|'left'|'right'|'top'|'bottom'
-//                            // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
-//                        }
+
                         }
                     },
                     //图形上的文本标签，可用于说明图形的一些数据信息
@@ -330,14 +322,11 @@
                     ]
 
                 }],
-//        title : {
-//            text: pName,
-//            left: 'center'
-//        }
         };
     }
     //使用刚指定的配置项和数据显示图表。
     optionInit();
+
     myChart.setOption(option);
 
 
@@ -346,47 +335,15 @@
     var provincesText = ['上海', '河北', '山西', '内蒙古', '辽宁', '吉林','黑龙江',  '江苏', '浙江', '安徽', '福建', '江西', '山东','河南', '湖北', '湖南', '广东', '广西', '海南', '四川', '贵州', '云南', '西藏', '陕西', '甘肃', '青海', '宁夏', '新疆', '北京', '天津', '重庆', '香港', '澳门'];
 
     function chinaMapInit() {
-//        myChart.on('click', function (param) {
-//
-//            // alert(param.name);
-//            //遍历取到provincesText 中的下标  去拿到对应的省js
-//            for (var i = 0; i < provincesText.length; i++) {
-//
-//                if (param.name == provincesText[i]) {
-//                    //显示对应省份的方法
-//                    showProvince(provinces[i], provincesText[i]);
-//
-//                    break;
-//                }
-//
-//            }
-//        });
-        $("#district").on('change', function (param) {
+        myChart.on('click', function (param) {
 
-            //遍历取到provincesText 中的下标  去拿到对应的省js
-//            for (var i = 0; i < provincesText.length; i++) {
-//
-//                if (param.name == provincesText[i]) {
-//                    //显示对应省份的方法
-//                    showProvince(provinces[i], provincesText[i]);
-//
-//                    break;
-//                }
-//
-//            }
-        });
-
-        $("#city").on('change', function () {
-            var name =$("#province").val()
-//            var name = $(this).children('option:selected').val();
+            // alert(param.name);
             //遍历取到provincesText 中的下标  去拿到对应的省js
             for (var i = 0; i < provincesText.length; i++) {
 
-                if (name == provincesText[i]) {
+                if (param.name == provincesText[i]) {
                     //显示对应省份的方法
                     showProvince(provinces[i], provincesText[i]);
-                    $("#drugList").css('display','');
-                    $("#yearList").css('display','');
 
                     break;
                 }
@@ -398,18 +355,70 @@
     }
     chinaMapInit();
 
+    var province = "";
+    var city = "";
+    chartTitle = '全国耐药率地图';
+
+    $("#district").on('change', function (param) {
+    })
+    $("#province").on('change', function (param) {
+        province =$("#province").val();
+        chartTitle = province + '耐药率地图';
+    })
+    $("#city").on('change', function () {
+        city = $(this).children('option:selected').val();
+        chartTitle = province + city + '耐药率地图';
+
+    });
+
+    function search(){
+
+        $('#drugList').css('display','');
+        $('#yearList').css('display','');
+        if(city != "" && city !="请选择"){
+
+            for (var cc in cityMap) {
+                if (cc.includes(city)) {
+                    //显示对应省份的方法
+                    showCity(cc);
+                    break;
+                }
+            }
+            return;
+        }
+        else{
+            for (var i = 0; i < provincesText.length; i++) {
+
+                if (province == provincesText[i]) {
+                    //显示对应省份的方法
+                    showProvince(provinces[i], provincesText[i]);
+                    break;
+                }
+            }
+            return;
+        }
+    }
+
+    function showCity(city){
+        mapGeoData.params[city].getGeoJson(callback)
+    }
+
+    function returnBack(){
+
+        window.location.reload();
+        $("#returnBack").css('display','none');
+        $("#search").css('display','none');
+
+    }
 
     //展示对应的省
     function  showProvince(pName, pNameText){
-
         //这写省份的js都是通过在线构建工具生成的，保存在本地，需要时加载使用即可，最好不要一开始全部直接引入。
-        loadBdScript('$'+pName+'JS','{$DATA_URL}province/'+pName+'.js',function(){
+        loadBdScript('$'+pName+'JS',DATA_URL + '/province/' + pName+'.js',function(){
 
             //初始化echarts:具体代码参考上面初始化中国地图即可，这里不再重复。
             initEcharts(pNameText);
-            provinceName = pName;
-            provinceText = pNameText;
-//            $("#returnBack").css('display','');
+            $("#returnBack").css('display','');
             $("#search").css('display','');
 
         });
@@ -451,6 +460,8 @@
             data : application,
             dataType : "json",        //返回数据形式为json
             success : function(result) {
+                var myChart = echarts.init(document.getElementById('chart-panel'));
+
                 //请求成功时执行该函数内容，result即为服务器返回的json对象
                 var solerate=[];    //类别数组（实际用来盛放X轴坐标值）
 //                var names= new Object();    //类别数组（实际用来盛放X轴坐标值）
@@ -510,7 +521,7 @@
                         },
                         series: [
                             {
-
+                                roam: true,
                                 name: 'hp耐药地图',
                                 //series[i]-map:系列列表。每个系列通过 type 决定自己的图表类型,此处是地图类型
                                 type: 'map',
@@ -525,11 +536,6 @@
                                         borderColor:"#929292",
 //                                        borderWidth:"1"
                                     },
-                                    //emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-//                                    emphasis: {
-//                                        show: true,
-//                                        areaColor:"#C8A5DF",
-//                                    }
                                 },
                                 //图形上的文本标签，可用于说明图形的一些数据信息
                                 label: {
@@ -556,31 +562,18 @@
             }
         })
 
-        //关键是配置项
-        //使用刚指定的配置项和数据显示图表。
-//        myChart.setOption(option);
     }
 
 
-    function returnBack(){
-//
-//        optionInit();
-//        myChart.setOption(option);
-//
-//        provinceName = 'china';
-//        provinceText = '全国';
-//        chinaMapInit();
-        window.location.reload();
-        $("#returnBack").css('display','none');
-        $("#search").css('display','none');
 
-    }
 
     window.onresize = function(){
         myChart.resize();
     }
 
 </script>
+<script type="text/javascript" src="{$JS_URL}map.js?111"></script>
+
 </body>
 </html>
 

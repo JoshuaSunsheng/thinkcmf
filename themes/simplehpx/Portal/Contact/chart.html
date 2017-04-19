@@ -189,16 +189,16 @@
     });
 
     var myChart = echarts.init(document.getElementById('chart-panel'));
-    var url = '__SELF__';``
+    var url = '__SELF__';
 
     myChart.showLoading();
 
 
-    $.get('{$DATA_URL}ZJ.json', function (geoJson) {
+    $.get('{$DATA_URL}map/110100.json', function (geoJson) {
 
         myChart.hideLoading();
 
-        echarts.registerMap('ZJ', geoJson);
+        echarts.registerMap('beijing', geoJson);
 
         myChart.setOption(option = {
             title: {
@@ -235,7 +235,7 @@
                 {
                     name: 'hp耐药地图',
                     type: 'map',
-                    mapType: 'ZJ', // 自定义扩展图表类型
+                    mapType: 'beijing', // 自定义扩展图表类型
                     itemStyle:{
                         normal:{label:{show:true}},
                         emphasis:{label:{show:true}}
@@ -274,7 +274,7 @@
         });
     });
 
-    search();
+//    search();
 
     function search(){
 

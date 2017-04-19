@@ -1,0 +1,126 @@
+<include file="Public:amaze_css"/>
+<!--参与成员修改-->
+
+<style>
+    body, table {
+        position: relative;
+        background: #fff;
+        font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+        color: #333;
+        font-size: 1.6rem;
+    }
+</style>
+<div class="am-cf admin-main">
+
+    <div class="admin-content">
+        <div class="admin-content-body">
+            <div class="am-cf am-padding am-padding-bottom-0">
+                <div class="am-fl am-cf">
+                    <strong class="am-text-primary am-text-lg">医生信息</strong> /
+                    <small>info</small>
+                </div>
+            </div>
+
+            <hr>
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-8">
+                    <form class="am-form am-form-horizontal" id="response" name="response">
+                        <input id="id" name="id" value="{$data.id}" hidden>
+                        <div class="am-form-group">
+                            <label for="professor" class="am-u-sm-4 am-form-label">主任医师 / Professor</label>
+                            <div class="am-u-sm-5">
+                                <input type="number" id="professor" name="professor" placeholder="人数 / Number" value="{$data.professor}">
+                            </div>
+                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
+
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="associateProfessor" class="am-u-sm-4 am-form-label">副主任医师 / Associate Professor</label>
+                            <div class="am-u-sm-5">
+                                <input type="number" id="associateProfessor" name="associateProfessor" placeholder="人数 / Number" value="{$data.associateprofessor}">
+                            </div>
+                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
+
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="attendingDoctor" class="am-u-sm-4 am-form-label">主治医师 / Attending Doctor</label>
+                            <div class="am-u-sm-5">
+                                <input type="number" id="attendingDoctor" name="attendingDoctor" placeholder="人数 / Number" value="{$data.attendingdoctor}">
+                            </div>
+                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
+
+                        </div>
+
+
+                        <div class="am-form-group">
+                            <label for="residentDoctor" class="am-u-sm-4 am-form-label">住院医师 / Resident Doctor</label>
+                            <div class="am-u-sm-5">
+                                <input type="number" id="residentDoctor" name="residentDoctor" placeholder="人数 / Number" value="{$data.residentdoctor}">
+                            </div>
+                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
+
+                        </div>
+
+
+                        <div class="am-form-group">
+                            <div class="am-u-sm-9 am-u-sm-push-4">
+                                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="saveJoinMember()">保存修改</button>
+                                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1);">放弃保存</button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+
+
+            <div class="am-margin">
+                <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>-->
+                <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>-->
+            </div>
+        </div>
+
+        <footer class="admin-content-footer">
+            <hr>
+            <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+        </footer>
+    </div>
+    <!-- content end -->
+
+</div>
+
+
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu"
+   data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<include file="Public:js"/>
+
+<script>
+
+    function saveJoinMember() {
+
+        var response = $("#response").serialize();
+
+
+        if (confirm("保存修改?")) {
+            $.post("__URL__/update", response,function(data,textStatus){
+                if(data.state == "fail"){
+                    alert("服务忙, 请稍后重试");
+                }else{
+                    window.location.href="join"
+                }
+            });
+
+        }
+    }
+
+
+
+</script>

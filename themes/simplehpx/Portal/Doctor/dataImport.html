@@ -54,6 +54,10 @@
         .am-form input[type=number], .am-form input[type=search], .am-form input[type=text], .am-form input[type=password], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form select, .am-form textarea, .am-form-field{
             font-size:1.5rem;
         }
+
+        fieldset{
+            margin-bottom: 0px;
+        }
     </style>
 </head>
 <body>
@@ -78,11 +82,10 @@
 
 </header>
 <div class="am-g am-g-fixed am-margin-top" style="    font-size: 1.5rem;">
-    <h1 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">基本信息</h1>
+    <h3 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">基本信息</h3>
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
-
-        <form method="post" id="baseInfo" name="baseInfo" class="am-form am-form-horizontal">
-            <fieldset>
+        <form method="post" id="baseInfo" name="baseInfo" class="am-form am-form-horizontal" >
+            <fieldset style="    margin-bottom: 0rem;">
                 <input name="id" value="" hidden>
                 <div class="am-form-group">
                     <label for="studyNo" class="am-u-sm-4 am-form-label">研究编码:</label>
@@ -267,13 +270,12 @@
 
             </fieldset>
         </form>
-        <hr>
     </div>
 </div>
 
 
-<div class="am-g am-g-fixed am-margin-top">
-    <h1 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">实验诊断</h1>
+<div class="am-g am-g-fixed" >
+    <h3 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">实验诊断</h3>
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
         <form method="post" id="experiment" name="experiment" class="am-form am-form-horizontal">
             <fieldset>
@@ -527,12 +529,11 @@
 
             </fieldset>
         </form>
-        <hr>
     </div>
 </div>
 
-<div class="am-g am-g-fixed am-margin-top">
-    <h1 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">治疗方案</h1>
+<div class="am-g am-g-fixed">
+    <h3 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">治疗方案</h3>
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
         <form method="post" id="cureMethod" name="cureMethod" class="am-form am-form-horizontal">
             <fieldset>
@@ -737,14 +738,13 @@
 
             </fieldset>
         </form>
-        <hr>
     </div>
 </div>
 
 
 
-<div class="am-g am-g-fixed am-margin-top">
-    <h1 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">不良反应</h1>
+<div class="am-g am-g-fixed">
+    <h3 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">不良反应</h3>
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
         <form method="post" id="response" name="response" class="am-form am-form-horizontal">
             <fieldset>
@@ -781,13 +781,12 @@
 
             </fieldset>
         </form>
-        <hr>
     </div>
 </div>
 
 
-<div class="am-g am-g-fixed am-margin-top">
-    <h1 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">疗效随访</h1>
+<div class="am-g am-g-fixed">
+    <h3 style="  border-left: solid 5px #0D8083;padding-left: 1rem;color: #0D8083;">疗效随访</h3>
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
         <form method="post" id="result" name="result" class="am-form am-form-horizontal">
             <fieldset>
@@ -820,8 +819,6 @@
                     </div>
                 </div>
 
-
-
                 <div class="am-form-group">
                     <label for="firstTimeDate" class="am-u-sm-12 am-form-label">呼吸实验诊断时间:</label>
                     <div class="am-u-sm-12">
@@ -839,7 +836,7 @@
                 </div>
             </fieldset>
         </form>
-        <hr>
+
     </div>
 </div>
 
