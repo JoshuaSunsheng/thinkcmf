@@ -536,26 +536,11 @@
                 alert(ev.date)
             });
 
-
-
     function reg() {
-
-//        if(!jQuery("#phoneNumber").val()){
-//            alert("手机号码不能为空!");
-//            return;
-//        }
-//
-//        if (!$("#msgCode").val()) {
-//            alert("验证码不能为空!");
-//            return;
-//        }
 
         var tourl = $("#register").attr("action");
         var application = $("#register").serialize();
 
-//        $.post("__URL__/../Patient/verifyCode",{to:$("#phoneNumber").val(), msgCode:$("#msgCode").val()},function(data,textStatus){
-//            if(data['rescode'] == "00" && textStatus == "success"){
-//                alert("验证通过!")
                 $.post("__URL__/register", application,function(data,textStatus){
                     if(data.state == "fail"){
                         alert(data.info)
@@ -564,64 +549,8 @@
                         location.href = data.url;
                     }
                 });
-//                window.location.href = "{$CONTROLLER}/agreement";
-//            }
-//            else{
-//                alert(data['msg']);
-//            }
-//        });
-
-//        var tourl = $("#register").attr("action");
-//        var application = $("#register").serialize();
-//        $.post("__URL__/register", application,function(data,textStatus){
-//            //alert(data);
-//            location.href = data.url;
-//        });
-
-
-
-//        alert("您的申请已经提交审核,请耐心等待!");
-//        var path = "{$CONTROLLER}"
-//        window.location.href = path + "/register";
     }
 
-
-//    jQuery(function(){
-//
-//        //发送短信
-//        $("#submit").click(function(){
-//            if(!jQuery("#phoneNumber").val()){
-//                alert("手机号码不能为空!");
-//                return;
-//            }
-//
-//            sendCode(this);
-//
-//            var tourl = $("#form").attr("action");
-//            $.post("__URL__/../Patient/send",{to:$("#phoneNumber").val()},function(data,textStatus){
-//                alert(data);
-//            });
-//        })
-//
-//
-//        var wait = 60;
-//        function sendCode(o) {
-//            if (wait == 0) {
-//                o.removeAttribute("disabled");
-//                o.innerHTML = "获取验证码";
-//                wait = 60;
-//            } else {
-//                o.setAttribute("disabled", true);
-//                o.innerHTML = "重新发送(" + wait + ")";
-//                wait--;
-//                setTimeout(function () {
-//                            sendCode(o)
-//                        },
-//                        1000)
-//            }
-//        }
-//
-//    })
 </script>
 
 </body>

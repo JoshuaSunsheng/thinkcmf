@@ -9,6 +9,9 @@
 namespace Portal\Controller;
 
 use Common\Controller\HomebaseController;
+use Portal\Model\ExpertModel;
+use Portal\Model\RegionChairModel;
+
 
 define(CONTROLLER, __CONTROLLER__);
 
@@ -23,10 +26,12 @@ class  ProjectController extends HomebaseController{
 
         $this -> display();
     }
-    function doctor(){
+    function expert(){
         //获取系统常量, 并分组
-        //var_dump(get_defined_constants(true));
-
+        $db = new ExpertModel();
+        $data = $db->select();
+        $this->data = $data;
+        $this->title = "专家团队";
         $this -> display();
     }
 
@@ -66,8 +71,10 @@ class  ProjectController extends HomebaseController{
     }
     function region(){
         //获取系统常量, 并分组
-        //var_dump(get_defined_constants(true));
-
+        $db = new RegionChairModel();
+        $data = $db->select();
+        $this->data = $data;
+        $this->title = "区域负责人";
         $this -> display();
     }
     function research(){

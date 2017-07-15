@@ -67,9 +67,6 @@
     //mootools中嵌入jQuery 需要启动jQuery无冲突模式
 </script>
 <script type="text/javascript">
-    var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + "wx50601fae46ea8a28" + '&redirect_uri=https://m.dianpayer.com';
-    //var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx50601fae46ea8a28&redirect_uri=https://m.dianpayer.com';
-    var url_tail='&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
 
     (function() {
 
@@ -113,7 +110,7 @@
 </div>
 <!-- Fixed navbar -->
 <div class="row margin0">
-    <img src="{$IMG_URL}project_index_top.png" class="am-img-responsive" alt=""/>
+    <img src="{$IMG_URL}project_index_top.png" class="am-img-responsive" style="width: 100%"  alt=""/>
 </div>
 <div class="row margin0">
     <!-- center-->
@@ -143,7 +140,7 @@
             </a>
         </div>
         <div class="col-xs-4 border_right border_bottom">
-            <a id="doctor" href="doctor" type="button" style=" background-color: #F0F3FA;border-color: #F0F3FA;" class="btn btn-default border_radius0 btn-block">
+            <a id="expert" href="expert" type="button" style=" background-color: #F0F3FA;border-color: #F0F3FA;" class="btn btn-default border_radius0 btn-block">
                 <i class="imooc-icon"><img src="{$IMG_URL}doctor.png" width="60" height="60"></i>
                 <p class="color_grey font_size18">专家团队</p>
             </a>
@@ -183,12 +180,6 @@
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
     })
 
-    jQueryf(document).ready(function(){
-        appid = "wx50601fae46ea8a28"
-        href = "https://m.dianpayer.com";
-        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
-        href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-    });
 </script>
 </body>
 </html>

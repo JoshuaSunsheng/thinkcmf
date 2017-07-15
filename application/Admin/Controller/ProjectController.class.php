@@ -11,6 +11,8 @@ namespace Admin\Controller;
 
 use Portal\Model\AppointmentModel;
 use Portal\Model\DoctorModel;
+use Portal\Model\ExpertModel;
+use Portal\Model\RegionChairModel;
 use Portal\Model\JoinMemberModel;
 use Common\Controller\AdminbaseController;
 
@@ -87,115 +89,86 @@ class  ProjectController extends AdminbaseController
 
 
     /*
-     * 医生信息
+     * 区域负责人-后台显示
      * */
-//    function form()
-//    {
-//        \Think\Log::write('form begin:', "INFO");
-//        $db = new DoctorModel();
-//
-//        if (isset($_GET['doctorId'])) {
-//            $this->data = $db->alias('a')->join('__DICT_TITLE__ as title ON title.id = a.title')
-//                ->where('a.id='.$_GET['doctorId'])->find();
-//
-//            $cureTime = explode(',', $this->data["curetime"]);
-//            $cureTimes = [];
-//            foreach($cureTime as $ct){
-//                    $cureTimes[$ct["id"]] = 'checked';
-//            }
-//            $this->cureTimes =$cureTimes;
-//
-//            $this->retCode = "00";
-//            $this->msg = "查找成功";
-//            $this->doctorId = $_GET['doctorId'];
-//
-//
-//        } else {
-//            $this->retCode = "01";
-//            $this->msg = "未找到该信息";
-//
-//        }
-//
-//        $this->title = "医生信息";
-//        $this->statuscode = $_GET['statuscode'];
-//        $this->display();
-//        \Think\Log::write('login form end', "INFO");
-//
-//    }
-
-
-    /*
-     * 预约信息-后台显示
-     * */
-//    function appointment($queryStr = '', $page = 1, $pagesize = 10)
-//    {
-//        \Think\Log::write('login appointment:', "INFO");
-//
-//        $DoctorController = new \Portal\Controller\DoctorController();
-//
-//        list($data, $recordnum, $pagenum) = $DoctorController->innerAppointment($queryStr, $page, $pagesize);
-//
-//        \Think\Log::write('login write', 'WARN' . $data);
-//
-//        $this->data = $data;
-//        $this->pagenum = $pagenum;
-//        $this->page = $page;
-//        $this->pagesize = $pagesize;
-//        $this->recordnum = $recordnum;
-//        $this->title = "预约信息";
-//
-//        $this->display();
-//        \Think\Log::write('login end', "INFO");
-//    }
-
-    /*
-     * 预约信息-后台显示
-     * */
-    function regionChair($queryStr = '', $page = 1, $pagesize = 10)
+    function regionChair()
     {
-        \Think\Log::write('login appointment:', "INFO");
+        \Think\Log::write('regionChair:', "INFO");
 
-        $DoctorController = new \Portal\Controller\DoctorController();
+        $db = new RegionChairModel();
 
-        list($data, $recordnum, $pagenum) = $DoctorController->innerAppointment($queryStr, $page, $pagesize);
+        if (!empty($_POST)) {   //post 提交更新专家信息
+            \Think\Log::write('post chair:', "INFO");
+            \Think\Log::write('post chair:'.$_POST.east, "INFO");
 
-//        var_dump(($data),true);
-        \Think\Log::write('login write', 'WARN' . $data);
+            foreach ($_POST as $key => $value)
+            {
+                $data['description'] = $value;
+                $db->where('region='.'\''.$key.'\'')->save($data);
+                \Think\Log::write('regionChair:'.$key, "INFO");
 
-        $this->data = $data;
-        $this->pagenum = $pagenum;
-        $this->page = $page;
-        $this->pagesize = $pagesize;
-        $this->recordnum = $recordnum;
-        $this->title = "预约信息";
+            }
 
-        $this->display();
-        \Think\Log::write('login end', "INFO");
+        } else {
+            //利用page函数。来进行自动的分页
+            $data = $db->select();
+            $this->data = $data;
+            $this->title = "区域负责人";
+            $this->display();
+
+        }
+        \Think\Log::write('regionChair end', "INFO");
     }
 
     /*
-      * 预约信息-后台显示
+      * 专家团队-后台显示
       * */
-    function expert($queryStr = '', $page = 1, $pagesize = 10)
+    function expert()
     {
-        \Think\Log::write('login appointment:', "INFO");
+        \Think\Log::write('login expert:', "INFO");
 
-        $DoctorController = new \Portal\Controller\DoctorController();
+        $db = new ExpertModel();
 
-        list($data, $recordnum, $pagenum) = $DoctorController->innerAppointment($queryStr, $page, $pagesize);
+        if (!empty($_POST)) {   //post 提交更新专家信息
+            \Think\Log::write('post expert:', "INFO");
+            \Think\Log::write('post expert:'.$_POST.teamleader, "INFO");
 
-//        var_dump(($data),true);
-        \Think\Log::write('login write', 'WARN' . $data);
+            foreach ($_POST as $key => $value)
+            {
+                $data['name'] = $value;
+                $db->where('profession='.'\''.$key.'\'')->save($data);
+                \Think\Log::write('login expert:'.$key, "INFO");
 
-        $this->data = $data;
-        $this->pagenum = $pagenum;
-        $this->page = $page;
-        $this->pagesize = $pagesize;
-        $this->recordnum = $recordnum;
-        $this->title = "预约信息";
+            }
 
-        $this->display();
-        \Think\Log::write('login end', "INFO");
+//            $this->success('成功', 'join');
+
+//            try {
+//                if (!$db->create($_POST, 1)) {
+//                    echo $db->getError();
+//                } else {
+//
+//                        if (!$db->save()) {
+//                            echo $db->getError();
+//                        } else {
+//                            $this->success('更新成功', 'join');
+//                        }
+//
+//                    $this->success('成功', 'join');
+//                }
+//            } catch (\Exception $e) { //这里的\Exception不加斜杠的话回使用think的Exception类
+//                $this->error('失败', 'join');
+//            }
+        } else {
+            //利用page函数。来进行自动的分页
+            $data = $db->select();
+            $this->data = $data;
+            $this->title = "专家团队";
+            $this->display();
+
+        }
+
+        \Think\Log::write('expert end', "INFO");
     }
 
 

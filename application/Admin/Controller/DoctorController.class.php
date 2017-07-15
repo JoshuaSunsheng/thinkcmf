@@ -11,6 +11,7 @@ namespace Admin\Controller;
 
 use Portal\Model\AppointmentModel;
 use Portal\Model\DoctorModel;
+use Portal\Model\ScoreItemModel;
 use Common\Controller\AdminbaseController;
 
 define(CONTROLLER, __CONTROLLER__);
@@ -166,24 +167,57 @@ class  DoctorController extends AdminbaseController
     }
 
     //审核通过医生
-    function passDoctor($id){
-        \Think\Log::record('deleteDoctor record:'.$id);
+    function passDoctor($id, $x, $y){
+        \Think\Log::record('passDoctor record:'.$id);
+        \Think\Log::record('setDoctorPosition record:'.$x);
+        \Think\Log::record('setDoctorPosition record:'.$y);
         $db = new DoctorModel();
-//        $db->where('id=' . $id)->delete();
         $db->where('id=' . $id)->setField('status',DOCTOR_PASS);
+        $db->where('id=' . $id)->setField('x',$x);
+        $db->where('id=' . $id)->setField('y',$y);
 
-        \Think\Log::record('deleteDoctor record end');
+        \Think\Log::record('passDoctor record end');
     }
 
     //审核失败医生
     function cancelDoctor($id){
-        \Think\Log::record('deleteDoctor record:'.$id);
+        \Think\Log::record('cancelDoctor record:'.$id);
         $db = new DoctorModel();
         $db->where('id=' . $id)->setField('status',DOCTOR_FAIL);
 
         $db->where('id=' . $id)->delete();
-        \Think\Log::record('deleteDoctor record end');
+        \Think\Log::record('cancelDoctor record end');
     }
 
+
+    /*
+      * 专家团队-后台显示
+      * */
+    function score()
+    {
+        \Think\Log::write('score:', "INFO");
+
+        $db = new ScoreItemModel();
+
+        if (!empty($_POST)) {   //post 提交更新专家信息
+            \Think\Log::write('post expert:', "INFO");
+
+            foreach ($_POST as $key => $value)
+            {
+                $data['value'] = $value;
+                $db->where('id='.'\''.$key.'\'')->save($data);
+                \Think\Log::write('score:'.$key, "INFO");
+            }
+        } else {
+            //利用page函数。来进行自动的分页
+            $data = $db->select();
+            $this->data = $data;
+            $this->title = "积分项目列表";
+            $this->display();
+
+        }
+
+        \Think\Log::write('expert end', "INFO");
+    }
 
 }

@@ -108,9 +108,6 @@
     //mootools中嵌入jQuery 需要启动jQuery无冲突模式
 </script>
 <script type="text/javascript">
-    var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + "wx50601fae46ea8a28" + '&redirect_uri=https://m.dianpayer.com';
-    //var url_head = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx50601fae46ea8a28&redirect_uri=https://m.dianpayer.com';
-    var url_tail = '&response_type=code&scope=snsapi_base&state=1#wechat_redirect';
 
     (function () {
 
@@ -191,21 +188,6 @@
         jQuery("#status").fadeOut(); // will first fade out the loading animation
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
     })
-
-    jQueryf(document).ready(function(){
-        appid = "wx50601fae46ea8a28"
-        href = "https://m.dianpayer.com";
-        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
-        href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-//        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
-//        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);
-//        jQueryf("#detail").attr("href", href_pre + "service/dFtradelist.htm" + href_suffix);
-//        jQueryf("#balance").attr("href", href_pre + "service/dFsearch.htm" + href_suffix);
-//        jQueryf("#download").attr("href", "https://m.dianpayer.com/wechat/about/download.htm");
-//        jQueryf("#info").attr("href", "https://m.dianpayer.com/wechat/about/limition.htm");
-    });
-
-
 
     // 基于准备好的dom，初始化echarts实例
 //    var myChart = echarts.init(document.getElementById('main'));

@@ -1,4 +1,4 @@
-<tc_include file="Public:hp:head" />
+<tc_include file="Public:hp:head"/>
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -58,7 +58,7 @@
             line-height: 60px;
         }
 
-        .am-page .am-list>li>a {
+        .am-page .am-list > li > a {
             margin-bottom: 0;
             padding-left: 10px;
         }
@@ -71,12 +71,12 @@
 
         .m-widget-list a::after {
             display: inline-block;
-            font: normal normal normal 1.6rem/1 FontAwesome,sans-serif;
+            font: normal normal normal 1.6rem/1 FontAwesome, sans-serif;
             font-size: inherit;
             text-rendering: auto;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            transform: translate(0,0);
+            transform: translate(0, 0);
             content: "\f054";
             position: absolute;
             right: 10px;
@@ -86,6 +86,7 @@
         }
 
     </style>
+
 </head>
 <body>
 <!-- 导航	-->
@@ -116,46 +117,271 @@
     <div data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
 
         <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
-            <h2 class="am-intro-title" style="padding-left:15px"><img width="34px" src="{$IMG_URL}organization_icon.png">  |  <span>医生账号</span></h2>
+            <h2 class="am-intro-title" style="padding-left:15px"><img width="34px"
+                                                                      src="{$IMG_URL}organization_icon.png"> | <span>医生账号</span>
+            </h2>
         </div>
         <br>
 
-        <div>
-        </div>
-            <ul class="am-list m-widget-list" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
-                <li style="line-height: 128px; height: 128px;">
-                    <a style="height: 100%; line-height: 100%;" href="#" data-rel="figure">
-                        <img style="width:25%;height: 100%; line-height: 100%;" class="widget-icon" src="http://cdn.amazeui.org/src/2.2/widget/figure/src/figure.png"
-                                                                     alt="Figure">
-                        <span class="widget-name">医生姓名: </span></a></li>
-            </ul>
+        <ul class="am-list m-widget-list"
+            style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+            <li style="line-height: 128px; height: 128px;">
+                <a style="height: 100%; line-height: 100%;" href="#" data-rel="figure">
+                    <img style="width:100px;height: 100px; line-height: 100%;" class="widget-icon"
+                         src="{$data.headlogofile}"
+                         alt="Figure">
+                    <span class="widget-name">医生姓名: {$data.realname} </span></a></li>
+        </ul>
 
         <div>
             <ul class="am-list m-widget-list"
                 style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
                 <li><a href="#" data-rel="accordion"><img class="widget-icon"
-                                                                           src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
-                                                                           alt="Accordion"> <span class="widget-name">积分规则</span></a>
+                                                          src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
+                                                          alt="Accordion"> <span class="widget-name">积分规则</span></a>
                 </li>
                 <li><a href="#" data-rel="accordion"><img class="widget-icon"
-                                                                           src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
-                                                                           alt="Accordion"> <span class="widget-name">积分统计</span></a>
+                                                          src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
+                                                          alt="Accordion"> <span class="widget-name">积分统计</span></a>
                 </li>
 
                 <li><a href="#" data-rel="footer"><img class="widget-icon"
-                                                                     src="http://cdn.amazeui.org/src/2.2/widget/footer/src/footer.png"
-                                                                     alt="Footer"> <span
+                                                       src="http://cdn.amazeui.org/src/2.2/widget/footer/src/footer.png"
+                                                       alt="Footer"> <span
                         class="widget-name">银行卡绑定</span></a></li>
-                <li><a href="#" data-rel="divider"><img class="widget-icon"
-                                                                       src="http://cdn.amazeui.org/src/2.2/widget/divider/src/divider.png"
-                                                                       alt="Divider"> <span
+                <li style="display: none"><a href="#" data-rel="divider"><img class="widget-icon"
+                                                        src="http://cdn.amazeui.org/src/2.2/widget/divider/src/divider.png"
+                                                        alt="Divider"> <span
                         class="widget-name">个人设置</span></a></li>
 
             </ul>
         </div>
+
+    </div>
+
+
+    <div data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
+
+        <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
+            <h2 class="am-intro-title" style="padding-left:15px"><img width="34px"
+                                                                      src="{$IMG_URL}organization_icon.png"> | <span>医生信息</span>
+            </h2>
+        </div>
+        <br>
+
+        <div class="am-g">
+            <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+
+                <form method="post" id="register" name="register" class="am-form am-form-horizontal">
+                    <fieldset>
+                        <input name="id" value="{$data.id}" hidden>
+
+                        <div class="am-form-group" style="display: none;">
+                            <div class="am-u-lg-12">
+                                <div class="am-input-group">
+                                    <span class="am-input-group-label" style="border-top-left-radius: 9px;border-bottom-left-radius: 9px;"><i class="am-icon-phone am-icon-fw"></i></span>
+                                    <input type="text" class="am-form-field" id="phoneNumber" name="phoneNumber" maxlength="11" value="{$phoneNumber}" placeholder="手机号" >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <div class="am-u-lg-12">
+                                <div class="am-input-group">
+                                    <span class="am-input-group-label" style="border-top-left-radius: 9px;border-bottom-left-radius: 9px;"><i class="am-icon-user am-icon-fw"></i></span>
+                                    <input type="text" class="am-form-field" id="realName" name="realName" value="{$data.realname}" placeholder="输入您的姓名">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="am-u-sm-3 am-form-label">性别</label>
+
+                            <div class="am-u-sm-7">
+                                <label class="am-radio-inline">
+                                    <eq name="data[sex]" value="0">
+                                        <input type="radio" name="sex" value="0" checked> 男
+                                        <else/>
+                                        <input type="radio" name="sex" value="0"> 男
+                                    </eq>
+                                    <i class="am-icon-male am-icon-fw"></i>
+                                </label>
+                                <label class="am-radio-inline">
+                                    <eq name="data[sex]" value="1">
+                                        <input type="radio" name="sex" value="1" checked> 女
+                                        <else/>
+                                        <input type="radio" name="sex" value="1"> 女
+                                    </eq>
+                                    <i class="am-icon-female am-icon-fw"></i>
+                                </label>
+                            </div>
+                            <div class="am-u-sm-5">
+
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="birthday" class="am-u-sm-4 am-form-label">出生日期:</label>
+                            <div class="am-u-sm-8">
+                                <input id="birthday" name="birthday" type="text" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker required value="{$data.birthday}" readonly/>
+                            </div>
+
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="province" class="am-u-sm-12 am-form-label">所在医院:</label>
+                            <div id="address">
+                                <div class="am-u-sm-4">
+                                    <select class="prov" id="province" name="province"></select><span class="am-form-caret"></span>
+                                </div>
+                                <div class="am-u-sm-4">
+                                    <select class="city" id="city" name="city" disabled="disabled"></select><span class="am-form-caret"></span>
+                                </div>
+                                <div class="am-u-sm-4">
+                                    <select class="dist" id="district" name="district" disabled="disabled"></select><span class="am-form-caret"></span>
+                                </div>
+
+                            </div>
+                            <div class="am-u-sm-12" style="padding-top: 5px;">
+                                <input type="text" id="hospital" name="hospital" class="am-form-field" placeholder="请输入医院名称" value="{$data.hospital}">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="title" class="am-u-sm-3 am-form-label">职称</label>
+                            <div class="am-u-sm-6">
+                                <select id="title" name="title">
+                                    <option value="">请选择</option>
+                                    <option value="主任医师">主任医师</option>
+                                    <option value="副主任医师">副主任医师</option>
+                                    <option value="主治医师">主治医师</option>
+                                    <option value="住院医师">住院医师</option>
+                                </select>
+                                <span class="am-form-caret"></span>
+                            </div>
+                            <div class="am-u-sm-6">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="mail" class="am-u-sm-3 am-form-label">邮箱:</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" class="" id="mail" name="mail" placeholder="请输入邮箱" value="{$data.mail}">
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <div class="am-u-sm-12">
+                                <label for="description">个人简介</label>
+                            </div>
+                            <div class="am-u-sm-12">
+                                <textarea class="" rows="5" id="description" name="description">{$data.description}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="am-u-sm-4 am-form-label">门诊日期:</label>
+                            <div class="am-u-sm-8">
+                                <label class="am-checkbox-inline" style="    margin-left: 10px;">
+                                    <input type="checkbox" name="cureTime[]" value="0"> 周一上午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="1"> 周一下午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="2"> 周二上午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="3"> 周二下午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="4"> 周三上午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="5"> 周三下午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="6"> 周四上午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="7"> 周四下午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="8"> 周五上午
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="cureTime[]" value="9"> 周五下午
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label for="mail" class="am-u-sm-8 am-form-label">医生每日就诊可接受患者人数:</label>
+                            <div class="am-u-sm-3" style="padding-left: 0px;padding-right: 0px;">
+                                <input type="number" class="" id="maxPatient" name="maxPatient" placeholder="人数" pattern="[0-9]*" value="{$data.maxpatient}">
+                            </div>
+                            <label class="am-u-sm-1 am-form-label"></label>
+                        </div>
+
+                        <!--<input type="text" name="docFile" style="display: none" hidden/>-->
+                        <!--<input type="text" name="idnoFile" style="display: none" hidden/>-->
+                        <!--<input type="text" name="status" style="display: none" hidden/>-->
+                        <!--<input type="text" name="userId" style="display: none" hidden/>-->
+                        <!--<input type="text" name="y" style="display: none" hidden/>-->
+                        <!--<input type="text" name="y" style="display: none" hidden/>-->
+
+
+                        <!--<input type="text" name="headLogoFile" style="display: none" hidden/>-->
+                        <!--<input type="text" name="docFile" style="display: none" hidden/>-->
+
+                        <div class="am-g">
+                            <div class="am-u-sm-6 am-u-sm-centered">
+                                <input type="" name="" value="修改" class="am-btn am-btn-primary am-btn-sm am-fl"
+                                       onclick="reg(); return false;"
+                                       style="width: 100%;">
+
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <hr>
+            </div>
+        </div>
+
+    </div>
+
+    <div data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
+
+        <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
+            <h2 class="am-intro-title" style="padding-left:15px"><img width="34px"
+                                                                      src="{$IMG_URL}organization_icon.png"> | <span>积分规则</span>
+            </h2>
+        </div>
+        <br>
+
+        <div id="tablelist">
+            <table class="am-table am-table-bordered am-table-radius am-table-striped ">
+                <thead>
+                <tr>
+                    <th>项目名称</th>
+                    <th width="70">积分</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <volist name="score" id="scoreItem">
+                    <tr>
+                        <td>{$scoreItem.title}</td>
+                        <td>{$scoreItem.value}</td>
+                    </tr>
+                </volist>
+
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </div>
-
 
 
 <!--[if (gte IE 9)|!(IE)]><!-->
@@ -170,25 +396,103 @@
 
 <!-- center -->
 <!-- JavaScript-->
+<script>
+    citySelect_url="{$SITE_URL}";
+    //显示加载数据
+    function ShowDiv() {
+        $("#loading").show();
+    }
+
+    //隐藏加载数据
+    function HiddenDiv() {
+        $("#loading").hide();
+    }
+    ShowDiv();
+</script>
+<script type="text/javascript" src="{$JS_URL}jquery.cityselect.js"></script>
+<script src="{$JS_URL}amazeui.datetimepicker.js"></script>
 
 <script type="text/javascript">
+    $(function () {
+        $("#address").citySelect({
+            nodata: "none",
+            required: false
+        });
+
+    });
+    $('#datetimepicker')
+            .datetimepicker()
+            .on('changeDate', function (ev) {
+                alert(ev.date)
+            });
+
+    function reg() {
+
+        var tourl = $("#register").attr("action");
+        var application = $("#register").serialize();
+
+        $.post("__URL__/updateDoctor", application,function(data,textStatus){
+            if(data.state == "fail"){
+                alert(data.info)
+            }
+            else{
+                location.reload();
+            }
+        });
+    }
+
     jQuery(window).load(function () { // makes sure the whole site is loaded
         jQuery("#status").fadeOut(); // will first fade out the loading animation
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
+
+        //select中默认index 第一个是1, 和value刚好差1
+        toSelect("title", parseInt("{$data[title]}"));
+
+        $('input:radio[name="sex"]:checked').click();
+
+        var curetime = "{$data[curetime]}".split(",");
+        if(curetime != ""){  //当空字符串也会
+            for( var br in curetime){
+                $("input[name='cureTime[]']").eq(curetime[br]).attr("checked","true");
+            }
+        }
+
+        function toSelect(selectId, index){
+            //默认第一个是请选择, 因此需要加1
+            index = index  +1;
+            if(index){
+                document.getElementById(selectId)[index].selected = true;
+            }
+        }
+
+        //省份和城市 区
+        setTimeout(function(){
+            if('{$data[province]}'){
+                $("#province option:contains('{$data[cureime]}')").attr("selected", true)
+                if('{$data[city]}'){
+                    $("#city").append("<option value='{$data[city]}'>{$data[city]}</option>");
+                }
+                if('{$data[district]}'){
+                    $("#district").append("<option value='{$data[district]}'>{$data[district]}</option>");
+                }
+            }
+        },10);
     })
 
-    jQueryf(document).ready(function(){
-        appid = "wx50601fae46ea8a28"
-        href = "https://m.dianpayer.com";
-        href_pre = "https://open.weixin.qq.com/connect/oauth2/authorize"+ "?appid=" +appid+"&redirect_uri=" + href + "/wechat/"
-        href_suffix = "?appid=" + appid + "&response_type=code&scope=snsapi_base&state=1#wechat_redirect"
-//        jQueryf("#cloudbuy").attr("href", href_pre + "yungou/index.htm" + href_suffix);
-//        jQueryf("#purchase").attr("href", href_pre + "service/dFPay.htm" + href_suffix);
-//        jQueryf("#detail").attr("href", href_pre + "service/dFtradelist.htm" + href_suffix);
-//        jQueryf("#balance").attr("href", href_pre + "service/dFsearch.htm" + href_suffix);
-//        jQueryf("#download").attr("href", "https://m.dianpayer.com/wechat/about/download.htm");
-//        jQueryf("#info").attr("href", "https://m.dianpayer.com/wechat/about/limition.htm");
-    });
+
+    function Jumppage(page){
+
+        var url = '__SELF__';
+
+        $("<div></div>").load(url,{},function(){
+
+            var data = $(this).find("#tablelist").html();
+            $('#tablelist').html(data);
+
+            $(this).remove();
+        });
+    }
+
 </script>
 </body>
 </html>

@@ -58,13 +58,15 @@ class HomebaseController extends AppframeController {
 	/**
 	 * 检查用户登录
 	 */
-	protected function check_login(){
-	    $session_user=session('user');
-		if(empty($session_user)){
+	protected function check_login()
+	{
+		$session_user = session('user');
+		if (empty($session_user)) {
+			$this->error('您还没有登录！',U("portal/join/index"));
 //			$this->error('您还没有登录！',leuu('user/login/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
-			$this->error('您还没有登录！',leuu('portal/join/index',array('redirect'=>base64_encode($_SERVER['HTTP_REFERER']))));
+//			$this->error('您还没有登录！', leuu('portal/join/index', array('redirect' => base64_encode($_SERVER['HTTP_REFERER']))));
 		}
-		
+
 	}
 
 	/**

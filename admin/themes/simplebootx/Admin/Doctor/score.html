@@ -18,7 +18,7 @@
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf">
-                    <strong class="am-text-primary am-text-lg">专家团队</strong> /
+                    <strong class="am-text-primary am-text-lg">积分规则</strong> /
                     <small>info</small>
                 </div>
             </div>
@@ -29,11 +29,11 @@
                     <form class="am-form am-form-horizontal" id="response" name="response">
 
 
-                        <volist name="data" id="expert">
+                        <volist name="data" id="scoreItem">
                             <div class="am-form-group">
-                                <label for="{$expert.profession}" class="am-u-sm-4 am-form-label">{$expert.description}</label>
+                                <label for="{$scoreItem.id}" class="am-u-sm-4 am-form-label">{$scoreItem.title}(分)</label>
                                 <div class="am-u-sm-8">
-                                    <input type="text" id="{$expert.profession}" name="{$expert.profession}" placeholder="{$expert.description}" value="{$expert.name}">
+                                    <input type="text" id="{$scoreItem.id}" name="{$scoreItem.id}" value="{$scoreItem.value}">
                                 </div>
                             </div>
 
@@ -72,11 +72,11 @@
         var response = $("#response").serialize();
 
         if (confirm("保存修改?")) {
-            $.post("__URL__/expert", response,function(data,textStatus){
+            $.post("__URL__/score", response,function(data,textStatus){
                 if(data.state == "fail"){
                     alert("服务忙, 请稍后重试");
                 }else{
-                    window.location.href="expert"
+                    window.location.href="score"
                 }
             });
 

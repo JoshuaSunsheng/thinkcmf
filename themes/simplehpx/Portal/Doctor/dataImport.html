@@ -242,7 +242,7 @@
                 </div>
 
                 <div class="am-form-group">
-                    <label class="am-u-sm-12 am-form-label">患者HP根除治疗医院: </label>
+                    <label class="am-u-sm-12 am-form-label">患者HP根除治疗意愿: </label>
                     <div class="am-u-sm-12">
                         <label class="am-radio-inline">
                             <eq name="data[inclination]" value="2">
@@ -899,8 +899,8 @@
                 if('{$data[city]}'){
                     $("#city").append("<option value='{$data[city]}'>{$data[city]}</option>");
                 }
-                if('{$data[city]}'){
-                    $("#city").append("<option value='{$data[district]}'>{$data[district]}</option>");
+                if('{$data[district]}'){
+                    $("#district").append("<option value='{$data[district]}'>{$data[district]}</option>");
                 }
             }
         },10);

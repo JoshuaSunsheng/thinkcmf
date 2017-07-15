@@ -10,6 +10,7 @@ namespace Portal\Controller;
 
 use Common\Controller\HomebaseController;
 use Portal\Model\AppointmentModel;
+use Portal\Model\ScoreItemModel;
 use Portal\Model\DoctorModel;
 
 
@@ -17,9 +18,20 @@ define(CONTROLLER, __CONTROLLER__);
 
 class  DoctorController extends HomebaseController{
 
+    function _initialize() {
+        parent::_initialize();
+
+        parent::check_login();
+
+        \Think\Log::write('_initialize begin:', "INFO");
+
+    }
+
     function myStudy(){
         \Think\Log::write('myStudy begin:', "INFO");
         $doctorId = $this->get_doctor_id();
+        \Think\Log::write('chart doctorId:'.$doctorId, "INFO");
+
         $doctor = M('Doctor')->find($doctorId);
 
         if(!empty($_POST)){
@@ -27,7 +39,8 @@ class  DoctorController extends HomebaseController{
 
             $DrugResistanceRate = new \Portal\Model\DrugResistanceRateModel(); // 实例化 DrugResistanceRate 耐药率
 
-//            $city = I('post.city')."地区";
+            \Think\Log::write('chart city:'.$doctor["city"], "INFO");
+
             $city = $doctor["city"]."地区";
 
             \Think\Log::write('chart $drug:'.$city, "INFO");
@@ -166,14 +179,6 @@ class  DoctorController extends HomebaseController{
 
     function dataImport(){
         \Think\Log::write('dataImport begin:', "INFO");
-//        $this -> display();
-//        return;
-//
-//        $token = session('token');
-//        if(empty($token)) {
-//            redirect(CONTROLLER.'/register', 2, '页面跳转中...');
-//        }
-
 
         if(!empty($_POST)){
             \Think\Log::write('dataImport begin:'.$_POST, "INFO");
@@ -203,29 +208,49 @@ class  DoctorController extends HomebaseController{
                     $Study -> process = $process;
                     $Study -> doctorId = $this->get_doctor_id();
 
-                    $Study -> badResponse = implode(',', $_POST['badResponse']);
+                    if (!$_POST['badResponse'])
+                        $Study->badResponse = implode(',', $_POST['badResponse']);
+                    else
+                        $Study->badResponse = null;
                     \Think\Log::write('dataImport begin $_POST:'.$_POST, "INFO");
+                    \Think\Log::write('dataImport end $_POST:'.$_POST, "INFO");
+
+                    $caseId = null;
 
                     if($_POST['id']){
+                        \Think\Log::write('开始更新信息:', "INFO");
+
+                        $caseId = $_POST['id'];
                         if (!$Study->save()) {
+                            \Think\Log::write('更新信息失败:', "INFO");
+
                             echo $Study->getError();
-                        } else {
-                            $this->success('更新成功', 'index');
                         }
+                        \Think\Log::write('成功更新信息:', "INFO");
+
                     }
                     else{
-                        if (!$Study->add()) {
+                        $caseId = $Study->add();
+                        if (!$caseId) {
+                            \Think\Log::write('录入信息失败:', "INFO");
+
                             echo $Study->getError();
-                        } else {
-                            $this->success('新增成功', 'index');
                         }
+                        \Think\Log::write('成功录入信息:', "INFO");
+
                     }
+
+                    //判断此次录入信息, 是否可以增加积分
+                    $this->addDoctorScore($this->get_doctor_id(), $caseId);
 
                     $this->success('成功', 'index');
 
                 }
             }
             catch(\Exception $e){ //这里的\Exception不加斜杠的话回使用think的Exception类
+                \Think\Log::write('录入信息失败:', "INFO");
+                \Think\Log::write('录入信息失败:'.$e, "INFO");
+
                 $this->error('失败', 'myStudy');
             }
         }
@@ -240,13 +265,6 @@ class  DoctorController extends HomebaseController{
 
                 $this->data = $Study->alias('a')
                     ->where('a.id='.$_GET['caseId'])->find();
-
-//                $badResponse = explode(',', $this->data["badResponse"]);
-//                $badResponse = [];
-//                foreach($cureTime as $br){
-//                    $badResponses[$br["id"]] = 'checked';
-//                }
-//                $this->badResponses =$badResponses;
 
                 $this->retCode = "00";
                 $this->msg = "查找成功";
@@ -265,15 +283,91 @@ class  DoctorController extends HomebaseController{
         }
     }
 
+    //增加医生录入信息积分
+    function addDoctorScore($doctorId, $caseId){
+
+        \Think\Log::write('addDoctorScore begin: $doctorId: '.$doctorId."; ".$caseId, "INFO");
+
+        $study = M("Case") ->find($caseId);
+
+        //众包端-数据录入-基本信息-患者HP根除治疗意愿。医生将基本信息完成输入可获得积分
+        if($study["inclination"] != null ){
+            $this->addScoreRecord($doctorId, 1, $caseId);
+        }
+
+        //完成实验诊断-HP呼气实验数据录入
+        \Think\Log::write('addDoctorScore begin: : '.$study["carbontype"]."; ".$study["carbon"], "INFO");
+
+        if($study["carbontype"] != null && $study["carbon"] != null){
+            $this->addScoreRecord($doctorId, 2, $caseId);
+        }
+
+        //完成疗效随访
+        if($study["firsttimetype"] != null && $study["firsttimeresult"] != null){
+            $this->addScoreRecord($doctorId, 3, $caseId);
+        }
+
+        //众包端-数据录入-实验诊断-HP细菌培养（药敏实验）。
+        if($study["germ"] != null && $study["clarithromycin"] != null && $study["levofloxacin"] != null && $study[" amoxycillin"] != null && $study["furazolidone"] != null && $study["tetracycline"] != null && $study["metronidazole"] != null){
+            $this->addScoreRecord($doctorId, 4, $caseId);
+        }
+        //完成众包端-数据录入的全部数据录入
+        if($study["process"] == 100) {
+            $this->addScoreRecord($doctorId, 5, $caseId);
+        }
+
+    }
+
+    /*
+     * 增加积分记录 和 医生积分
+     * @doctorId
+     * @scoreItemId
+     * @caseId
+     * return $rst
+     * */
+    function addScoreRecord($doctorId, $scoreItemId, $caseId){
+//$User->where('id=5')->setInc('score',3);
+        \Think\Log::write('addScoreRecord begin: $doctorId: '.$doctorId.";: $scoreItemId ".$caseId, "INFO");
+
+        $scoreItem=M("ScoreItem")->where("id=".$scoreItemId)->find();
+
+        $score=M("Score");
+        $map = null;
+        $map['doctorId'] = $doctorId;
+        $map['scoreItemId'] = $scoreItemId;
+        $map['caseId'] = $caseId;
+        //查找是否已经存在耐药率数据
+        $data = $score->where($map)->find();
+
+        if(!$data){
+
+            $data=array(
+                'title' => $scoreItem['title'],
+                'value' => $scoreItem['value'],
+                'doctorId' => $doctorId,
+                'scoreItemId' => $scoreItemId,
+                'caseId' => $caseId,
+            );
+            $rst = $score->add($data);
+            if($rst){
+                //同步增加医生积分
+                $doctor=M("Doctor");
+                $doctor->where('id='.$doctorId)->setInc('score',$scoreItem['value']);
+            }
+
+            \Think\Log::write('addScoreRecord $rst:'.$rst, "INFO");
+            return $rst;
+        }
+        else{
+            return $data;
+        }
+    }
+
 
 
     function register(){
 
         \Think\Log::write('register begin:', "INFO");
-
-        //获取session中token
-//        $token = session('token');
-//        \Think\Log::write('register begin:'.$token, "INFO");
 
         if(!empty($_POST)){
             $users_model=M("Users");
@@ -470,6 +564,29 @@ class  DoctorController extends HomebaseController{
         }
     }
 
+    /**
+     * @param $rst
+     * @param $data
+     * @param $Doctor
+     */
+    public function updateDoctor()
+    {
+        $Doctor = new \Portal\Model\DoctorModel(); // 实例化 Patient对象
+
+        if(!$Doctor->create($_POST, 1)){
+            echo $Doctor->getError();
+        }
+        else{
+            if($_POST['id']){
+                $Doctor->cureTime = implode(',', $_POST['cureTime']);
+
+                if (!$Doctor->save()) {
+                    echo $Doctor->getError();
+                }
+            }
+        }
+    }
+
 
 
     public function upload(){
@@ -481,12 +598,6 @@ class  DoctorController extends HomebaseController{
         $upload->rootPath  =      './Public/'; // 设置附件上传根目录
         $upload->savePath = '/Uploads/Doctor/';
         \Think\Log::write('upload record: $_FILES'.$_FILES, "INFO");
-
-
-//        while ($elem = each($_FILES)) {
-//            \Think\Log::write('upload record: $elem '.$elem['key'], "INFO");
-//            \Think\Log::write('upload record: $elem '.$elem['value'], "INFO");
-//        }
 
         if (!is_writable($upload->rootPath)) {
             \Think\Log::write('upload record: is_writable', "INFO");
@@ -510,11 +621,28 @@ class  DoctorController extends HomebaseController{
     }
 
     public function index(){
+
         $this->display();
     }
 
 
     public function doctorInfo(){
+        $doctorId = $this->get_doctor_id();
+        var_dump(session('user.id'), true);
+        \Think\Log::write('chart doctorId:'.$doctorId, "INFO");
+
+        $doctor = M('Doctor')->find($doctorId);
+//        $doctor = M('Doctor')->find(53);
+
+        \Think\Log::write('doctorInfo:'.$doctor['realname'], "INFO");
+
+        $db = new ScoreItemModel();
+
+        $scoreItem = $db->select();
+        $this->score = $scoreItem;
+
+        $this->data = $doctor;
+        $this->title = "医生账号";
         $this->display();
     }
 
@@ -526,29 +654,34 @@ class  DoctorController extends HomebaseController{
         //使用map作为查询条件,混合模式 1: 表示未完成, 2:表示已经完成, 0或没有查询条件:表示所有
         if($queryStr == "1"){
             $where['process'] = array('NEQ', '100');
-            $where['_logic'] = 'or';
+            $where['_logic'] = 'and';
+            $where['doctorId'] = $this->get_doctor_id() ;
             $map['_complex'] = $where;
         }
         else if($queryStr == "2"){
             $where['process'] = array('EQ', '100');
-            $where['_logic'] = 'or';
+            $where['_logic'] = 'and';
+            $where['doctorId'] = $this->get_doctor_id() ;
             $map['_complex'] = $where;
         }
         else{
-            $map['_complex'] = "1=1";
+            $where['doctorId'] = $this->get_doctor_id() ;
+            $map['_complex'] = $where;
         }
 
 //        dump($map);
 
         //利用page函数。来进行自动的分页
-        $data = $db->alias('a')->page($page, $pagesize)
+        $data = $db->page($page, $pagesize)
             ->where($map)
             ->select();
         $recordnum = $db->page($page, $pagesize)
             ->where($map)
             ->count();
+        \Think\Log::write('login record $recordnum: '.$recordnum, "INFO");
 
-        $finishnum = $db->where('process like "100"')
+
+        $finishnum = $db->where('process like "100" and doctorId='.$this->get_doctor_id())
             ->count();
 
         //计算分页
@@ -565,8 +698,8 @@ class  DoctorController extends HomebaseController{
         $this->pagenum = $pagenum;
         $this->page = $page;
         $this->pagesize = $pagesize;
-        $this->recordnum = $recordnum;
-        $this->finishnum = $finishnum;
+        $this->recordnum = $recordnum;  //只有第一次查询所有的数据, 将结果显示为页面
+        $this->finishnum = $finishnum;  //只有第一次查询所有的数据, 将结果显示为页面
         $this->title = "病例列表";
 
         $this->display();

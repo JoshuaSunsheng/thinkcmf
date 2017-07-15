@@ -17,7 +17,7 @@
         <div class="admin-content-body">
             <div class="am-cf am-padding am-padding-bottom-0">
                 <div class="am-fl am-cf">
-                    <strong class="am-text-primary am-text-lg">医生信息</strong> /
+                    <strong class="am-text-primary am-text-lg">区域负责人</strong> /
                     <small>info</small>
                 </div>
             </div>
@@ -26,49 +26,22 @@
             <div class="am-g">
                 <div class="am-u-sm-12 am-u-md-8">
                     <form class="am-form am-form-horizontal" id="response" name="response">
-                        <input id="id" name="id" value="{$data.id}" hidden>
-                        <div class="am-form-group">
-                            <label for="professor" class="am-u-sm-4 am-form-label">主任医师 / Professor</label>
-                            <div class="am-u-sm-5">
-                                <input type="number" id="professor" name="professor" placeholder="人数 / Number" value="{$data.professor}">
-                            </div>
-                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
 
-                        </div>
+                        <volist name="data" id="chair">
 
                         <div class="am-form-group">
-                            <label for="associateProfessor" class="am-u-sm-4 am-form-label">副主任医师 / Associate Professor</label>
-                            <div class="am-u-sm-5">
-                                <input type="number" id="associateProfessor" name="associateProfessor" placeholder="人数 / Number" value="{$data.associateprofessor}">
+                            <label for="{$chair.region}" class="am-u-sm-3 am-form-label">{$chair.name}</label>
+                            <div class="am-u-sm-9">
+                                <textarea class="" rows="5" id="{$chair.region}" name="{$chair.region}" placeholder="输入简介">{$chair.description}</textarea>
+                                <small>250字以内</small>
                             </div>
-                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
-
                         </div>
 
-                        <div class="am-form-group">
-                            <label for="attendingDoctor" class="am-u-sm-4 am-form-label">主治医师 / Attending Doctor</label>
-                            <div class="am-u-sm-5">
-                                <input type="number" id="attendingDoctor" name="attendingDoctor" placeholder="人数 / Number" value="{$data.attendingdoctor}">
-                            </div>
-                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
-
-                        </div>
-
-
-                        <div class="am-form-group">
-                            <label for="residentDoctor" class="am-u-sm-4 am-form-label">住院医师 / Resident Doctor</label>
-                            <div class="am-u-sm-5">
-                                <input type="number" id="residentDoctor" name="residentDoctor" placeholder="人数 / Number" value="{$data.residentdoctor}">
-                            </div>
-                            <label  class="am-u-sm-3 am-form-label" style="text-align: left;">人数</label>
-
-                        </div>
-
+                        </volist>
 
                         <div class="am-form-group">
                             <div class="am-u-sm-9 am-u-sm-push-4">
-                                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="saveJoinMember()">保存修改</button>
-                                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="history.go(-1);">放弃保存</button>
+                                <button type="button" class="am-btn am-btn-primary am-btn-xs" onclick="saveRegionChair()">保存修改</button>
 
                             </div>
                         </div>
@@ -76,13 +49,6 @@
                 </div>
             </div>
 
-
-
-
-            <div class="am-margin">
-                <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">提交保存</button>-->
-                <!--<button type="button" class="am-btn am-btn-primary am-btn-xs">放弃保存</button>-->
-            </div>
         </div>
 
         <footer class="admin-content-footer">
@@ -103,23 +69,20 @@
 
 <script>
 
-    function saveJoinMember() {
+    function saveRegionChair() {
 
         var response = $("#response").serialize();
 
-
         if (confirm("保存修改?")) {
-            $.post("__URL__/update", response,function(data,textStatus){
+            $.post("__URL__/regionChair", response,function(data,textStatus){
                 if(data.state == "fail"){
                     alert("服务忙, 请稍后重试");
                 }else{
-                    window.location.href="join"
+                    window.location.href="regionChair"
                 }
             });
 
         }
     }
-
-
 
 </script>

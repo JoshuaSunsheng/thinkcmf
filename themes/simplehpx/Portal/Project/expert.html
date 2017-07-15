@@ -1,4 +1,5 @@
 <tc_include file="Public:hp:head" />
+
 <!DOCTYPE html>
 <!-- saved from url=(0048) -->
 <html lang="en">
@@ -14,13 +15,13 @@
 
     <title>主页</title>
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="{$CSS_URL}planeui.css"/>
-    <link href="{$CSS_URL}bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="__CSS_URL__planeui.css"/>
+    <link href="__CSS_URL__bootstrap.css" rel="stylesheet">
     <!--<link href="tehuigou/css/style.css" rel="stylesheet">-->
     <!--<link rel="stylesheet" href="tehuigou/assets/css/app.css">-->
-    <link href="{$CSS_URL}mbase.css" rel="stylesheet">
+    <link href="__CSS_URL__mbase.css" rel="stylesheet">
     <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
-    <link rel="stylesheet" href="{$CSS_URL}amazeui.min.css">
+    <link rel="stylesheet" href="__CSS_URL__amazeui.min.css">
 
     <style>
         html, body {
@@ -51,6 +52,10 @@
             margin: auto;
             height: 420px;
         }
+
+        .am-accordion-gapped .am-accordion-title:after{
+            content: ""
+        }
     </style>
 </head>
 <body>
@@ -67,29 +72,24 @@
     <!-- center-->
 
     <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
-
         <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
-            <h2 class="am-intro-title" style="padding-left:15px"><img width="28px" src="{$IMG_URL}region_icon.png">  |  <span>区域负责人</span></h2>
+            <h2 class="am-intro-title" style="padding-left:15px"><img width="24px" src="{$IMG_URL}doctor_icon.png">  |  <span>专家团队</span></h2>
         </div>
 
         <div class="am-g am-intro-bd">
 
             <section data-am-widget="accordion" class="am-accordion am-accordion-gapped"
                      data-am-accordion='{  }'>
+                <dl class="am-accordion-item">
+                    <dt class="am-accordion-title">组长：xxx</dt>
+                </dl>
 
-                <volist name="data" id="chair">
+                <volist name="data" id="expert">
                     <dl class="am-accordion-item">
-                        <dt class="am-accordion-title">{$chair.name}</dt>
-                        <dd class="am-accordion-bd am-collapse">
-                            <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
-                            <div class="am-accordion-content">{$chair.description}
-                                <br/>
-                            </div>
-                        </dd>
+                        <dt class="am-accordion-title">{$expert.description}：{$expert.name}</dt>
                     </dl>
+
                 </volist>
-
-
             </section>
         </div>
 
@@ -98,14 +98,14 @@
 </div>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
-<script src="{$JS_URL}jquery.min.js"></script>
+<script src="__JS_URL__jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
 <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="{$JS_URL}amazeui.ie8polyfill.min.js"></script>
+<script src="__JS_URL__amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
-<script src="{$JS_URL}amazeui.min.js"></script>
+<script src="__JS_URL__amazeui.min.js"></script>
 
 <!-- center -->
 <!-- JavaScript-->
