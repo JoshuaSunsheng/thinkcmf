@@ -114,7 +114,7 @@
 <div class="row margin0">
     <!-- center-->
 
-    <div data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
+    <div id="doctorAccount" data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
 
         <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
             <h2 class="am-intro-title" style="padding-left:15px"><img width="34px"
@@ -126,21 +126,25 @@
         <ul class="am-list m-widget-list"
             style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
             <li style="line-height: 128px; height: 128px;">
-                <a style="height: 100%; line-height: 100%;" href="#" data-rel="figure">
+                <a style="height: 100%; line-height: 100%;" href="javascript:displayDoctorInfo()" data-rel="figure">
                     <img style="width:100px;height: 100px; line-height: 100%;" class="widget-icon"
                          src="{$data.headlogofile}"
                          alt="Figure">
-                    <span class="widget-name">医生姓名: {$data.realname} </span></a></li>
+                    <span class="widget-name">医生姓名: {$data.realname} </span>
+                    <span class="widget-name">积分: {$data.score} </span>
+                </a></li>
         </ul>
 
         <div>
             <ul class="am-list m-widget-list"
                 style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
-                <li><a href="#" data-rel="accordion"><img class="widget-icon"
+                <li>
+                    <a href="javascript:displayScoreItem();" data-rel="accordion"><img class="widget-icon"
                                                           src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
-                                                          alt="Accordion"> <span class="widget-name">积分规则</span></a>
+                                                          alt="Accordion"> <span class="widget-name">积分规则</span>
+                    </a>
                 </li>
-                <li><a href="#" data-rel="accordion"><img class="widget-icon"
+                <li><a href="javascript:displayScoreList();" data-rel="accordion"><img class="widget-icon"
                                                           src="http://cdn.amazeui.org/src/2.2/widget/accordion/src/accordion.png"
                                                           alt="Accordion"> <span class="widget-name">积分统计</span></a>
                 </li>
@@ -157,10 +161,14 @@
             </ul>
         </div>
 
+        <div id="qrcode" style="width: 200px;margin:0 auto; "></div>
+
+        <div class="clearfix"></div>
+
     </div>
 
 
-    <div data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
+    <div id="doctorInfo" data-am-widget="intro" class="am-intro am-cf am-intro-default am-page" style="display: none">
 
         <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
             <h2 class="am-intro-title" style="padding-left:15px"><img width="34px"
@@ -323,17 +331,6 @@
                             <label class="am-u-sm-1 am-form-label"></label>
                         </div>
 
-                        <!--<input type="text" name="docFile" style="display: none" hidden/>-->
-                        <!--<input type="text" name="idnoFile" style="display: none" hidden/>-->
-                        <!--<input type="text" name="status" style="display: none" hidden/>-->
-                        <!--<input type="text" name="userId" style="display: none" hidden/>-->
-                        <!--<input type="text" name="y" style="display: none" hidden/>-->
-                        <!--<input type="text" name="y" style="display: none" hidden/>-->
-
-
-                        <!--<input type="text" name="headLogoFile" style="display: none" hidden/>-->
-                        <!--<input type="text" name="docFile" style="display: none" hidden/>-->
-
                         <div class="am-g">
                             <div class="am-u-sm-6 am-u-sm-centered">
                                 <input type="" name="" value="修改" class="am-btn am-btn-primary am-btn-sm am-fl"
@@ -350,7 +347,7 @@
 
     </div>
 
-    <div data-am-widget="intro" class="am-intro am-cf am-intro-default am-page">
+    <div id="scoreItem" data-am-widget="intro" class="am-intro am-cf am-intro-default am-page" style="display: none">
 
         <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
             <h2 class="am-intro-title" style="padding-left:15px"><img width="34px"
@@ -379,7 +376,39 @@
                 </tbody>
             </table>
         </div>
+    </div>
 
+    <div id="scoreList" data-am-widget="intro" class="am-intro am-cf am-intro-default am-page" style="display: none">
+
+        <div class="am-intro-hd" style="height: 60px;line-height: 60px;">
+            <h2 class="am-intro-title" style="padding-left:15px"><img width="34px"
+                                                                      src="{$IMG_URL}organization_icon.png"> | <span>积分明细</span>
+            </h2>
+        </div>
+        <br>
+
+        <div id="scoreDetail">
+            <table class="am-table am-table-bordered am-table-radius am-table-striped ">
+                <thead>
+                <tr>
+                    <th>项目名称</th>
+                    <th>积分</th>
+                    <th>时间</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <volist name="scoreList" id="score">
+                    <tr>
+                        <td>{$score.title}</td>
+                        <td style="color: yellowgreen">+{$score.value}</td>
+                        <td>{$score.recordtime}</td>
+                    </tr>
+                </volist>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -408,10 +437,42 @@
         $("#loading").hide();
     }
     ShowDiv();
+
+
+    function displayDoctorInfo(){
+        $("#doctorAccount").hide()
+        $("#doctorInfo").show()
+    }
+
+    function displayScoreItem(){
+        $("#doctorAccount").hide()
+        $("#scoreItem").show()
+    }
+
+    function displayScoreList(){
+        $("#doctorAccount").hide()
+        $("#scoreList").show()
+    }
+
 </script>
 <script type="text/javascript" src="{$JS_URL}jquery.cityselect.js"></script>
 <script src="{$JS_URL}amazeui.datetimepicker.js"></script>
-
+<script src="{$JS_URL}jquery.qrcode.js"></script>
+<script src="{$JS_URL}utf.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#qrcode").qrcode({
+            render : "canvas",    //设置渲染方式，有table和canvas，使用canvas方式渲染性能相对来说比较好
+            text : "http://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",    //扫描二维码后显示的内容,可以直接填一个网址，扫描二维码后自动跳向该链接
+            width : "200",               //二维码的宽度
+            height : "200",              //二维码的高度
+            background : "#ffffff",       //二维码的后景色
+            foreground : "#000000",        //二维码的前景色
+//            src: '/Public/Uploads/Doctor/2017-02-15/58a456caae0fc.jpg'             //二维码中间的图片
+            src: '{$data.headlogofile}'             //二维码中间的图片
+        });
+    });
+</script>
 <script type="text/javascript">
     $(function () {
         $("#address").citySelect({

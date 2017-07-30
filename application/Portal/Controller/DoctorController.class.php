@@ -11,6 +11,7 @@ namespace Portal\Controller;
 use Common\Controller\HomebaseController;
 use Portal\Model\AppointmentModel;
 use Portal\Model\ScoreItemModel;
+use Portal\Model\ScoreModel;
 use Portal\Model\DoctorModel;
 
 
@@ -628,7 +629,7 @@ class  DoctorController extends HomebaseController{
 
     public function doctorInfo(){
         $doctorId = $this->get_doctor_id();
-        var_dump(session('user.id'), true);
+//        var_dump(session('user.id'), true);
         \Think\Log::write('chart doctorId:'.$doctorId, "INFO");
 
         $doctor = M('Doctor')->find($doctorId);
@@ -637,9 +638,12 @@ class  DoctorController extends HomebaseController{
         \Think\Log::write('doctorInfo:'.$doctor['realname'], "INFO");
 
         $db = new ScoreItemModel();
-
         $scoreItem = $db->select();
         $this->score = $scoreItem;
+
+        $db = new ScoreModel();
+        $scoreList = $db->where('doctorId='.$doctor['id'])->select();
+        $this->scoreList = $scoreList;
 
         $this->data = $doctor;
         $this->title = "医生账号";
