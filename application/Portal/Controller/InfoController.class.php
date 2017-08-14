@@ -48,7 +48,7 @@ Class InfoController extends RestController {
      * @doctorId 医生用户id
      * return 医生信息
      * curl -d "doctorId=53" "http://www.thinkcmf.su:8888/Info/getDoctorInfoById"
-     * curl -d "doctorId=53" "www.hatbrand.cn/thinkcmf/Info/getDoctorInfoById"
+     * curl -d "doctorId=53" "http://www.hatbrand.cn/thinkcmf/Info/getDoctorInfoById"
      *
      * */
     public function getDoctorInfoById(){
@@ -83,7 +83,7 @@ Class InfoController extends RestController {
      * @doctorId 医生用户id
      * return 医生信息
      * curl -d "doctorId=53" "http://www.thinkcmf.su:8888/Info/getDoctorCureTime"
-     * curl -d "doctorId=53" "www.hatbrand.cn/thinkcmf/Info/getDoctorCureTime"
+     * curl -d "doctorId=53" "http://www.hatbrand.cn/thinkcmf/Info/getDoctorCureTime"
      *
      * */
     public function getDoctorCureTime(){
@@ -98,15 +98,16 @@ Class InfoController extends RestController {
         else{
             $doctor = M('Doctor')->find($doctorId);
             $cureTime = $doctor["curetime"];
-            if(!$cureTime){
-                $data["errCodeDes"]="未查询到相关信息";
-                $data["errCode"]="01";
-            }
-            else{
+
+            if($cureTime == "0" || $cureTime){
                 $data["doctorId"]=$doctorId;
                 $data["cureTime"]=$cureTime;
                 $data["errCodeDes"]="查询成功";
                 $data["errCode"]="00";
+            }
+            else{
+                $data["errCodeDes"]="未查询到相关信息";
+                $data["errCode"]="01";
             }
         }
         $this->response($data,'json');
@@ -121,6 +122,7 @@ Class InfoController extends RestController {
 
      * return 预约信息列表
      *  curl -d "doctorId=11&start=2&pageSize=3" "http://www.thinkcmf.su:8888/Info/getDoctorAppointments"
+     *  curl -d "doctorId=11&start=2&pageSize=3" "http://www.hatbrand.cn/thinkcmf/Info/getDoctorAppointments"
      * */
     public function getDoctorAppointments(){
 
@@ -165,6 +167,7 @@ Class InfoController extends RestController {
      * @cureTime 预约时间
      * return 预约结果
      *  curl -d "doctor_id=53&patient_id=11&cureTime=2017-06-12&flag=1" "http://www.thinkcmf.su:8888/Info/addAppointment"
+     *  curl -d "doctor_id=53&patient_id=11&cureTime=2017-06-12&flag=1" "http://www.hatbrand.cn/thinkcmf/Info/addAppointment"
      * */
     public function addAppointment(){
 
@@ -242,6 +245,8 @@ Class InfoController extends RestController {
      * 获取预约信息
      * @appointmentId 预约id
      * return 预约信息
+     * curl -d "appointmentId=5" "http://www.thinkcmf.su:8888/Info/getAppointmentInfoById"
+     * curl -d "appointmentId=5" "http://www.hatbrand.cn/thinkcmf/Info/getAppointmentInfoById"
      * */
     public function getAppointmentInfoById(){
 
@@ -275,6 +280,7 @@ Class InfoController extends RestController {
      * @pageSize 列表数量
      * return 预约信息
      * curl -d "x=53&y=44&pageSize=5" "http://www.thinkcmf.su:8888/Info/getDoctorByLBS"
+     * curl -d "x=53&y=44&pageSize=5" "http://www.hatbrand.cn/thinkcmf/Info/getDoctorByLBS"
      * */
     public function getDoctorByLBS(){
 
@@ -282,29 +288,11 @@ Class InfoController extends RestController {
         $y = $_REQUEST['y'];
         $pageSize = $_REQUEST['pageSize']?$_REQUEST['pageSize']:5;
 
-        $data=null;
-        \Think\Log::write("getDoctorByLBS, x: $x y: $y", "INFO");
 
+        $data = $this->_getDoctorByLBS($x, $y, $pageSize);
 
-        if(!$x || !$y){
-            $data["info"]="预约id不能为空";
-        }
-        else{
-            $Model = M('Doctor'); // 实例化一个model对象 没有对应任何数据表
-            //根据距离选取距离最近的医生
-            $doctorList = $Model->query("select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - $x),2) + power(abs(doctor.y - $y),2)) as distance from __DOCTOR__ doctor order by  distance asc limit $pageSize");
+        $this->response($data, 'json');
 
-            if(!$doctorList){
-                $data["info"]="未查询到相关信息";
-                $data["errCode"]="01";
-            }
-            else{
-                $data["doctorList"]=$doctorList;
-                $data["info"]="查询成功";
-                $data["errCode"]="00";
-            }
-        }
-        $this->response($data,'json');
 
     }
 
@@ -314,6 +302,7 @@ Class InfoController extends RestController {
      * @appointmentId 预约id
      * return 预约信息
      * curl -d "phoneNumber=13764610737&templateId=25567&param=123456" "http://www.thinkcmf.su:8888/Info/sendSMS"
+     * curl -d "phoneNumber=13764610737&templateId=25567&param=123456" "http://www.hatbrand.cn/thinkcmf/Info/sendSMS"
      * */
     public function sendSMS(){
 
@@ -376,6 +365,7 @@ Class InfoController extends RestController {
      * @phoneNumber
      * @msgCode
      * curl -d "phoneNumber=13764610737&msgCode=123456" "http://www.thinkcmf.su:8888/Info/verifyCode"
+     * curl -d "phoneNumber=13764610737&msgCode=123456" "http://www.hatbrand.cn/thinkcmf/Info/verifyCode"
      * return
      * */
     public function verifyCode(){
@@ -416,5 +406,38 @@ Class InfoController extends RestController {
 
         $this->response($ret,'json');
 
+    }
+
+    /*
+     * 通过位置信息获取医生列表
+     * @x x坐标
+     * @y y坐标
+     * @pageSize 列表数量
+     * return 预约信息
+     */
+    public function _getDoctorByLBS($x, $y, $pageSize)
+    {
+        $data = null;
+        \Think\Log::write("getDoctorByLBS, x: $x y: $y", "INFO");
+
+
+        if (!$x || !$y && $x != "0" && $y != "0") {
+            $data["info"] = "医生位置信息不能为空";
+        } else {
+            $Model = M('Doctor'); // 实例化一个model对象 没有对应任何数据表
+            //根据距离选取距离最近的医生
+            $doctorList = $Model->query("select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - $x),2) + power(abs(doctor.y - $y),2)) as distance from __DOCTOR__ doctor order by  distance asc limit $pageSize");
+
+            if (!$doctorList) {
+                $data["info"] = "未查询到相关信息";
+                $data["errCode"] = "01";
+            } else {
+                $data["doctorList"] = $doctorList;
+                $data["info"] = "查询成功";
+                $data["errCode"] = "00";
+            }
+        }
+
+        return $data;
     }
 }

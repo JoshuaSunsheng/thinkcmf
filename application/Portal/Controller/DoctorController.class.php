@@ -63,18 +63,27 @@ class  DoctorController extends HomebaseController{
         else{
 
             //根除率
-            $doctor["totalradication"] =$this->getEradictionRate("", ""); //  所有 所有
+            $doctor["totalradication"] =$this->getEradictionRate("", "", $doctor["id"]); //  所有 所有
 
             //以下为细分
-            $doctor["personal3rate"] = $this->getEradictionRate("0", "1"); //  三联 个体化
-            $doctor["personal4rate"] = $this->getEradictionRate("1", "1"); // 四联 个体化
+            $doctor["personal3rate"] = $this->getEradictionRate("0", "1", $doctor["id"]); //  三联 个体化
+            $doctor["personal4rate"] = $this->getEradictionRate("1", "1", $doctor["id"]); // 四联 个体化
 
-            $doctor["exp3rate"] = $this->getEradictionRate("0", "0"); // 三联 经验
-            $doctor["exp4rate"] = $this->getEradictionRate("1", "0"); // 四联 经验
+            $doctor["exp3rate"] = $this->getEradictionRate("0", "0", $doctor["id"]); // 三联 经验
+            $doctor["exp4rate"] = $this->getEradictionRate("1", "0", $doctor["id"]); // 四联 经验
 
-            $doctor["otherrate"] = $this->getEradictionRate("2", "1") + $this->getEradictionRate("2", "0"); // 其它 个体化 + 经验
+            $doctor["otherrate"] = $this->getEradictionRate("2", "1", $doctor["id"]) + $this->getEradictionRate("2", "0", $doctor["id"]); // 其它 个体化 + 经验
+
+            $infoController = new InfoController();
+            $data = $infoController->_getDoctorByLBS($doctor["x"], $doctor["y"], 10);
+
+            $doctorList = $data["doctorList"];
+            \Think\Log::write('totalradiction $data:'.$data["info"], "INFO");
 
             $this->assign('doctor',$doctor);
+            $this->assign('doctorList',$doctorList);
+            \Think\Log::write('totalradiction $data:'.$doctorList, "INFO");
+
             $this -> display();
         }
     }
@@ -715,7 +724,7 @@ class  DoctorController extends HomebaseController{
      * @param $germ 1 阳性为个体化治疗, 0 阴性为经验治疗
      * @return float 根除率
      */
-    public function getEradictionRate( $perscription, $germ)
+    public function getEradictionRate( $perscription, $germ, $doctor_id)
     {
         \Think\Log::write('getEradictionRate $perscription, $germ:'.$perscription.", ".$germ, "INFO");
 
@@ -724,7 +733,7 @@ class  DoctorController extends HomebaseController{
         $map = null;
         $map['process'] = array('like',"%100%");         //治疗结束
         $map['carbon'] = array('like',"%1%");           //呼气结果: 1阳性, 0阴性
-        $map['doctorId'] = $this->get_doctor_id();          //呼气结果: 1阳性, 0阴性
+        $map['doctorId'] = $doctor_id;          //呼气结果: 1阳性, 0阴性
 
         if($perscription != "") $map['perscription'] = array('like', "%".$perscription."%");           //三联, 四联
         if($germ != "") $map['germ'] = array('like',"%".$germ."%");           //呼气结果为阳性, 个体化治疗方案
@@ -734,7 +743,7 @@ class  DoctorController extends HomebaseController{
         $map['firstTimeResult'] = array('like', "%0%");  //第一次随访 阴性为已经根除
         $count = $Study->where($map)->count();
         \Think\Log::write('getEradictionRate $count:'.$count, "INFO");;
-
+        if(!$total) return "暂无";
         return $count * 100 / $total;
 
     }
