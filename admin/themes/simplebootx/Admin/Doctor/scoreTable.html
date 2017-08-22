@@ -11,7 +11,7 @@
   <div class="admin-content">
     <div class="admin-content-body">
       <div class="am-cf am-padding am-padding-bottom-0">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">医生列表</strong> / <small>list</small></div>
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">医生积分列表</strong> / <small>list</small></div>
       </div>
 
       <hr>
@@ -23,13 +23,32 @@
             </div>
           </div>
         </div>
-        <div class="am-u-sm-12 am-u-md-3">
-        </div>
-        <div class="am-u-sm-12 am-u-md-3">
+        <div class="am-u-sm-12 am-u-md-4" style="padding-right: 0px">
+          <label class="am-u-sm-3 am-form-label">时间</label>
+
           <div class="am-input-group am-input-group-sm">
-            <input type="text" class="am-form-field" id="queryStr">
+            <input id="start_time" name="start_time" type="text" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker required readonly/>
+          </div>
+        </div>
+        <div class="am-u-sm-12 am-u-md-1" style="padding-left: 0px;padding-right: 0px; ">
+          至
+        </div>
+        <div class="am-u-sm-12 am-u-md-3" style="padding-left: 0px">
+          <div class="am-input-group am-input-group-sm">
+            <input id="end_time" name="end_time" type="text" class="am-form-field" placeholder="yyyy-mm-dd" data-am-datepicker required readonly/>
+          </div>
+
+            <!--<a class="btn btn-primary" id="exportExcel"  >导出数据</a>-->
+            <!--href="{:U('Admin/Doctor/expUser',array('start_time'=>$start_time,'end_time'=>$end_time))}"-->
+        </div>
+        <div class="am-u-sm-12 am-u-md-4">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field" id="queryStr" placeholder="可输入姓名搜索">
           <span class="am-input-group-btn">
             <button class="am-btn am-btn-default" type="button" onclick="Jumppage()">搜索</button>
+          </span>
+             <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button" id="exportExcel">导出数据</button>
           </span>
           </div>
         </div>
@@ -45,13 +64,11 @@
               <tr>
                 <th class="table-check"><input type="checkbox" id="inputChooseAll"/></th>
                 <th class="table-id">ID</th>
-                <th class="table-title">名字</th>
-                <th class="table-type">性别</th>
-                <th class="table-author am-hide-sm-only">省份</th>
-                <th class="table-author am-hide-sm-only">积分</th>
-                <th class="table-date am-hide-sm-only">修改日期</th>
-                <th class="table-date am-hide-sm-only">状态</th>
-                <th class="table-set" style="display: none">操作</th>
+                <th class="table-title">银行户名</th>
+                <th class="table-type">卡号</th>
+                <th class="table-author am-hide-sm-only">开户银行</th>
+                <th class="table-author am-hide-sm-only">支行</th>
+                <th class="table-date am-hide-sm-only">积分</th>
               </tr>
               </thead>
               <tbody>
@@ -60,36 +77,11 @@
               <tr>
                 <td><input type="checkbox" value="{$doctor.id}"/></td>
                 <td>{$doctor.id}</td>
-                <td><a href='form?doctorId={$doctor.id}&statuscode={$doctor.statuscode}'>{$doctor.realname}</a></td>
-                <if condition="($doctor.sex eq 0)">
-                  <td>男</td>
-                  <elseif condition="($doctor.sex eq 1)"/>
-                  <td>女</td>
-                  <else/>
-                  <td>未知</td>
-                </if>
-                <td class="am-hide-sm-only">{$doctor.province}</td>
-                <td class="am-hide-sm-only">{$doctor.score}</td>
-                <td class="am-hide-sm-only">{$doctor.createtime}</td>
-                <td class="am-hide-sm-only">{$doctor.status}</td>
-                <td style="display: none">
-                  <div class="am-btn-toolbar">
-                    <div class="am-btn-group am-btn-group-xs">
-                      <eq name="doctor.statuscode" value="0">
-                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
-                                onclick='PassDoctor("{$doctor.id}")'><span class="am-icon-pencil-square-o"></span> 审核通过
-                        </button>
-                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
-                                onclick='CancelDoctor("{$doctor.id}")'><span class="am-icon-pencil-square-o"></span>
-                          审核失败
-                        </button>
-                        <else/>
-                        已处理
-                      </eq>
-
-                    </div>
-                  </div>
-                </td>
+                <td>{$doctor.realname}</td>
+                <td>{$doctor.cardasn}</td>
+                <td class="am-hide-sm-only">{$doctor.bankname}</td>
+                <td class="am-hide-sm-only">{$doctor.subbranch}</td>
+                <td class="am-hide-sm-only">{$doctor.value}</td>
               </tr>
               </volist>
 
@@ -162,20 +154,43 @@
 <a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
 
 <include file="Public:js" />
+<script src="{$JS_URL}amazeui.datetimepicker.js"></script>
 
 <script>
+
+  $(function () {
+    $('#datetimepicker')
+            .datetimepicker()
+            .on('changeDate', function (ev) {
+              alert(ev.date)
+            });
+  });
+
+
+
   function Jumppage(page){
     var pagesize = 10;
     var pageNum = 1;
     var url = '__SELF__';
+    var start_time = $("#start_time").val()
+    var end_time = $("#end_time").val()
     var queryStr = $('#queryStr').val()
     if(page)  pageNum = page.innerHTML;
 
+    if(!start_time){
+      alert("请选择开始时间");
+      return;
+    }
+
+    if(!end_time){
+      alert("请选择结束时间");
+      return;
+    }
 
     jQuery(".am-active").removeClass("am-active");
     jQuery(page).parent("li").addClass("am-active");
 
-    $("<div></div>").load(url,{queryStr:queryStr,page:pageNum,pagesize:pagesize},function(){
+    $("<div></div>").load(url,{start_time:start_time,end_time:end_time,queryStr:queryStr,page:pageNum,pagesize:pagesize},function(){
 
       var data = $(this).find("#tablelist").html();
       $('#tablelist').html(data);
@@ -189,24 +204,14 @@
     });
   }
 
-  function PassDoctor(doctorId) {
 
-    if (confirm("审核通过?")) {
-      $.post("__URL__/passDoctor", {id: doctorId}, function (data, textStatus) {
-        Jumppage();
-      });
+  jQuery("#exportExcel").bind("click", function () {
+    var start_time = $("#start_time").val()
+    var end_time = $("#end_time").val()
+    if (confirm("导出excel?")) {
+      window.location.href = "__URL__/expUser?" + "start_time=" + start_time + "&end_time="+end_time;
     }
-  }
-
-  function CancelDoctor(doctorId) {
-
-    if (confirm("审核失败?")) {
-      $.post("__URL__/cancelDoctor", {id: doctorId}, function (data, textStatus) {
-//      alert(data);
-        Jumppage();
-      });
-    }
-  }
+  })
 
 //  jQuery("#inputChooseAll").on("click", function(){
 //    jQuery("form input")

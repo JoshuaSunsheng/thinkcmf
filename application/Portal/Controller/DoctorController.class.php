@@ -13,6 +13,9 @@ use Portal\Model\AppointmentModel;
 use Portal\Model\ScoreItemModel;
 use Portal\Model\ScoreModel;
 use Portal\Model\DoctorModel;
+use Portal\Model\CardModel;
+use Common\Model\CommonModel;
+use Think\Exception;
 
 
 define(CONTROLLER, __CONTROLLER__);
@@ -574,7 +577,7 @@ class  DoctorController extends HomebaseController{
         }
     }
 
-    /**
+    /**医生更新自身信息
      * @param $rst
      * @param $data
      * @param $Doctor
@@ -595,6 +598,38 @@ class  DoctorController extends HomebaseController{
                 }
             }
         }
+    }
+
+    /**医生更新银行卡信息
+     * @param $rst
+     * @param $data
+     * @param $Doctor
+     */
+    public function updateCard()
+    {
+        \Think\Log::write('updateCard :', "INFO");
+
+        $card = new \Portal\Model\CardModel(); // 实例化 card
+
+        $isInsert = $card->create($_POST, CommonModel::MODEL_BOTH);
+
+        \Think\Log::write('updateCard :' . D("Card")->_sql(), "INFO");
+        if (!$isInsert) {
+            echo $card->getError();
+        } else {
+            \Think\Log::write('updateCard :' . $_POST['id'], "INFO");
+
+            if ($_POST['id']) {
+                if (!$card->save()) {
+                    echo $card->getError();
+                }
+            } else {
+                if (!$card->add()) {
+                    echo $card->getError();
+                }
+            }
+        }
+
     }
 
 
@@ -653,6 +688,10 @@ class  DoctorController extends HomebaseController{
         $db = new ScoreModel();
         $scoreList = $db->where('doctorId='.$doctor['id'])->select();
         $this->scoreList = $scoreList;
+
+        $db = new CardModel();
+        $bankCard = $db->where('doctorId='.$doctor['id'])->find();
+        $this->bankCard = $bankCard;
 
         $this->data = $doctor;
         $this->title = "医生账号";

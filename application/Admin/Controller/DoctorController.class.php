@@ -220,4 +220,158 @@ class  DoctorController extends AdminbaseController
         \Think\Log::write('expert end', "INFO");
     }
 
+    //积分列表
+    function scoreTable($start_time = "", $end_time = "", $queryStr = "", $page = 1, $pagesize = 10)
+    {
+
+
+        \Think\Log::write('login scoreTable:', "INFO");
+
+        if (!empty($_POST)) {
+            $db = M('Doctor');
+            $where = '1';
+            $start_time = $start_time." 00:00:00";
+            $end_time   = $end_time." 59:59:59";
+            $where .= ' and s.recordTime >"'.$start_time.'"'.' and s.recordTime<'.'"'.$end_time.'"'.' and d.realname like '.'"%'.$queryStr.'%"';
+
+            //使用map作为查询条件,混合模式
+//        $where['a.realname'] = array('like', '%' . $queryStr . '%');
+//        $where['_logic'] = 'or';
+//        $map['_complex'] = $where;
+//        dump($map);
+
+            //利用page函数。来进行自动的分页
+            $data = $db->alias('d')->page($page, $pagesize)
+                ->join('__SCORE__ as s ON d.id = s.doctorId')
+                ->join('__CARD__ as card ON card.doctorId = d.id')
+                ->field('d.id,d.realName,card.cardAsn, card.bankName, card.subbranch, COALESCE(sum(s.value),0) as value')
+                ->where($where)
+                ->select();
+
+//            \Think\Log::write('login write', 'WARN' . M('Score')->getLastSql());
+            $recordnum = count($data);
+
+//            \Think\Log::write('login write', 'WARN' . M('Score')->getLastSql());
+
+            //计算分页
+            $pagenum = $recordnum / $pagesize;
+            //如果不能整除，则自动加1页
+            if ($pagenum % 1 !== 0) {
+                \Think\Log::write('login record pagenum: '.$pagenum, "INFO");
+                $pagenum = (int)$pagenum + 1;
+            }
+
+//        var_dump(($data),true);
+            \Think\Log::write('login write', 'WARN' . $data);
+
+            $this->data = $data;
+            $this->pagenum = $pagenum;
+            $this->page = $page;
+            $this->pagesize = $pagesize;
+            $this->recordnum = $recordnum;
+        }
+
+        $this->title = "医生积分列表";
+
+        $this->display();
+
+        \Think\Log::write('scoreTable end', "INFO");
+
+    }
+
+
+    /**
+     *
+     * 导出Excel
+     */
+    function expUser(){//导出Excel
+
+        $xlsName  = "Excel";
+        $xlsCell  = array(
+            array('id','医生id'),
+            array('realname','银行户名'),
+            array('cardasn','卡号'),
+            array('bankname','开户银行'),
+            array('subbranch','支行'),
+            array('value','当月积分'),
+
+        );
+        $xlsModel = M('Score');
+        $where = '1';
+        //判断导出条件，按时间导出
+        if($_REQUEST['start_time'] && $_REQUEST['end_time']  ){
+            $start_time = $_REQUEST['start_time']." 00:00:00";
+            $end_time   = $_REQUEST['end_time']." 59:59:59";
+            $where .= ' and recordTime >"'.$start_time.'"'.' and recordTime<'.'"'.$end_time.'"';
+        }
+        //判断导出条件，按分页导出当前页内容
+        $page = false;
+        if($page && empty($_REQUEST['start_time'])){
+            //导出当前页的内容
+//            $count = $xlsModel->where($where)->count();
+//            $Page  = $this->Page($count, 15);
+//            $xlsData  = $xlsModel->where($where)->Field('id,insert_time,out_trade_no,username,price,objtype')->order('id desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        }else{
+            //导出所有的内容
+            $xlsData  = $xlsModel->alias('s')
+                ->join('__CARD__ as card ON card.doctorId = s.doctorId')
+                ->join('__DOCTOR__ as a ON a.id = s.doctorId')
+                ->field('a.id,a.realName,card.cardAsn, card.bankName, card.subbranch, COALESCE(sum(s.value),0) as value')
+                ->where($where)
+                ->select();
+        }
+
+        \Think\Log::write('login write', 'WARN' . M('Score')->getLastSql());
+
+//        echo M('Score')->getLastSql();
+
+        foreach ($xlsData as $k => $v)
+        {
+//            $xlsData[$k]['insert_time']= date('Y-m-d H:i:s',$v['insert_time']);
+//            $xlsData[$k]['out_trade_no']= ' '.$v['out_trade_no'] ;
+//            $xlsData[$k]['objtype']= $v['objtype'] == 1 ?'捐资助学':'不定项捐款';
+        }
+
+        $this->exportExcel($xlsName,$xlsCell,$xlsData);
+
+    }
+
+    /**
+     * @param $expTitle 名称
+     * @param $expCellName 参数
+     * @param $expTableData 内容
+     * @throws \PHPExcel_Exception
+     * @throws \PHPExcel_Reader_Exception
+     */
+    public function exportExcel($expTitle,$expCellName,$expTableData){
+
+        $xlsTitle = iconv('utf-8', 'gb2312', $expTitle);//文件名称
+        $fileName = date('YmdHis');//or $xlsTitle 文件名称可根据自己情况设定
+        $cellNum = count($expCellName);
+        $dataNum = count($expTableData);
+        vendor("PHPExcel.PHPExcel");
+
+        $objPHPExcel = new \PHPExcel();
+
+        $cellName = array('A','B','C','D','E','F');
+        $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(10);
+//        $objPHPExcel->getActiveSheet(0)->mergeCells('A1:'.$cellName[$cellNum-1].'1');//合并单元格
+//         $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', $expTitle.'  Export time:'.date('Y-m-d H:i:s'));
+        for($i=0;$i<$cellNum;$i++){
+            $objPHPExcel->setActiveSheetIndex(0)->setCellValue($cellName[$i].'1', $expCellName[$i][1]);
+        }
+        // Miscellaneous glyphs, UTF-8
+        for($i=0;$i<$dataNum;$i++){
+            for($j=0;$j<$cellNum;$j++){
+                $objPHPExcel->getActiveSheet(0)->setCellValue($cellName[$j].($i+2), $expTableData[$i][$expCellName[$j][0]]);
+            }
+        }
+        header('pragma:public');
+        header('Content-type:application/vnd.ms-excel;charset=utf-8;name="'.$xlsTitle.'.xls"');
+        header("Content-Disposition:attachment;filename=$fileName.xls");//attachment新窗口打印inline本窗口打印
+        $objWriter = \PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');//Excel5为xls格式，excel2007为xlsx格式
+        $objWriter->save('php://output');
+        exit;
+    }
+
 }
