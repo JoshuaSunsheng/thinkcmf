@@ -11,6 +11,7 @@ namespace Portal\Controller;
 use Portal\Model\PatientModel;
 use Common\Controller\HomebaseController;
 
+
 define("CONTROLLER", __CONTROLLER__);
 
 class PatientController extends HomebaseController{
@@ -340,28 +341,28 @@ class PatientController extends HomebaseController{
         $currentTime = date ( "Y-m-d H:i:s");
 
         $ret['rescode'] = "01";
+        $ret['url'] = "";
 
         //验证码失效
         if(strtotime($currentTime)>strtotime($data['validtime'])){
             $ret['msg'] = "验证码失效";
         }
         else{
-            if(trim($data[code]) == trim($code)){
+            if(trim($data['code']) == trim($code)){
                 $ret['rescode'] = "00";
                 $ret['msg'] = "验证通过";
+                $ret['state'] = "success";
             }
             else{
                 $ret['msg'] = "验证码错误";
+                $ret['state'] = "fail";
             }
         }
 
         $token = session('token'); //保存授权信息
         $token['phoneNumber'] = $phoneNumber;
 
-        session('token', $token); //保存授权信息
-
-        //print_r($token);
-        //var_dump($token, true);
+        session('token', $token); //保存授权信息, 当前已经不再使用微信授权信息
 
         $this->ajaxReturn($ret);
 

@@ -83,6 +83,13 @@ class  JoinController extends HomebaseController{
             //直接通过
             //还需要处理
             //不会发生这种情况
+            //增加第一次登入积分
+            \Think\Log::write('login success: ', "INFO");
+            $doctorController = new DoctorController();
+            $doctorId = $doctorController->get_doctor_id();
+            \Think\Log::write('login success: doctorId: ' . $doctorId, "INFO");
+            $doctorController->addLoginScore();
+
         }
         else{
             $ret['rescode'] = "00";

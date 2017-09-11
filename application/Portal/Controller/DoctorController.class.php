@@ -74,8 +74,13 @@ class  DoctorController extends HomebaseController{
 
             $doctor["exp3rate"] = $this->getEradictionRate("0", "0", $doctor["id"]); // 三联 经验
             $doctor["exp4rate"] = $this->getEradictionRate("1", "0", $doctor["id"]); // 四联 经验
-
+            $otherrate1 = $this->getEradictionRate("2", "1", $doctor["id"]);
+            $otherrate2 = $this->getEradictionRate("2", "0", $doctor["id"]);
             $doctor["otherrate"] = $this->getEradictionRate("2", "1", $doctor["id"]) + $this->getEradictionRate("2", "0", $doctor["id"]); // 其它 个体化 + 经验
+            \Think\Log::write('totalradiction $data:'.$this->getEradictionRate("2", "1", $doctor["id"]), "INFO");
+            \Think\Log::write('totalradiction $data:'.$this->getEradictionRate("2", "0", $doctor["id"]), "INFO");
+            \Think\Log::write('totalradiction $data:'.$doctor["otherrate"], "INFO");
+
 
             $infoController = new InfoController();
             $data = $infoController->_getDoctorByLBS($doctor["x"], $doctor["y"], 10);
@@ -305,40 +310,45 @@ class  DoctorController extends HomebaseController{
 
         //众包端-数据录入-基本信息-患者HP根除治疗意愿。医生将基本信息完成输入可获得积分
         if($study["inclination"] != null ){
-            $this->addScoreRecord($doctorId, 1, $caseId);
+            $infoController = new InfoController();
+            $infoController->addScoreRecord($doctorId, 1, $caseId);
         }
 
         //完成实验诊断-HP呼气实验数据录入
         \Think\Log::write('addDoctorScore begin: : '.$study["carbontype"]."; ".$study["carbon"], "INFO");
 
         if($study["carbontype"] != null && $study["carbon"] != null){
-            $this->addScoreRecord($doctorId, 2, $caseId);
+            $infoController = new InfoController();
+            $infoController->addScoreRecord($doctorId, 2, $caseId);
         }
 
         //完成疗效随访
         if($study["firsttimetype"] != null && $study["firsttimeresult"] != null){
-            $this->addScoreRecord($doctorId, 3, $caseId);
+            $infoController = new InfoController();
+            $infoController->addScoreRecord($doctorId, 3, $caseId);
         }
 
         //众包端-数据录入-实验诊断-HP细菌培养（药敏实验）。
         if($study["germ"] != null && $study["clarithromycin"] != null && $study["levofloxacin"] != null && $study[" amoxycillin"] != null && $study["furazolidone"] != null && $study["tetracycline"] != null && $study["metronidazole"] != null){
-            $this->addScoreRecord($doctorId, 4, $caseId);
+            $infoController = new InfoController();
+            $infoController->addScoreRecord($doctorId, 4, $caseId);
         }
         //完成众包端-数据录入的全部数据录入
         if($study["process"] == 100) {
-            $this->addScoreRecord($doctorId, 5, $caseId);
+            $infoController = new InfoController();
+            $infoController->addScoreRecord($doctorId, 5, $caseId);
         }
 
     }
 
-    /*
+    /*已经转移到InfoController.class.php
      * 增加积分记录 和 医生积分
      * @doctorId
      * @scoreItemId
      * @caseId
      * return $rst
      * */
-    function addScoreRecord($doctorId, $scoreItemId, $caseId){
+    function addScoreRecord($doctorId, $scoreItemId, $caseId, $description = ""){
 //$User->where('id=5')->setInc('score',3);
         \Think\Log::write('addScoreRecord begin: $doctorId: '.$doctorId.";: $scoreItemId ".$caseId, "INFO");
 
@@ -349,6 +359,7 @@ class  DoctorController extends HomebaseController{
         $map['doctorId'] = $doctorId;
         $map['scoreItemId'] = $scoreItemId;
         $map['caseId'] = $caseId;
+        $map['description'] = $description;
         //查找是否已经存在耐药率数据
         $data = $score->where($map)->find();
 
@@ -525,21 +536,19 @@ class  DoctorController extends HomebaseController{
     function passAppointment($id)
     {
         \Think\Log::write('passAppointment record:'.$id, "INFO");
-        $db = new AppointmentModel();
-        $map['id']=array('in',$id);
-        $db->where($map)->setField('status',APPOINTMENT_PASS);
+        $this->_updateAppointment($id, APPOINTMENT_PASS, PASS_APPOINTMENT_NOTIFY);
+
         \Think\Log::write('passAppointment record end', "INFO");
     }
 
     //审核失败预约
     function cancelAppointment($id)
     {
-        \Think\Log::write('cancelAppointment record:'.$id, "INFO");
-        $db = new AppointmentModel();
-        $map['id']=array('in',$id);
+        \Think\Log::write('cancelAppointment record:' . $id, "INFO");
 
-        $db->where($map)->setField('status',APPOINTMENT_FAIL);
+        $this->_updateAppointment($id, APPOINTMENT_FAIL, FAIL_APPOINTMENT_NOTIFY);
         \Think\Log::write('cancelAppointment record end', "INFO");
+
     }
 
     /**
@@ -758,6 +767,22 @@ class  DoctorController extends HomebaseController{
         \Think\Log::write('caseSearch end', "INFO");
     }
 
+
+    /**增加每日第一次登录积分
+     * @return 增加成功或失败
+     */
+    public function addLoginScore(){
+        \Think\Log::write('addLoginScore', "INFO");
+
+        $doctorId = $this->get_doctor_id() ;
+        $caseId = 0;         //每改加分项,与caseId无关,默认为0
+        $scoreItemId = 6;         //每天第一次输入账号密码登入加分
+        $infoController = new InfoController();
+        $infoController->addScoreRecord($doctorId, $scoreItemId, $caseId, "");
+//        function addScoreRecord($doctorId, $scoreItemId, $caseId, $description = ""){
+
+        }
+
     /**
      * @param $perscription 0为三联 1为四联
      * @param $germ 1 阳性为个体化治疗, 0 阴性为经验治疗
@@ -782,9 +807,95 @@ class  DoctorController extends HomebaseController{
         $map['firstTimeResult'] = array('like', "%0%");  //第一次随访 阴性为已经根除
         $count = $Study->where($map)->count();
         \Think\Log::write('getEradictionRate $count:'.$count, "INFO");;
-        if(!$total) return "暂无";
+        if(!$total || $total == 0 || $total == "0") return "暂无";
+        else{
+            \Think\Log::write('getEradictionRate $total:'.$total, "INFO");;
+
+        }
         return $count * 100 / $total;
 
     }
+
+    /**
+     * @param $id
+     * 处理预约
+     */
+    public function _updateAppointment($id, $status, $templateId)
+    {
+        \Think\Log::write('cancelAppointment record:' . $id, "INFO");
+        $appointment = M("Appointment");
+        $appointment->status = $status; //预约状态
+        $doctor = M("Doctor")->find($appointment['doctor_id']);
+        $infoController = new InfoController();
+        $ret = $infoController->sendNotify($appointment['mobile'], $templateId, $doctor['realName'] . "," . $appointment['cureTime']);
+        if ($ret['errCode'] == '00') {
+            $appointment->notify = 1; //通知患者成功
+        }
+        $appointment->save(); // 保存当前数据对象
+
+        \Think\Log::write('cancelAppointment record end', "INFO");
+    }
+
+
+
+
+//    /**
+//     * @param $options
+//     * @param $authnum
+//     * @throws \Org\Com\Exception
+//     */
+//    public function verifyCode(){
+//
+//
+//        //短信验证码（模板短信）,默认以65个汉字（同65个英文）为一条（可容纳字数受您应用名称占用字符影响），超过长度短信平台将会自动分割为多条发送。分割后的多条短信将按照具体占用条数计费。
+//        $phoneNumber = $_POST['to'];
+//        $code = $_POST['msgCode'];
+//
+//        $Msgcode = M("Msgcode");
+//
+//        //echo $Msgcode;
+//        $data = $Msgcode->where('status=0 AND phoneNumber=%s', $phoneNumber)->order('CREATETIME desc')->limit(1)->find();
+//
+//        //echo $data;
+////        var_dump($data);
+//        $currentTime = date ( "Y-m-d H:i:s");
+//
+//        $ret['rescode'] = "01";
+//
+//        //验证码失效
+//        if(strtotime($currentTime)>strtotime($data['validtime'])){
+//            $ret['msg'] = "验证码失效";
+//        }
+//        else{
+//            if(trim($data['code']) == trim($code)){
+//                $ret['rescode'] = "00";
+//                $ret['msg'] = "验证通过";
+//            }
+//            else{
+//                $ret['msg'] = "验证码错误";
+//            }
+//        }
+//
+//        $token = session('token'); //保存授权信息
+//        $token['phoneNumber'] = $phoneNumber;
+//
+//        session('token', $token); //保存授权信息
+//
+//        if($ret['rescode'] == "00"){
+//            \Think\Log::write('login success: ', "INFO");
+//
+//            $doctorId = $this->get_doctor_id() ;
+//            \Think\Log::write('login success: doctorId: '.$doctorId, "INFO");
+//
+//            $this->addLoginScore();
+//        }
+//        else{
+//            \Think\Log::write('login fail: ', "INFO");
+//
+//        }
+//
+//        $this->ajaxReturn($ret);
+//
+//    }
 
 }
