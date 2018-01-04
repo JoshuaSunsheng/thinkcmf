@@ -25,7 +25,15 @@ class  DoctorController extends HomebaseController{
     function _initialize() {
         parent::_initialize();
 
-        parent::check_login();
+
+        $functionName=I('post.functionName');
+
+        if($functionName != "register"){
+            parent::check_login();
+        }
+        else{
+            \Think\Log::write('_initialize register begin:', "INFO");
+        }
 
         \Think\Log::write('_initialize begin:', "INFO");
 

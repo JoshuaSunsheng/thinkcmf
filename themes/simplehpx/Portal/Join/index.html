@@ -209,7 +209,7 @@
                 $.post("__URL__/checkUser",{to:$("#phoneNumber").val()},function(data,textStatus){
 
                     if(data['rescode'] == "00" && textStatus == "success") {
-                        window.location.href = "../Doctor/register?phoneNumber=" + $("#phoneNumber").val();
+                        window.location.href = "../Doctor/register?functionName=register&phoneNumber=" + $("#phoneNumber").val();
                     }
                     else if(data['rescode'] == "01" && textStatus == "success"){
                         window.location.href = "../Doctor/index";

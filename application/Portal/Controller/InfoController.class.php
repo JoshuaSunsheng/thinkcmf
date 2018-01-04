@@ -429,7 +429,7 @@ Class InfoController extends RestController {
             $data["errCode"]="05";
 
             $data["info"]="增加积分类型不能为空";
-        } else {
+        }else {
             $scoreItem = M('ScoreItem')->find($scoreItemId);
             //           0,1   2,3   4,5    6,7     8,9
             //$weekArr = array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
