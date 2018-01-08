@@ -74,6 +74,29 @@ class  DoctorController extends AdminbaseController
     }
 
 
+    /**更新自身信息
+     * @param $rst
+     * @param $data
+     * @param $Doctor
+     */
+    public function updateCaseForm()
+    {
+        $Doctor = new \Portal\Model\DoctorModel(); // 实例化 Patient对象
+
+        if(!$Doctor->create($_POST, 1)){
+            echo $Doctor->getError();
+        }
+        else{
+            if($_POST['id']){
+                $Doctor->cureTime = implode(',', $_POST['cureTime']);
+
+                if (!$Doctor->save()) {
+                    echo $Doctor->getError();
+                }
+            }
+        }
+    }
+
     /*
      * 医生信息
      * */

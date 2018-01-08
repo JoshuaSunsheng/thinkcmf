@@ -65,4 +65,31 @@ class  CaseController extends AdminbaseController
         $this->display();
         \Think\Log::write('login end', "INFO");
     }
+
+
+    public function caseForm(){
+        \Think\Log::write('caseForm begin:'.$_GET['patientCaseId'], "INFO");
+
+        $Study = new \Portal\Model\CaseModel(); // 实例化 Patient对象
+
+
+        if (isset($_GET['patientCaseId'])) {
+            $this->data = $Study->alias('a')
+                ->where('a.id='.$_GET['patientCaseId'])->find();
+
+            $this->retCode = "00";
+            $this->msg = "查找成功";
+            $this->caseId = $_GET['patientCaseId'];
+
+
+        } else {
+            $this->retCode = "01";
+            $this->msg = "未找到该信息";
+
+        }
+
+        $this->title = "医生信息";
+        $this->display();
+        \Think\Log::write('login form end', "INFO");
+    }
 }
