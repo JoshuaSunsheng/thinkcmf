@@ -86,7 +86,47 @@
         }
 
     </style>
+    <style type="text/css">
+        .con4{
+            width: 300px;
+            height: auto;
+            overflow: hidden;
+            /*margin: 20px auto;*/
+            color: #FFFFFF;
+        }
+        .con4 .btn{
+            width: 100%;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            background: #d8b49c;
+            display: block;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .upload{
+            float: left;
+            position: relative;
+        }
+        .upload_pic{
+            display: block;
+            width: 100%;
+            height: 40px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            border-radius: 5px;
+        }
+        #idnoFileCvs, #docFileCvs, #headLogoFileCvs{
+            border: 1px solid #000;
+            margin:20px 0 20px 50px;
+        }
 
+        .am-form-group {
+            margin-bottom: 0.9rem;
+        }
+    </style>
 </head>
 <body>
 <!-- 导航	-->
@@ -299,7 +339,7 @@
                                 <div class="con4">
                                     <canvas id="headLogoFileCvs" width="200" height="200"></canvas>
                                 <span class="btn upload">上传头像照片
-                                    <input type="file" class="upload_pic" id="headLogoFile" accept="image/*" capture/>
+                                    <input type="file" class="upload_pic" id="headLogoFile" accept="image/*"/>
                                 </span>
                                 </div>
                             </div>
@@ -350,14 +390,20 @@
                             <label class="am-u-sm-1 am-form-label"></label>
                         </div>
 
-                        <input type="text" class="upload_pic" name="headLogoFile" hidden/>
+                        <input style="display:none" type="text" value="{$data.headlogofile}" class="upload_pic" name="headLogoFile" hidden/>
 
 
                         <div class="am-g">
                             <div class="am-u-sm-6 am-u-sm-centered">
-                                <input type="" name="" value="修改" class="am-btn am-btn-primary am-btn-sm am-fl"
+
+                                <input id="apply1" type="" name="" value="修改" class="am-btn am-btn-primary am-btn-sm am-fl"
                                        onclick="reg(); return false;"
                                        style="width: 100%;">
+
+                                <button id="apply2" class="am-btn am-btn-primary am-btn-sm am-fl" style="width: 100%;display: none" disabled="disabled">
+                                    <i class="am-icon-spinner am-icon-spin"></i>
+                                    申请中
+                                </button>
 
                             </div>
                         </div>
@@ -634,6 +680,9 @@
 
     //医生信息修改
     function reg() {
+        jQuery("#apply1").css("display","none")
+        jQuery("#apply2").css("display","");
+
         var tourl = $("#register").attr("action");
         var application = $("#register").serialize();
 
@@ -850,6 +899,16 @@
         xhr.send(formdata);
 
     };
+
+
+    function cancelScreen(){
+        $(".loader").css('display','none')
+    }
+
+    function lockScreen(){
+        $(".loader").css('display','')
+
+    }
 
 </script>
 </body>

@@ -26,7 +26,8 @@ class  DoctorController extends HomebaseController{
         parent::_initialize();
 
 
-        $functionName=I('post.functionName');
+        $functionName=I('get.functionName');
+        \Think\Log::write('_initialize '.$functionName, "INFO");
 
         if($functionName != "register"){
             parent::check_login();
@@ -517,7 +518,7 @@ class  DoctorController extends HomebaseController{
             ->join('__DICT_NEGATIVE_POSITIVE__ as np ON np.id = patient.checkStatus')
             ->join('__DICT_NOTIFY__ as notify ON notify.id = a.notify')
             ->join('__DICT_STATUS__ as status ON status.id = a.status')
-            ->field('a.id, a.begindate, a.enddate, patient.realname as patientname, doctor.realname as doctorname,status.title as status,a.status as statusCode, np.title as checkstatus, notify.title as notify, patient.birthday as birthday')
+            ->field('a.id, patient.realname as patientname, doctor.realname as doctorname,status.title as status,a.status as statusCode, np.title as checkstatus, notify.title as notify, patient.birthday as birthday')
             ->where($map)
             ->select();
         $recordnum = $db->alias('a')->join('__DOCTOR__ as doctor ON doctor.id = a.doctor_id')
@@ -683,8 +684,39 @@ class  DoctorController extends HomebaseController{
     }
 
     public function index(){
+        $doctorId = $this->get_doctor_id();
+        $doctor = M('Doctor')->find($doctorId);
+        $this->data = $doctor;
 
         $this->display();
+    }
+
+    //审核通过预约
+    function getDoctor()
+    {
+        $doctorId = $this->get_doctor_id();
+        $doctor = M('Doctor')->find($doctorId);
+        //$this->user_login($doctor['phonenumber']);
+
+//        define('DOCTOR_SUBMIT', 0);
+//        define('DOCTOR_FAIL', 1);
+//        define('DOCTOR_PASS', 2);
+        $ret['rescode'] = "00";
+        $ret['msg'] = "成功";
+        $ret['status'] = $doctor['status'];
+        $ret['id'] = $doctor['id'];
+        if($doctor['status'] == 0){
+            $ret['rescode'] = "01";
+            $ret['msg'] = "审批中";
+        }
+        else if($doctor['status'] == 1){
+            $ret['rescode'] = "02";
+            $ret['msg'] = "审批失败";
+        }
+
+        \Think\Log::write('getDoctor record end', "INFO");
+        $this->ajaxReturn($ret);
+
     }
 
 

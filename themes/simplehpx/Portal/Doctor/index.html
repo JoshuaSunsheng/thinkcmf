@@ -100,31 +100,31 @@
                 <p class="color_grey font_size18"> 医生账号</p>
             </a>
         </div>
-        <div class="col-xs-4 border_right border_bottom">
+        <div class="col-xs-4 border_right border_bottom advanced_study">
             <a id="myStudy" href="myStudy" type="button" style=" background-color: #F0F3FA;border-color: #F0F3FA;" class="btn btn-default border_radius0 btn-block ">
                 <i class="imooc-icon"><img src="{$IMG_URL}academic.png" width="60" height="60"></i>
                 <p class="color_grey font_size18"> 我的研究</p>
             </a>
         </div>
-        <div class="col-xs-4 border_right border_bottom">
+        <div class="col-xs-4 border_right border_bottom advanced_study">
             <a id="appointment" href="myPatient" type="button" style=" background-color: #F0F3FA;border-color: #F0F3FA;" class="btn btn-default border_radius0 btn-block">
                 <i class="imooc-icon"><img src="{$IMG_URL}question.png" width="60" height="60"></i>
                 <p class="color_grey font_size18"> 就诊预约</p>
             </a>
         </div>
-        <div class="col-xs-4 border_right border_bottom">
+        <div class="col-xs-4 border_right border_bottom advanced_study">
             <a id="patientChat" href="#" type="button" style=" background-color: #F0F3FA;border-color: #F0F3FA;" class="btn btn-default border_radius0 btn-block">
                 <i class="imooc-icon"><img src="{$IMG_URL}chart.png" width="60" height="60"></i>
                 <p class="color_grey font_size18"> 患者沟通</p>
             </a>
         </div>
-        <div class="col-xs-4 border_riaght border_bottom">
+        <div class="col-xs-4 border_riaght border_bottom advanced_study">
             <a id="dataImport" href="dataImport" type="button" style=" background-color: #F0F3FA;border-color: #F0F3FA;" class="btn btn-default border_radius0 btn-block">
                 <i class="imooc-icon"><img src="{$IMG_URL}search.png" width="60" height="60"></i>
                 <p class="color_grey font_size18">数据录入</p>
             </a>
         </div>
-        <div class="col-xs-4 border_riaght border_bottom">
+        <div class="col-xs-4 border_riaght border_bottom advanced_study">
             <a id="caseSearch" href="caseSearch" type="button" style=" background-color: #F0F3FA;border-color: #F0F3FA;" class="btn btn-default border_radius0 btn-block">
                 <i class="imooc-icon"><img src="{$IMG_URL}search.png" width="60" height="60"></i>
                 <p class="color_grey font_size18">病例查询</p>
@@ -157,6 +157,31 @@
     jQuery(window).load(function () { // makes sure the whole site is loaded
         jQuery("#status").fadeOut(); // will first fade out the loading animation
         jQuery("#preloader").delay(350).fadeOut("slow"); // will fade out the white DIV that covers the website.
+
+        jQuery(".advanced_study a").attr("href","javascript:void(0)");
+
+
+//        if('{$data[status]}' != '2'){
+//            jQuery(".advanced_study a").attr("href","javascript:alert('审核中')");
+//        }
+    })
+
+
+    jQuery(".advanced_study a").click(function () {
+        var url = $(this)[0].id;
+        $.post("__URL__/getDoctor", function (data, textStatus) {
+//            alert(data.status)
+//            alert(data.msg)
+//            alert(data.rescode)
+            if (textStatus != "fail") {
+                if (data.rescode != "00") {
+                    alert(data.msg)
+                }
+                else {
+                    window.location.href = url;
+                }
+            }
+        });
     })
 
     function logout(){

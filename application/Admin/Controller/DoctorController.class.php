@@ -239,16 +239,18 @@ class  DoctorController extends AdminbaseController
 //        $where['_logic'] = 'or';
 //        $map['_complex'] = $where;
 //        dump($map);
+//            $Model->join('LEFT JOIN work ON artist.id = work.artist_id')->select();
 
             //利用page函数。来进行自动的分页
             $data = $db->alias('d')->page($page, $pagesize)
                 ->join('__SCORE__ as s ON d.id = s.doctorId')
-                ->join('__CARD__ as card ON card.doctorId = d.id')
+                ->join('LEFT JOIN __CARD__ as card ON card.doctorId = d.id')
                 ->field('d.id,d.realName,card.cardAsn, card.bankName, card.subbranch, COALESCE(sum(s.value),0) as value')
                 ->where($where)
+                ->group('d.id')
                 ->select();
 
-//            \Think\Log::write('login write', 'WARN' . M('Score')->getLastSql());
+            \Think\Log::write('login write', 'WARN' . M('Score')->getLastSql());
             $recordnum = count($data);
 
 //            \Think\Log::write('login write', 'WARN' . M('Score')->getLastSql());
@@ -314,10 +316,11 @@ class  DoctorController extends AdminbaseController
         }else{
             //导出所有的内容
             $xlsData  = $xlsModel->alias('s')
-                ->join('__CARD__ as card ON card.doctorId = s.doctorId')
+                ->join('LEFT JOIN __CARD__ as card ON card.doctorId = s.doctorId')
                 ->join('__DOCTOR__ as a ON a.id = s.doctorId')
                 ->field('a.id,a.realName,card.cardAsn, card.bankName, card.subbranch, COALESCE(sum(s.value),0) as value')
                 ->where($where)
+                ->group('a.id')
                 ->select();
         }
 

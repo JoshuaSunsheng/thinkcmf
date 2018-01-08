@@ -227,7 +227,7 @@
                             <div class="con4">
                                 <canvas id="headLogoFileCvs" width="200" height="200"></canvas>
                                 <span class="btn upload">上传头像照片
-                                    <input type="file" class="upload_pic" id="headLogoFile" accept="image/*" capture/>
+                                    <input type="file" class="upload_pic" id="headLogoFile" accept="image/*"/>
                                 </span>
                             </div>
                         </div>
@@ -318,10 +318,13 @@
 
                     <div class="am-g">
                         <div class="am-u-sm-6 am-u-sm-centered">
-                            <input type="" name="" value="申请审核" class="am-btn am-btn-primary am-btn-sm am-fl"
+                            <input id="apply1" type="" name="" value="申请审核" class="am-btn am-btn-primary am-btn-sm am-fl"
                                    onclick="reg(); return false;"
                                    style="width: 100%;">
-
+                            <button id="apply2" class="am-btn am-btn-primary am-btn-sm am-fl" style="width: 100%;display: none" disabled="disabled">
+                                <i class="am-icon-spinner am-icon-spin"></i>
+                                申请中
+                            </button>
                         </div>
                     </div>
                 </fieldset>
@@ -481,7 +484,7 @@
                     break;
             }
         }
-        xhr.open('post','__URL__/upload');
+        xhr.open('post','__URL__/upload?functionName=register');
 //        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded')
         xhr.send(formdata);
 
@@ -537,11 +540,13 @@
             });
 
     function reg() {
+        jQuery("#apply1").css("display","none")
+        jQuery("#apply2").css("display","");
 
         var tourl = $("#register").attr("action");
         var application = $("#register").serialize();
 
-                $.post("__URL__/register", application,function(data,textStatus){
+                $.post("__URL__/register?functionName=register", application,function(data,textStatus){
                     if(data.state == "fail"){
                         alert(data.info)
                     }
