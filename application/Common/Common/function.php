@@ -2324,3 +2324,20 @@ define('FAIL_APPOINTMENT_NOTIFY', '31030');
 define('UCPASS_APPID', 'dad0c81fddc140cb8566ea8f5e9b8252');
 define('UCPASS_ACCOUNTSID', '6c53057d22d325f222eb5d0188d38e89');
 define('UCPASS_TOKEN', '4f57071121447bf5af8182dc7a7c3db5');
+
+
+//网站服务域名信息获取, 使用网站信息-版权信息内容
+function getUrl(){
+
+	$option=D("Common/Options")->where("option_name='site_options'")->find();
+
+	\Think\Log::write("verifyCode: ".$option['option_value'], "INFO");
+
+	if($option){
+		$optionMap = json_decode($option['option_value'],true);
+	}
+
+	\Think\Log::write("verifyCode: ".$optionMap["site_copyright"], "INFO");
+
+	return $optionMap["site_copyright"];
+}

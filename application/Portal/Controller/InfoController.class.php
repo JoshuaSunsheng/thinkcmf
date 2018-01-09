@@ -746,13 +746,14 @@ Class InfoController extends RestController {
         $data = null;
         \Think\Log::write("getDoctorByLBS, x: $x y: $y", "INFO");
 
+        $url = getUrl();
 
         if (!$x || !$y && $x != "0" && $y != "0") {
             $data["info"] = "医生位置信息不能为空";
         } else {
             $Model = M('Doctor'); // 实例化一个model对象 没有对应任何数据表
             //根据距离选取距离最近的医生
-            $doctorList = $Model->query("select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - $x),2) + power(abs(doctor.y - $y),2)) as distance from __DOCTOR__ doctor order by  distance asc limit $pageSize");
+            $doctorList = $Model->query("select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,CONCAT('$url', headlogofile) as headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - $x),2) + power(abs(doctor.y - $y),2)) as distance from __DOCTOR__ doctor order by  distance asc limit $pageSize");
 
             if (!$doctorList) {
                 $data["info"] = "未查询到相关信息";

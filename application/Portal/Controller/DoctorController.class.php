@@ -27,16 +27,16 @@ class  DoctorController extends HomebaseController{
 
 
         $functionName=I('get.functionName');
-        \Think\Log::write('_initialize '.$functionName, "INFO");
+        \Think\Log::write('_initialize '.$functionName.ACTION_NAME, "INFO");
 
-        if($functionName != "register" && ACTION_NAME != "innerAppointment"){
+        if($functionName != "register" && ACTION_NAME != "appointment"){
             parent::check_login();
         }
         else{
-            \Think\Log::write('_initialize register begin:', "INFO");
+            \Think\Log::write('_initialize register end.'.$functionName.ACTION_NAME, "INFO");
         }
 
-        \Think\Log::write('_initialize begin:', "INFO");
+        \Think\Log::write($functionName.ACTION_NAME.' begin:', "INFO");
 
     }
 
