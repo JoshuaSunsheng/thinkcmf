@@ -505,7 +505,7 @@ class  DoctorController extends HomebaseController{
         $db = new AppointmentModel();
 
         //使用map作为查询条件,混合模式
-        $where['patient.realname'] = array('like', '%' . $queryStr . '%');
+        //$where['patient.realname'] = array('like', '%' . $queryStr . '%');
         $where['doctor.realname'] = array('like', '%' . $queryStr . '%');
         $where['a.status'] = array('like', '%' . $queryStr . '%');   //当myPatient调用时需要区分出审核通过和待审核的患者,该条件不影响原有查询
         $where['_logic'] = 'or';
@@ -514,16 +514,21 @@ class  DoctorController extends HomebaseController{
 
         //利用page函数。来进行自动的分页
         $data = $db->alias('a')->page($page, $pagesize)->join('__DOCTOR__ as doctor ON doctor.id = a.doctor_id')
-            ->join('__PATIENT__ as patient ON a.patient_id = patient.id')
-            ->join('__DICT_NEGATIVE_POSITIVE__ as np ON np.id = patient.checkStatus')
+            //->join('__PATIENT__ as patient ON a.patient_id = patient.id')
+            //->join('__DICT_NEGATIVE_POSITIVE__ as np ON np.id = patient.checkStatus')
             ->join('__DICT_NOTIFY__ as notify ON notify.id = a.notify')
             ->join('__DICT_STATUS__ as status ON status.id = a.status')
-            ->field('a.id, patient.realname as patientname, doctor.realname as doctorname,status.title as status,a.status as statusCode, np.title as checkstatus, notify.title as notify, patient.birthday as birthday')
+            ->field('a.id, a.patientname as patientname, doctor.realname as doctorname,status.title as status,a.status as statusCode, a.curetime, a.flag, a.mobile')
             ->where($map)
             ->select();
+
+
+        \Think\Log::write('updateCard :' . $db->_sql(), "INFO");
+
+
         $recordnum = $db->alias('a')->join('__DOCTOR__ as doctor ON doctor.id = a.doctor_id')
-            ->join('__PATIENT__ as patient ON a.patient_id = patient.id')
-            ->join('__DICT_NEGATIVE_POSITIVE__ as np ON np.id = patient.checkStatus')
+            //->join('__PATIENT__ as patient ON a.patient_id = patient.id')
+            //->join('__DICT_NEGATIVE_POSITIVE__ as np ON np.id = patient.checkStatus')
             ->join('__DICT_NOTIFY__ as notify ON notify.id = a.notify')
             ->join('__DICT_STATUS__ as status ON status.id = a.status')
             ->where($map)

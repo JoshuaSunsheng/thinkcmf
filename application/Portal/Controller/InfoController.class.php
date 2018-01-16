@@ -300,7 +300,7 @@ Class InfoController extends RestController {
         $cureTime = $_REQUEST['cureTime'];
         $mobile = $_REQUEST['mobile'];
         $flag = $_REQUEST['flag'];
-        \Think\Log::write("addAppointment, doctorId: $doctorId patientId: $patientName cureTime: $cureTime", "INFO");
+        \Think\Log::write("addAppointment, doctorId: $doctorId patientId: $patientName cureTime: $cureTime flag: $flag", "INFO");
 
         $data=null;
         $currentTime = date ( "Y-m-d");
@@ -338,12 +338,19 @@ Class InfoController extends RestController {
         }
         else{
             $doctor = M('Doctor')->find($doctorId);
-                    //           0,1   2,3   4,5    6,7     8,9
+                    //                  0,1   2,3   4,5    6,7     8,9
             //$weekArr = array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六");
             $number_wk = date("w", strtotime($cureTime));
             $cureTimeArray = $doctor['curetime'];
-            $needle = (String)($number_wk * 2 - 2 + flag);
+            \Think\Log::write("addAppointment, $cureTimeArray:".$cureTimeArray, "INFO");
+            \Think\Log::write("addAppointment, $number_wk:".$number_wk, "INFO");
+
+            $needle = (String)($number_wk * 2 - 2 + $flag);
+            \Think\Log::write("addAppointment, $needle:".$needle, "INFO");
+
             $pos = strpos($cureTimeArray, $needle);
+            \Think\Log::write("addAppointment, $pos:".$pos, "INFO");
+
             if($pos === false){
                 $data["info"]="就诊时间不在可预约范围";
                 $data["cureTimeArray"]=$cureTimeArray;
@@ -378,7 +385,7 @@ Class InfoController extends RestController {
 
                         $data["appointmentId"]=$appointmentId;
                         $data["maxPatient"]=$doctor["maxpatient"];
-                        $data["hasAppointed"]=$total;
+                        $data["hasAppointed"]=$total + 1;
 
                         $data["info"] = "提交成功";
                         $data["errCode"] = "00";
@@ -557,11 +564,12 @@ Class InfoController extends RestController {
 
     /*
      * 通过位置信息获取医生列表
-     * @x x坐标
-     * @y y坐标
+     * @x x经度坐标
+     * @y y纬度坐标
      * @pageSize 列表数量
      * return 预约信息
      * curl -d "x=53&y=44&pageSize=5" "http://www.thinkcmf.su:8888/Info/getDoctorByLBS"
+     * curl -d "x=121.53026899999998&y=31.22373799999999&pageSize=5" "http://www.thinkcmf.su:8888/Info/getDoctorByLBS"
      * curl -d "x=53&y=44&pageSize=5" "http://www.hatbrand.cn/thinkcmf/Info/getDoctorByLBS"
      * */
     public function getDoctorByLBS(){
@@ -736,8 +744,8 @@ Class InfoController extends RestController {
 
     /*
      * 通过位置信息获取医生列表
-     * @x x坐标
-     * @y y坐标
+     * @x x经度坐标
+     * @y y维度坐标
      * @pageSize 列表数量
      * return 预约信息
      */
@@ -753,7 +761,9 @@ Class InfoController extends RestController {
         } else {
             $Model = M('Doctor'); // 实例化一个model对象 没有对应任何数据表
             //根据距离选取距离最近的医生
-            $doctorList = $Model->query("select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,CONCAT('$url', headlogofile) as headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - $x),2) + power(abs(doctor.y - $y),2)) as distance from __DOCTOR__ doctor order by  distance asc limit $pageSize");
+//            $doctorList = $Model->query("select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,CONCAT('$url', headlogofile) as headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - $x),2) + power(abs(doctor.y - $y),2)) as distance from __DOCTOR__ doctor order by  distance asc limit $pageSize");
+
+            $doctorList = $Model->query("select id,x,y,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,CONCAT('$url', headlogofile) as headlogofile,curetime,maxpatient, round(6378.138*2*asin(sqrt(pow(sin( (doctor.y*pi()/180-$y*pi()/180)/2),2)+cos(doctor.y*pi()/180)*cos($y*pi()/180)* pow(sin( (doctor.x*pi()/180-$x*pi()/180)/2),2)))*1000) as distance from __DOCTOR__ doctor order by  distance asc limit $pageSize");
 
             if (!$doctorList) {
                 $data["info"] = "未查询到相关信息";
@@ -766,6 +776,26 @@ Class InfoController extends RestController {
         }
 
         return $data;
+    }
+
+
+    //计算两点坐标实际距离,未使用.
+    public function getDistance($lat1, $lng1, $lat2, $lng2){
+
+        \Think\Log::write('getDistance: ' . $lat1.",".$lng1.",".$lat2.",".$lng2, "INFO");
+
+        define('PI',3.1415926535898);
+        define('EARTH_RADIUS',6378.137);
+        $radLat1 = $lat1 * (PI / 180);
+        $radLat2 = $lat2 * (PI / 180);
+
+        $a = $radLat1 - $radLat2;
+        $b = ($lng1 * (PI / 180)) - ($lng2 * (PI / 180));
+
+        $s = 2 * asin(sqrt(pow(sin($a/2),2) + cos($radLat1)*cos($radLat2)*pow(sin($b/2),2)));
+        $s = $s * EARTH_RADIUS;
+        $s = round($s * 10000) / 10000;
+        return $s;
     }
 
     /**

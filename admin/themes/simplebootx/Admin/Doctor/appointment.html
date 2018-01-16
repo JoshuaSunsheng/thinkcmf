@@ -57,10 +57,11 @@
                 <th class="table-id">ID</th>
                 <th class="table-title">患者</th>
                 <th class="table-title">医生</th>
+                <th class="table-date am-hide-sm-only">就诊日期</th>
                 <th class="table-date am-hide-sm-only">就诊时间</th>
-                <th class="table-title">状态</th>
+                <th class="table-title">联系电话</th>
 
-                <th class="table-set">操作</th>
+                <!--<th class="table-set">操作</th>-->
               </tr>
               </thead>
               <tbody>
@@ -70,28 +71,36 @@
                 <td>{$appointment.id}</td>
                 <td>{$appointment.patientname}</td>
                 <td>{$appointment.doctorname}</td>
-                <td class="am-hide-sm-only">{$appointment.begindate}-{$appointment.enddate}</td>
-                <td class="am-hide-sm-only">{$appointment.status}</td>
+                <td class="am-hide-sm-only">{$appointment.curetime}</td>
+                <if condition="($appointment.flag eq 0)">
+                  <td class="am-hide-sm-only">上午</td>
+                  <elseif condition="($appointment.flag eq 1)"/>
+                  <td class="am-hide-sm-only">下午</td>
+                  <else/>
+                  <td class="am-hide-sm-only">未知</td>
+                </if>
 
-                <td>
-                  <div class="am-btn-toolbar">
-                    <div class="am-btn-group am-btn-group-xs">
-                      <eq name="appointment.statuscode" value="0">
-                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
-                                onclick='passAppointment("{$appointment.id}")'><span
-                                class="am-icon-pencil-square-o"></span> 审核通过
-                        </button>
-                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"
-                                onclick='cancelAppointment("{$appointment.id}")'><span
-                                class="am-icon-pencil-square-o"></span>
-                          审核失败
-                        </button>
-                        <else/>
-                        已处理
-                      </eq>
-                    </div>
-                  </div>
-                </td>
+                <td class="am-hide-sm-only">{$appointment.mobile}</td>
+
+                <!--<td>-->
+                  <!--<div class="am-btn-toolbar">-->
+                    <!--<div class="am-btn-group am-btn-group-xs">-->
+                      <!--<eq name="appointment.statuscode" value="0">-->
+                        <!--<button class="am-btn am-btn-default am-btn-xs am-text-secondary"-->
+                                <!--onclick='passAppointment("{$appointment.id}")'><span-->
+                                <!--class="am-icon-pencil-square-o"></span> 审核通过-->
+                        <!--</button>-->
+                        <!--<button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"-->
+                                <!--onclick='cancelAppointment("{$appointment.id}")'><span-->
+                                <!--class="am-icon-pencil-square-o"></span>-->
+                          <!--审核失败-->
+                        <!--</button>-->
+                        <!--<else/>-->
+                        <!--已处理-->
+                      <!--</eq>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</td>-->
               </tr>
               </volist>
 
