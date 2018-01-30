@@ -1,0 +1,27 @@
+[ 2018-01-30T20:22:32+08:00 ] ::1 /index.php/Admin/public/dologin
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000506s ]
+INFO: Run Behavior\CheckLangBehavior [ RunTime:0.000724s ]
+INFO: Run Common\Behavior\UrldecodeGetBehavior [ RunTime:0.000148s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001874s ]
+INFO: [ admin_begin ] --START--
+INFO: Run Common\Behavior\AdminDefaultLangBehavior [ RunTime:0.000688s ]
+INFO: [ admin_begin ] --END-- [ RunTime:0.000768s ]
+SQL: SHOW COLUMNS FROM `cmf_users` [ RunTime:0.0054s ]
+SQL: SELECT * FROM `cmf_users` WHERE `user_login` = 'admin' LIMIT 1   [ RunTime:0.0052s ]
+SQL: SHOW COLUMNS FROM `cmf_role_user` [ RunTime:0.0020s ]
+SQL: SELECT `role_id` FROM cmf_role_user a INNER JOIN cmf_role as b on a.role_id =b.id  WHERE `user_id` = '1' AND `status` = 1  [ RunTime:0.0014s ]
+SQL: UPDATE `cmf_users` SET `user_login`='admin',`user_pass`='###2f53fd869fb568befbb967c30e8b6719',`user_nicename`='admin',`user_email`='su371128017@163.com',`user_url`='',`avatar`=NULL,`sex`='0',`birthday`=NULL,`signature`=NULL,`last_login_ip`='0.0.0.0',`last_login_time`='2018-01-30 20:22:32',`create_time`='2016-10-19 03:48:12',`user_activation_key`='',`user_status`='1',`score`='0',`user_type`='1',`coin`='0',`mobile`='',`openid`='0' WHERE `id` = '1' [ RunTime:0.0013s ]
+
+[ 2018-01-30T20:29:01+08:00 ] ::1 /index.php/Admin/Doctor/table
+INFO: login table:
+[ 2018-01-30T20:29:01+08:00 ] ::1 /index.php/Admin/Doctor/table
+WARNArray: login write
+[ 2018-01-30T20:29:01+08:00 ] ::1 /index.php/Admin/Doctor/table
+INFO: login end
+[ 2018-01-30T20:39:04+08:00 ] ::1 /index.php/Admin/Doctor/table
+INFO: login table:
+[ 2018-01-30T20:39:04+08:00 ] ::1 /index.php/Admin/Doctor/table
+WARNArray: login write
+[ 2018-01-30T20:39:04+08:00 ] ::1 /index.php/Admin/Doctor/table
+INFO: login end

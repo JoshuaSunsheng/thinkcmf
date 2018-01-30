@@ -1,0 +1,26 @@
+[ 2018-01-09T21:05:18+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: getDoctorByLBS, x: 53 y: 44
+[ 2018-01-09T21:05:18+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: verifyCode: {"site_name":"hp","site_admin_url_password":"","site_tpl":"simplehpx","site_adminstyle":"flat","site_icp":"","site_admin_email":"su371128017@163.com","site_tongji":"","site_copyright":"http:\/\/www.thinkcmf.su:8888","site_seo_title":"hp","site_seo_keywords":"hp","site_seo_description":"hp","urlmode":"1","html_suffix":"","comment_time_interval":"60"}
+[ 2018-01-09T21:05:18+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: verifyCode: http://www.thinkcmf.su:8888
+[ 2018-01-09T21:05:18+08:00 ] ::1 /Info/getDoctorByLBS
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '://www.thinkcmf.su:8888 + headlogofile,curetime,maxpatient, sqrt(power(abs(docto' at line 1
+ [ SQL语句 ] : select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,http://www.thinkcmf.su:8888 + headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - 53),2) + power(abs(doctor.y - 44),2)) as distance from cmf_doctor doctor order by  distance asc limit 5
+
+[ 2018-01-09T21:07:26+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: getDoctorByLBS, x: 53 y: 44
+[ 2018-01-09T21:07:26+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: verifyCode: {"site_name":"hp","site_admin_url_password":"","site_tpl":"simplehpx","site_adminstyle":"flat","site_icp":"","site_admin_email":"su371128017@163.com","site_tongji":"","site_copyright":"http:\/\/www.thinkcmf.su:8888","site_seo_title":"hp","site_seo_keywords":"hp","site_seo_description":"hp","urlmode":"1","html_suffix":"","comment_time_interval":"60"}
+[ 2018-01-09T21:07:26+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: verifyCode: http://www.thinkcmf.su:8888
+[ 2018-01-09T21:07:26+08:00 ] ::1 /Info/getDoctorByLBS
+ERR: 1064:You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '://www.thinkcmf.su:8888, headlogofile) as headlogofile,curetime,maxpatient, sqrt' at line 1
+ [ SQL语句 ] : select id,phonenumber,realname,sex,birthday,province,city,district,hospital,title,description,CONCAT(http://www.thinkcmf.su:8888, headlogofile) as headlogofile,curetime,maxpatient, sqrt(power(abs(doctor.x - 53),2) + power(abs(doctor.y - 44),2)) as distance from cmf_doctor doctor order by  distance asc limit 5
+
+[ 2018-01-09T21:08:47+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: getDoctorByLBS, x: 53 y: 44
+[ 2018-01-09T21:08:47+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: verifyCode: {"site_name":"hp","site_admin_url_password":"","site_tpl":"simplehpx","site_adminstyle":"flat","site_icp":"","site_admin_email":"su371128017@163.com","site_tongji":"","site_copyright":"http:\/\/www.thinkcmf.su:8888","site_seo_title":"hp","site_seo_keywords":"hp","site_seo_description":"hp","urlmode":"1","html_suffix":"","comment_time_interval":"60"}
+[ 2018-01-09T21:08:47+08:00 ] ::1 /Info/getDoctorByLBS
+INFO: verifyCode: http://www.thinkcmf.su:8888
